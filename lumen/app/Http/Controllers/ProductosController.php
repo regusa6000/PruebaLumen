@@ -10,19 +10,26 @@ class ProductosController extends Controller{
 
         public function index($id){
 
-            // $producto = DB::table('hg_image_shop')->where('id_product',$id)->get();
-            // $producto = DB::select('SELECT a.id_product,b.id_product_attribute,c.id_image FROM hg_product AS a
-            //                         INNER JOIN hg_product_attribute AS b ON b.id_product = a.id_product
-            //                         INNER JOIN hg_image_shop AS c ON c.id_product = a.id_product')
-            //                         ->where('a.id_product = ?',$id)->get();
-            //                         // WHERE a.id_product = ?',$id);
 
-            $producto = DB::table('hg_product')
-                                    ->join('hg_product_attribute','hg_product.id_product', '=','hg_product_attribute.id_product')
-                                    ->join('hg_image_shop' , 'hg_product.id_product', '=' ,'hg_image_shop.id_product')
-                                    ->select('hg_product.id_product','hg_product_attribute.id_product_attribute','hg_image_shop.id_image')
-                                    ->where('hg_product.id_product','=',$id)
-                                    ->get();
+            // $producto = DB::table('hg_product')
+            //                         ->join('hg_product_attribute','hg_product.id_product', '=','hg_product_attribute.id_product')
+            //                         ->join('hg_image_shop' , 'hg_product.id_product', '=' ,'hg_image_shop.id_product')
+            //                         ->select('hg_product.id_product','hg_product_attribute.id_product_attribute','hg_image_shop.id_image')
+            //                         ->where('hg_product.id_product','=',$id)
+            //                         ->get();
+
+
+                $producto = DB::table('hg_product')
+                                        ->leftJoin('hg_product_lang','hg_product.id_product','=','hg_product_lang.id_product')
+                                        ->leftJoin('hg_product_attribute','hg_product.id_product','=','hg_product_attribute.id_product')
+                                        ->leftJoin('hg_product_attribute_combination','hg_product_attribute.id_product_attribute','=','hg_product_attribute_combination.id_product_attribute')
+                                        ->leftJoin('hg_image_shop','hg_product.id_product','=','hg_image_shop.id_product')
+                                        ->select('hg_product.id_product,hg_product_attribute.id_product_attribute,hg_image_shop.id_image,hg_product_attribute.reference')
+                                        ->where('hg_product_lang.id_lang','=',1)
+                                        ->where('hg_product.active','=',1)
+                                        ->where('hg_product.id_product','=',$id)
+                                        ->groupBy(['hg_product.id_product','hg_product_attribute_combination.id_attribute','hg_image_shop.id_image','hg_product_attribute.reference'])
+                                        ->get();
 
             return response()->json($producto);
 
