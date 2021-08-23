@@ -19,3 +19,4 @@ $router->get('/', function () use ($router) {
 
 /*Rutas de Productos*/
 $router->get('/productos/{id}','ProductosController@index');
+$router->get('/productos','ProductosController@principal');
