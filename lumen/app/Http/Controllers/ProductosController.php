@@ -57,6 +57,7 @@ class ProductosController extends Controller{
                                         ->select('hg_product.id_product','hg_product_lang.meta_description','hg_product_attribute.id_product_attribute','hg_image_shop.id_image','hg_product_attribute.reference','hg_product.reference as reference1')
                                         ->where('hg_product_lang.id_lang','=',1)
                                         ->where('hg_product.active','=',1)
+                                        ->orderBy('hg_image_shop.id_image','ASC')
                                         // ->groupBy(['hg_product.id_product','hg_product_attribute_combination.id_attribute','hg_image_shop.id_image','hg_product_attribute.reference'])
                                         ->get();
 
