@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="85699af1-01be-41b2-b78e-cb65470f2aad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/lumen/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/lumen/vendor/composer" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/lumen/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/lumen/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/lumen/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/lumen/vendor/opis/closure" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/lumen/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/lumen/vendor/voku/portable-ascii" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/lumen/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/lumen/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/lumen/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/lumen/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/lumen/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/lumen/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/lumen/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/lumen/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/lumen/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/lumen/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/lumen/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/lumen/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/lumen/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/lumen/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/lumen/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/lumen/vendor/brick/math" />
+      <path value="$PROJECT_DIR$/lumen/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/lumen/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/lumen/vendor/nordsoftware/lumen-cors" />
+      <path value="$PROJECT_DIR$/lumen/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/lumen/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/lumen/vendor/laravel/lumen-framework" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/database" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/support" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/cache" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/view" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/testing" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/config" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/broadcasting" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/container" />
+      <path value="$PROJECT_DIR$/lumen/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/auth" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/http" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/filesystem" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/events" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/contracts" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/pipeline" />
+      <path value="$PROJECT_DIR$/lumen/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/bus" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/console" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/pagination" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/hashing" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/macroable" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/validation" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/log" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/encryption" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/collections" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/session" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/translation" />
+      <path value="$PROJECT_DIR$/lumen/vendor/illuminate/queue" />
+      <path value="$PROJECT_DIR$/lumen/vendor/dragonmantank/cron-expression" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1xDDOsikACs7Mi1mzMSQHcJLT3X" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/lumen/composer.json" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="85699af1-01be-41b2-b78e-cb65470f2aad" name="Changes" comment="" />
+      <created>1629880738127</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1629880738127</updated>
+      <workItem from="1629880739757" duration="5786000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
