@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductosController extends Controller{
 
-        public function index($id){
+        public function index ($id){
 
             $producto = DB::table('hg_image')
                                 ->join('hg_product','hg_image.id_product','=','hg_product.id_product')
@@ -35,6 +35,7 @@ class ProductosController extends Controller{
                                                 ->where('hg_product.id_product','=',$id)
                                                 ->get();
             }
+
             return response()->json($jsonResult);
         }
 

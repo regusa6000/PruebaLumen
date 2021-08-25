@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85699af1-01be-41b2-b78e-cb65470f2aad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -157,7 +158,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1629880738127</updated>
-      <workItem from="1629880739757" duration="5786000" />
+      <workItem from="1629880739757" duration="12284000" />
     </task>
     <servers />
   </component>
