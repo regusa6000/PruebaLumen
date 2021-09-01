@@ -20,3 +20,5 @@ $router->get('/', function () use ($router) {
 /*Rutas de Productos*/
 $router->get('/productos/{id}','ProductosController@index');
 $router->get('/productos','ProductosController@principal');
+$router->post('/login','UserAdminController@login');
+$router->post('/register','UserAdminController@register');

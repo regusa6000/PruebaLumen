@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85699af1-01be-41b2-b78e-cb65470f2aad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/lumen/app/Http/Controllers/ProductosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +146,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../xampp/htdocs/pruebas" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -160,7 +160,9 @@
       <option name="presentableId" value="Default" />
       <updated>1629880738127</updated>
       <workItem from="1629880739757" duration="12522000" />
-      <workItem from="1629959061725" duration="3696000" />
+      <workItem from="1629959061725" duration="6629000" />
+      <workItem from="1629994767958" duration="798000" />
+      <workItem from="1630056477775" duration="79000" />
     </task>
     <servers />
   </component>

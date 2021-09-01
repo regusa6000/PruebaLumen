@@ -3,9 +3,9 @@
     namespace App\Http\Controllers;
 
     use App\Models\Productos;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\DB;
 
 class ProductosController extends Controller{
 
@@ -34,7 +34,7 @@ class ProductosController extends Controller{
                                                 ->where('hg_product_lang.id_lang','=',1)
                                                 ->where('hg_product.id_product','=',$id)
                                                 ->where('hg_product.active','=',1)
-                                                ->orderBy('hg_image.position','ASC')
+                                                //->orderBy('hg_image.position','ASC')
                                                 ->get();
             }
 
@@ -50,11 +50,12 @@ class ProductosController extends Controller{
                         ->select('hg_product.id_product','hg_product_lang.name','hg_product.reference','hg_product_attribute_image.id_product_attribute', 'hg_image.id_image', 'hg_product.reference')
                         ->where('hg_product_lang.id_lang','=',1)
                         ->where('hg_product.active','=',1)
-                        ->orderBy('hg_image.position','ASC')
+                        //->orderBy('hg_image.position','ASC')
                         ->get();
 
             return response()->json($producto);
         }
+
     }
 
 ?>
