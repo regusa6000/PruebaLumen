@@ -16,7 +16,7 @@ class UserAdminController extends Controller{
             $password = $request->input('password');
 
             if($email == null || $password == null){
-                return 'Estos campos son obligatorios';
+                return response()->json(['message'=> 'Estos campos son obligatorios']);
             }else{
                 /*Ponemos first y pluck para asignarle que solo queremos el primer resultado y con el valor dado*/
                 $password_hash = DB::table('ng_users')
@@ -29,9 +29,13 @@ class UserAdminController extends Controller{
                 $password_verify = Hash::check($password,$password_hash);
 
                 if ($password_verify == null){
-                    return 'No hubo comparación';
+                    return response()->json(['message'=> 'Contraseña Incorrecta']);
                 }else{
-                    return 'Hubo Comparación';
+                    $datosUser = DB::table('ng_users')
+                                ->select('*')
+                                ->where('email','=',$email)
+                                ->get();
+                    return response()->json(['message'=> 'OK','data'=>$datosUser]);
                 }
 
             }
@@ -44,7 +48,7 @@ class UserAdminController extends Controller{
             $password = $request->input('password');
 
             if($password == null || $password == null){
-                return 'Estos campos son obligatorios';
+                return response()->json(['message'=> 'Estos campos son obligatorios']);
             }else{
                     $emailVerify = DB::table('ng_users')
                                             ->select('email')
@@ -53,7 +57,7 @@ class UserAdminController extends Controller{
                                             ->first();
 
                     if($email == $emailVerify){
-                        return 'El email ya esta registrado';
+                        return response()->json(['message'=> 'El email ya esta registrado']);
                     }else{
 
                         /*Encriptamos la contraseña para luego insertarla en la bbdd*/
@@ -64,8 +68,11 @@ class UserAdminController extends Controller{
                             'password'=> $password_crypt
                         ]);
 
-                        return $consulta;
-
+                        $datosUser = DB::table('ng_users')
+                            ->select('*')
+                            ->where('email','=',$email)
+                            ->get();
+                        return response()->json(['message'=> 'OK','data'=>$datosUser]);
                     }
 
             }
