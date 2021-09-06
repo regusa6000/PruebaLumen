@@ -19,6 +19,17 @@
             return $resultado;
         }
 
+        public function verifyOk($id_image){
+
+            $resultado = DB::table('ng_errors')
+                        ->select('id_image')
+                        ->where('id_image','=',$id_image)
+                        ->pluck('id_image')
+                        ->first();
+
+            return $resultado;
+        }
+
         public function resultOk(){
 
             $resultado = DB::table('ng_errors')
@@ -34,6 +45,15 @@
             $resultado = DB::table('ng_errors')
                         ->where('id_image','=',$id_image)
                         ->update(['ok'=>0]);
+
+            return $resultado;
+        }
+
+        public function deleteOk($id_image){
+
+            $resultado = DB::table('ng_errors')
+                        ->where('id_image','=',$id_image)
+                        ->delete();
 
             return $resultado;
         }

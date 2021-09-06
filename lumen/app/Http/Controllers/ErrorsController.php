@@ -46,4 +46,13 @@
             return $resultado;
         }
 
+        public function deleteError($id_image){
+
+            $resultado = DB::table('ng_errors')
+                        ->where('id_image','=',$id_image)
+                        ->delete();
+
+            return $resultado;
+        }
+
     }

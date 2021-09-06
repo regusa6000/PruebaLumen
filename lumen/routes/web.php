@@ -20,6 +20,8 @@ $router->get('/', function () use ($router) {
 /*Rutas de Productos*/
 $router->get('/productos/{id}','ProductosController@index');
 $router->get('/productos','ProductosController@principal');
+$router->get('/productosError','ProductosController@tablaError');
+$router->get('/productosOk','ProductosController@tablaOk');
 
 //Rutas de Login
 $router->post('/login','UserAdminController@login');
@@ -30,8 +32,11 @@ $router->get('/errors/{id_product}/{id_image}/{error}/{ok}','ErrorsController@in
 $router->get('/errorsVerify/{id_image}','ErrorsController@verify');
 $router->get('/resultError','ErrorsController@resultError');
 $router->get('/updateError/{id_image}','ErrorsController@updateActiveError');
+$router->delete('/deleteError/{id_image}','ErrorsController@deleteError');
 
 //Rutas de Oks
-$router->get('ok/{id_product}/{id_image}/{error}/{ok}','OkController.php@insertOk');
-$router->get('/resultOk','OkController.php@resultOk');
+$router->get('/ok/{id_product}/{id_image}/{error}/{ok}','OkController@insertOk');
+$router->get('/okVerify/{id_image}','OkController@verifyOk');
+$router->get('/resultOk','OkController@resultOk');
 $router->get('/updateOk/{id_image}','OkController.php@updateActiveOk');
+$router->delete('/deleteOk/{id_image}','OkController@deleteOk');
