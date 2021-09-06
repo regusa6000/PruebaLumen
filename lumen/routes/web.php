@@ -28,14 +28,14 @@ $router->post('/login','UserAdminController@login');
 $router->post('/register','UserAdminController@register');
 
 //Rutas de Errores
-$router->get('/errors/{id_product}/{id_image}/{error}/{ok}','ErrorsController@insertError');
+$router->get('/errors/{id_product}/{id_image}/{id_ax}/{error}/{ok}','ErrorsController@insertError');
 $router->get('/errorsVerify/{id_image}','ErrorsController@verify');
 $router->get('/resultError','ErrorsController@resultError');
 $router->get('/updateError/{id_image}','ErrorsController@updateActiveError');
 $router->delete('/deleteError/{id_image}','ErrorsController@deleteError');
 
 //Rutas de Oks
-$router->get('/ok/{id_product}/{id_image}/{error}/{ok}','OkController@insertOk');
+$router->get('/ok/{id_product}/{id_image}/{id_ax}/{error}/{ok}','OkController@insertOk');
 $router->get('/okVerify/{id_image}','OkController@verifyOk');
 $router->get('/resultOk','OkController@resultOk');
 $router->get('/updateOk/{id_image}','OkController.php@updateActiveOk');

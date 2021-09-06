@@ -5,11 +5,12 @@
 
     class ErrorsController extends Controller{
 
-        public function insertError($id_product,$id_image,$error,$ok){
+        public function insertError($id_product,$id_image,$id_ax,$error,$ok){
             $resultado = DB::table('ng_errors')
                         ->insert([
                             'id_product'=> $id_product,
                             'id_image'=> $id_image,
+                            'id_ax'=>$id_ax,
                             'error'=> $error,
                             'ok'=> $ok
                         ]);
