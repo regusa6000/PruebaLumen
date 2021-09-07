@@ -31,11 +31,14 @@ class ProductosController extends Controller{
                                                 ->join('hg_product','hg_image.id_product','=','hg_product.id_product')
                                                 ->join('hg_product_lang','hg_product.id_product','=','hg_product_lang.id_product')
                                                 ->leftJoin('hg_product_attribute_image','hg_image.id_image','=','hg_product_attribute_image.id_image')
-                                                ->select('hg_product_attribute_image.id_product_attribute','hg_image.id_image','hg_product.reference')
+                                                ->select('hg_product_attribute_image.id_product_attribute','hg_image.id_image','hg_product.reference','hg_image.position')
                                                 ->where('hg_product_lang.id_lang','=',1)
                                                 ->where('hg_product.id_product','=',$id)
                                                 ->where('hg_product.active','=',1)
+                                                /*->orderBy('hg_product.id_product','ASC')
+                                                ->orderBy('hg_product_attribute_image.id_product_attribute','ASC')*/
                                                 //->orderBy('hg_image.position','ASC')
+                                                ->orderBy('hg_image.position','ASC')
                                                 ->get();
 
                 if($producto[$a]->id_product_attribute != null){
@@ -68,6 +71,9 @@ class ProductosController extends Controller{
                         ->select('hg_product.id_product','hg_product_lang.name','hg_product.reference','hg_product_attribute_image.id_product_attribute', 'hg_image.id_image', 'hg_product.reference','hg_ewax_product.ax_id')
                         ->where('hg_product_lang.id_lang','=',1)
                         ->where('hg_product.active','=',1)
+                        ->orderBy('hg_product.id_product','ASC')
+                        ->orderBy('hg_product_attribute_image.id_product_attribute','ASC')
+                        ->orderBy('hg_product_attribute_image.id_image','ASC')
                         ->get();
 
                 for($a = 0 ; $a < count($producto); $a++){
