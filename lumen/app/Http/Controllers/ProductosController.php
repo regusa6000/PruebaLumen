@@ -76,18 +76,25 @@ class ProductosController extends Controller{
                         ->orderBy('hg_product_attribute_image.id_image','ASC')
                         ->get();
 
-                for($a = 0 ; $a < count($producto); $a++){
-                    if($producto[$a]->id_product_attribute != null){
+                for($a = 0 ; $a < count($producto); $a++) {
+                    if ($producto[$a]->id_product_attribute != null) {
 
                         $producto[$a]['ax_id_combinado'] = DB::table('hg_ewax_product_attribute')
-                                                            ->select('hg_ewax_product_attribute.ax_id')
-                                                            ->where('hg_ewax_product_attribute.id_product_attribute','=',$producto[$a]->id_product_attribute)
-                                                            ->get();
-
+                            ->select('hg_ewax_product_attribute.ax_id')
+                            ->where('hg_ewax_product_attribute.id_product_attribute', '=', $producto[$a]->id_product_attribute)
+                            ->get();
+                        $producto[$a]['stock'] = DB::table('hg_stock_available')
+                            ->select('hg_stock_available.quantity')
+                            ->where('hg_stock_available.id_product_attribute', '=', $producto[$a]->id_product_attribute)
+                            ->get();
                     }
+                        /*$producto[$a]['stock'] = DB::table('hg_stock_available')
+                            ->select('hg_stock_available.quantity')
+                            ->where('hg_stock_available.id_product', '=', $producto[$a]->id_product)
+                            ->get();*/
+
                     return response()->json($producto);
                 }
-
 
         }
 
