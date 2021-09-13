@@ -40,3 +40,7 @@ $router->get('/okVerify/{id_image}','OkController@verifyOk');
 $router->get('/resultOk','OkController@resultOk');
 $router->get('/updateOk/{id_image}','OkController.php@updateActiveOk');
 $router->delete('/deleteOk/{id_image}','OkController@deleteOk');
+
+//Rutas de Pedidos
+$router->get('/controlPedidosAlmacen','PedidosController@controlPedidosAlmacen');
+$router->get('/controlPedidosPagados','PedidosController@ControlPedidosPagados');
