@@ -43,4 +43,7 @@ $router->delete('/deleteOk/{id_image}','OkController@deleteOk');
 
 //Rutas de Pedidos
 $router->get('/controlPedidosAlmacen','PedidosController@controlPedidosAlmacen');
-$router->get('/controlPedidosPagados','PedidosController@ControlPedidosPagados');
+$router->get('/controlPedidosPagados','PedidosController@controlPedidosPagados');
+$router->get('/controlHistoricoStock/{id_producto}','PedidosController@controlHistoricoStock');
+$router->get('/controlCategoriasVacias','PedidosController@controlCategoriasVacias');
+$router->get('/controlPreCompras','PedidosController@controlPreCompras');
