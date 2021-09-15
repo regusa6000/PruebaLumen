@@ -44,6 +44,7 @@ class UserAdminController extends Controller{
 
         public function register(Request $request){
 
+            $name= $request->input('name');
             $email = $request->input('email');
             $password = $request->input('password');
 
@@ -64,6 +65,7 @@ class UserAdminController extends Controller{
                         $password_crypt = Hash::make($password);
 
                         $consulta = DB::table('ng_users')->insert([
+                            'name'=>$name,
                             'email'=> $email,
                             'password'=> $password_crypt
                         ]);

@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\DB;
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where('hg_ewax_orders.send_ok','=','0')
+                        ->where(DB::raw('hg_ewax_orders.send_ok = 0 OR null'))
                         ->where('hg_orders.current_state','=','2')
-                        ->where(DB::raw('TIMESTAMPDIFF(MINUTE,hg_orders.date_add,NOW()) > 30'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) > 0'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30'))
                         ->get();
-
 
             return response()->json($resultado);
         }
@@ -40,12 +40,10 @@ use Illuminate\Support\Facades\DB;
         function controlHistoricoStock($id_producto){
 
             $resultado = DB::table('ng_historico_stock')
+                        ->select('*')
                         ->where('ng_historico_stock.id_producto','=',$id_producto)
-                        ->orderBy('ng_historico_stock.id_producto','DESC')
-                        ->orderBy('ng_historico_stock.id_atributo','DESC')
-                        //->groupBy('ng_historico_stock.id_producto','ng_historico_stock.id_atributo','ng_historico_stock.stock')
+                        ->orderBy('ng_historico_stock.id_resgistro','DESC')
                         ->get();
-
             return response()->json($resultado);
         }
 
@@ -60,6 +58,7 @@ use Illuminate\Support\Facades\DB;
                         ->where('cl.id_lang','=',1)
                         ->where('clpadre.id_lang','=',1)
                         ->where('c.active','=',1)
+                        ->orderBy('contador','ASC')
                         ->get();
 
             return response()->json($resultado);
