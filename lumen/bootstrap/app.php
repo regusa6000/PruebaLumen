@@ -25,7 +25,7 @@ $app = new Laravel\Lumen\Application(
 /*Descomentamos estos dos comandos*/
 $app->withFacades();
 $app->withEloquent();
-
+$app->configure('database');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

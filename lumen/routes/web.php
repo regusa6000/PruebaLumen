@@ -47,3 +47,8 @@ $router->get('/controlPedidosPagados','PedidosController@controlPedidosPagados')
 $router->get('/controlHistoricoStock/{id_producto}','PedidosController@controlHistoricoStock');
 $router->get('/controlCategoriasVacias','PedidosController@controlCategoriasVacias');
 $router->get('/controlPreCompras','PedidosController@controlPreCompras');
+$router->get('/controlTransportistas','PedidosController@controlTransportistas');
+
+//Rutas Noticias
+$router->post('/noticia','PedidosController@registrarNoticias');
+$router->get('/noticias','PedidosController@mostrarNoticias');
