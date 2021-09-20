@@ -4,7 +4,10 @@
     use Illuminate\Support\Carbon;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Http\Request;
-    class PedidosController extends Controller{
+use PHPUnit\Util\Json;
+use Symfony\Component\Console\Input\Input;
+
+class PedidosController extends Controller{
 
         function controlPedidosAlmacen(){
 
@@ -79,7 +82,7 @@
         function controlTransportistas(){
 
             $resultado = DB::table('hg_orders AS o')
-                        ->select('o.id_order','o.reference','col.name',DB::raw('(CASE
+                        ->select('o.id_order','o.reference','col.name',DB::raw('YEAR(o.date_add)'),DB::raw('(CASE
                                         WHEN o.payment = "Pagos por transferencia bancaria" then "ORION91"
                                         WHEN o.payment = "Paypal" then "ORION91"
                                         WHEN o.payment = "Pago con tarjeta Redsys" then "ORION91"
@@ -111,20 +114,33 @@
 
         function registrarNoticias(Request $request){
 
+            $imagen = $_FILES['imagen']['name'];
+            $datos = json_encode($_REQUEST['datos']);
+
+            $titulo = $datos['titulo'];
+
+
+            /*$imagen = $request->file('imagen');
+            $resultado = json_decode($imagen);*/
+
+
             //FALTA PONER LA IMAGEN****
-            $idUser = $request->input('idUser');
-            $titulo = $request->input('titulo');
-            $noticia = $request->input('noticia');
-            $fecha = Carbon::now();
+            // $idUser = $request->input('idUser');
+            // $titulo = $request->input('titulo');
+            // $noticia = $request->input('noticia');
+            // $imagen = $request->file('imagen');
+            // $fecha = Carbon::now();
 
-            $consulta = DB::table('ng_noticias')->insert([
-                'id_user'=>$idUser,
-                'titulo'=>$titulo,
-                'noticia'=>$noticia,
-                'fecha'=>$fecha
-            ]);
 
-            return response()->json($consulta);
+            // $consulta = DB::table('ng_noticias')->insert([
+            //     'id_user'=>12,
+            //     'titulo'=>$titulo,
+            //     'noticia'=>$noticia,
+            //     'fecha'=>$fecha
+            // ]);
+
+            // return response()->json($consulta);
+            return $datos;
         }
 
         function mostrarNoticias(){
