@@ -44,7 +44,7 @@ $router->delete('/deleteOk/{id_image}','OkController@deleteOk');
 //Rutas de Pedidos
 $router->get('/controlPedidosAlmacen','PedidosController@controlPedidosAlmacen');
 $router->get('/controlPedidosPagados','PedidosController@controlPedidosPagados');
-$router->get('/controlHistoricoStock/{id_producto}','PedidosController@controlHistoricoStock');
+$router->get('/controlHistoricoStock/{id_producto}/{id_attribute}','PedidosController@controlHistoricoStock');
 $router->get('/controlCategoriasVacias','PedidosController@controlCategoriasVacias');
 $router->get('/controlPreCompras','PedidosController@controlPreCompras');
 $router->get('/controlTransportistas','PedidosController@controlTransportistas');
@@ -52,3 +52,6 @@ $router->get('/controlTransportistas','PedidosController@controlTransportistas')
 //Rutas Noticias
 $router->post('/noticia','PedidosController@registrarNoticias');
 $router->get('/noticias','PedidosController@mostrarNoticias');
+$router->get('/noticiasGeneral','PedidosController@monstrarTodasNoticias');
+$router->delete('/eliminarNoticia/{id_noticia}','PedidosController@eliminarNoticia');
+$router->put('/actualizarNoticia','PedidosController@actualizarNoticia');

@@ -40,27 +40,65 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
-        function controlHistoricoStock($id_producto){
+        function controlHistoricoStock($id_producto, $id_attribute){
 
-            $resultado = DB::table('ng_historico_stock')
+            if($id_producto == null){
+
+                $resultado = DB::table('ng_historico_stock')
+                    ->select('*')
+                    ->where('ng_historico_stock.id_atributo','=',$id_attribute)
+                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
+                    ->get();
+
+                return response()->json($resultado);
+
+            }else{
+                if($id_attribute == null){
+
+                    $resultado = DB::table('ng_historico_stock')
+                            ->select('*')
+                            ->where('ng_historico_stock.id_producto','=',$id_producto)
+                            ->orderBy('ng_historico_stock.id_resgistro','DESC')
+                            ->get();
+
+                    return response()->json($resultado);
+
+                }else{
+
+                    if($id_producto != null && $id_attribute != null){
+
+                        $resultado = DB::table('ng_historico_stock')
                         ->select('*')
+                        ->where('ng_historico_stock.id_atributo','=',$id_attribute)
                         ->where('ng_historico_stock.id_producto','=',$id_producto)
                         ->orderBy('ng_historico_stock.id_resgistro','DESC')
                         ->get();
-            return response()->json($resultado);
+
+                        return response()->json($resultado);
+                    }
+
+                }
+            }
+
+
         }
 
         function controlCategoriasVacias(){
 
             $resultado = DB::table('hg_category as c')
                         ->select('c.id_category','cl.name','c.active','clpadre.name as padre',DB::raw(' CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
-                                DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product WHERE  hg_category_product.id_category = c.id_category) AS contador'),
+                                DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
+                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
                                 DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS rediridiga'))
                         ->join('hg_category_lang AS cl','cl.id_category','=','c.id_category')
                         ->join('hg_category_lang AS clpadre','clpadre.id_category','=','c.id_parent')
                         ->where('cl.id_lang','=',1)
                         ->where('clpadre.id_lang','=',1)
                         ->where('c.active','=',1)
+                        ->where(DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
+                        INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                            WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1)'),'=','0')
                         ->orderBy('contador','ASC')
                         ->get();
 
@@ -115,32 +153,25 @@ class PedidosController extends Controller{
         function registrarNoticias(Request $request){
 
             $imagen = $_FILES['imagen']['name'];
-            $datos = json_encode($_REQUEST['datos']);
+            $datos = json_decode($_REQUEST['datos'],true);
 
+            $directorioFinal = "./../../../AngularAdmin/src/assets/".$imagen;
+            move_uploaded_file($_FILES['imagen']['tmp_name'],$directorioFinal);
+
+            $noticia = $datos['noticia'];
             $titulo = $datos['titulo'];
+            $id_user = $_REQUEST['id_user'];
+            $fecha = Carbon::now();
 
+            $consulta = DB::table('ng_noticias')->insert([
+                'id_user'=>$id_user,
+                'titulo'=>$titulo,
+                'noticia'=>$noticia,
+                'img'=>$imagen,
+                'fecha'=>$fecha
+            ]);
 
-            /*$imagen = $request->file('imagen');
-            $resultado = json_decode($imagen);*/
-
-
-            //FALTA PONER LA IMAGEN****
-            // $idUser = $request->input('idUser');
-            // $titulo = $request->input('titulo');
-            // $noticia = $request->input('noticia');
-            // $imagen = $request->file('imagen');
-            // $fecha = Carbon::now();
-
-
-            // $consulta = DB::table('ng_noticias')->insert([
-            //     'id_user'=>12,
-            //     'titulo'=>$titulo,
-            //     'noticia'=>$noticia,
-            //     'fecha'=>$fecha
-            // ]);
-
-            // return response()->json($consulta);
-            return $datos;
+            return $consulta;
         }
 
         function mostrarNoticias(){
@@ -154,6 +185,51 @@ class PedidosController extends Controller{
 
             return response()->json($resultado);
         }
+
+        function monstrarTodasNoticias(){
+
+            $resultado = DB::table('ng_noticias as n')
+                        ->select('n.id_noticia','n.id_noticia','u.name','n.titulo','n.noticia','n.img','n.fecha')
+                        ->join('ng_users AS u','n.id_user','=','u.id_user')
+                        ->orderBy('n.fecha','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function eliminarNoticia($id_noticia){
+
+            $resultado = DB::table('ng_noticias')
+                        ->where('id_noticia','=',$id_noticia)
+                        ->delete();
+            return $resultado;
+        }
+
+        function actualizarNoticia(Request $request){
+
+            $id_noticia = $request->input('id_noticia');
+            $titulo = $request->input('titulo');
+            $noticia = $request->input('noticia');
+            $img = $request->input('img');
+            $fecha = $request->input('fecha');
+
+            $resultado = DB::table('ng_noticias')
+                        ->where('id_noticia','=',$id_noticia)
+                        ->update([
+                                'titulo'=>$titulo,
+                                'noticia'=>$noticia,
+                                'img'=>$img,
+                                'fecha'=>$fecha
+                            ]);
+            return $resultado;
+        }
+
+        function cargarSelect(){
+
+
+
+        }
+
 
     }
 
