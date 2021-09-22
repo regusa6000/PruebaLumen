@@ -44,10 +44,18 @@ $router->delete('/deleteOk/{id_image}','OkController@deleteOk');
 //Rutas de Pedidos
 $router->get('/controlPedidosAlmacen','PedidosController@controlPedidosAlmacen');
 $router->get('/controlPedidosPagados','PedidosController@controlPedidosPagados');
-$router->get('/controlHistoricoStock/{id_producto}/{id_attribute}','PedidosController@controlHistoricoStock');
 $router->get('/controlCategoriasVacias','PedidosController@controlCategoriasVacias');
 $router->get('/controlPreCompras','PedidosController@controlPreCompras');
+
+//Rutas de Control de Transportistas
 $router->get('/controlTransportistas','PedidosController@controlTransportistas');
+$router->get('/controlTransportistasName/{nameTransportista}','PedidosController@controlTransportistasName');
+$router->get('/cargarComboName','PedidosController@cargarComboName');
+
+//Rutas de Control de Stock
+$router->get('/controlHistoricoStock/{id_producto}','PedidosController@controlHistoricoStock');
+$router->get('/controlHistoricoStockAtributo/{id_atributo}','PedidosController@controlHistoricoStockAtributo');
+$router->get('/controlHistoricoStockTotal/{id_producto}/{id_atributo}','PedidosController@controlHistoricoStockTotal');
 
 //Rutas Noticias
 $router->post('/noticia','PedidosController@registrarNoticias');

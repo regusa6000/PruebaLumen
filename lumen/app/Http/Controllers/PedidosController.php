@@ -25,8 +25,7 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
-        function controlPedidosPagados()
-        {
+        function controlPedidosPagados(){
 
             $resultado = DB::table('hg_orders')
                 ->select('hg_orders.id_order',DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),'hg_order_payment.amount',
@@ -40,48 +39,41 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
-        function controlHistoricoStock($id_producto, $id_attribute){
+        function controlHistoricoStock($id_producto){
 
-            if($id_producto == null){
-
-                $resultado = DB::table('ng_historico_stock')
+            $resultado = DB::table('ng_historico_stock')
                     ->select('*')
-                    ->where('ng_historico_stock.id_atributo','=',$id_attribute)
+                    ->where('ng_historico_stock.id_producto','=',$id_producto)
                     ->orderBy('ng_historico_stock.id_resgistro','DESC')
                     ->get();
 
-                return response()->json($resultado);
-
-            }else{
-                if($id_attribute == null){
-
-                    $resultado = DB::table('ng_historico_stock')
-                            ->select('*')
-                            ->where('ng_historico_stock.id_producto','=',$id_producto)
-                            ->orderBy('ng_historico_stock.id_resgistro','DESC')
-                            ->get();
-
-                    return response()->json($resultado);
-
-                }else{
-
-                    if($id_producto != null && $id_attribute != null){
-
-                        $resultado = DB::table('ng_historico_stock')
-                        ->select('*')
-                        ->where('ng_historico_stock.id_atributo','=',$id_attribute)
-                        ->where('ng_historico_stock.id_producto','=',$id_producto)
-                        ->orderBy('ng_historico_stock.id_resgistro','DESC')
-                        ->get();
-
-                        return response()->json($resultado);
-                    }
-
-                }
-            }
-
-
+            return response()->json($resultado);
         }
+
+        function controlHistoricoStockAtributo($id_atributo){
+
+            $resultado = DB::table('ng_historico_stock')
+                    ->select('*')
+                    ->where('ng_historico_stock.id_atributo','=',$id_atributo)
+                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
+                    ->get();
+
+            return response()->json($resultado);
+        }
+
+
+        function controlHistoricoStockTotal($id_producto,$id_atributo){
+
+            $resultado = DB::table('ng_historico_stock')
+                    ->select('*')
+                    ->where('ng_historico_stock.id_producto','=',$id_producto)
+                    ->where('ng_historico_stock.id_atributo','=',$id_atributo)
+                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
+                    ->get();
+
+            return response()->json($resultado);
+        }
+
 
         function controlCategoriasVacias(){
 
@@ -149,6 +141,53 @@ class PedidosController extends Controller{
 
             return response()->json($resultado);
         }
+
+
+        function controlTransportistasName($nameTransportista){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order','o.reference','col.name',DB::raw('YEAR(o.date_add)'),DB::raw('(CASE
+                                        WHEN o.payment = "Pagos por transferencia bancaria" then "ORION91"
+                                        WHEN o.payment = "Paypal" then "ORION91"
+                                        WHEN o.payment = "Pago con tarjeta Redsys" then "ORION91"
+                                        WHEN o.payment = "Paga Fraccionado" then "ORION91"
+                                        WHEN o.payment = "Bizum" then "ORION91"
+                                        WHEN o.payment = "AliExpress Payment" then "ALIEXPRESS"
+                                        WHEN o.payment = "FNAC MarketPlace" then "FNAC"
+                                        WHEN o.payment = "Waadby Payment" AND SUBSTRING(o.gift_message, -3) = "MFN" then "AMAZON PRIME"
+                                        WHEN o.payment = "Waadby Payment" AND SUBSTRING(o.gift_message, -3) <> "MFN" then "AMAZON"
+                                        ELSE UPPER(o.payment)
+                                        END) AS origenPed'),'carrier.name', 'o.date_add AS fechaCreado', 'oh.date_add AS fechaEnviado',
+                                        DB::raw('TIMESTAMPDIFF(hour,o.date_add,oh.date_add) AS horasHastaEnviado'), 'oh_entregado.date_add AS fechaEntregado',
+                                        DB::raw('TIMESTAMPDIFF(hour,oh.date_add,oh_entregado.date_add) AS horasHastaEntregado'),
+                                        DB::raw('if((SELECT COUNT(*) FROM hg_order_history AS oh2 where oh2.id_order = o.id_order AND oh2.id_order_state = 9) = 0, "NO", "SI") AS PreCompra'))
+                        ->join('hg_order_carrier AS oc','oc.id_order','=','o.id_order')
+                        ->join('hg_carrier AS carrier','carrier.id_carrier','=','oc.id_carrier')
+                        ->leftJoin('hg_order_history AS oh','oh.id_order','=',DB::raw('o.id_order AND oh.id_order_state = 4'))
+                        ->leftJoin('hg_order_history AS oh_entregado','oh_entregado.id_order','=',DB::raw('o.id_order AND oh_entregado.id_order_state = 5'))
+                        ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
+                        ->join('hg_country_lang AS col','col.id_country','=',DB::raw('ad.id_country AND col.id_lang = 1'))
+                        ->where('carrier.id_carrier','=',$nameTransportista)
+                        ->groupBy('o.id_order')
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
+        function cargarComboName(){
+
+            $resultado = DB::table('hg_carrier AS a')
+                        ->select(DB::raw('DISTINCT(a.name), a.id_carrier'))
+                        ->where('a.active','=',1)
+                        ->where('a.deleted','=', 0)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
 
         function registrarNoticias(Request $request){
 
@@ -232,5 +271,4 @@ class PedidosController extends Controller{
 
 
     }
-
 ?>
