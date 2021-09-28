@@ -63,3 +63,8 @@ $router->get('/noticias','PedidosController@mostrarNoticias');
 $router->get('/noticiasGeneral','PedidosController@monstrarTodasNoticias');
 $router->delete('/eliminarNoticia/{id_noticia}','PedidosController@eliminarNoticia');
 $router->put('/actualizarNoticia','PedidosController@actualizarNoticia');
+
+
+//Rutas Mano a Mano
+$router->get('/manoAmano','PedidosController@manoAmano');
+$router->get('/manoAmano/{idProducto}','PedidosController@manoAmanoPorProducto');

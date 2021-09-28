@@ -4,8 +4,6 @@
     use Illuminate\Support\Carbon;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Http\Request;
-use PHPUnit\Util\Json;
-use Symfony\Component\Console\Input\Input;
 
 class PedidosController extends Controller{
 
@@ -170,6 +168,50 @@ class PedidosController extends Controller{
                         ->where('carrier.id_carrier','=',$nameTransportista)
                         ->groupBy('o.id_order')
                         ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
+        function manoAmano(){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','!=',1.180000)
+                        ->where('man.division','!=',1.030000)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function manoAmanoPorProducto($idProducto){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','!=',1.180000)
+                        ->where('man.division','!=',1.030000)
+                        ->where('p.id_product','=',$idProducto)
                         ->get();
 
             return response()->json($resultado);
