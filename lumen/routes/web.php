@@ -68,3 +68,6 @@ $router->put('/actualizarNoticia','PedidosController@actualizarNoticia');
 //Rutas Mano a Mano
 $router->get('/manoAmano','PedidosController@manoAmano');
 $router->get('/manoAmano/{idProducto}','PedidosController@manoAmanoPorProducto');
+$router->get('/manoAManoDivision','PedidosController@manoAmanoPorDivision');
+$router->get('/manoAmanoPorPrimero','PedidosController@manoAmanoPorPrimero');
+$router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
