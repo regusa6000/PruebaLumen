@@ -71,3 +71,9 @@ $router->get('/manoAmano/{idProducto}','PedidosController@manoAmanoPorProducto')
 $router->get('/manoAManoDivision','PedidosController@manoAmanoPorDivision');
 $router->get('/manoAmanoPorPrimero','PedidosController@manoAmanoPorPrimero');
 $router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
+
+
+//Rutas de Gráficos
+$router->get('/controlStockGraficoIdProducto/{idProducto}','PedidosController@controlStockGraficoIdProducto');
+$router->get('/controlStockGraficoIdAtributo/{idAtributo}','PedidosController@controlStockGraficoIdAtributo');
+$router->get('/controlStockGraficoTotal/{idProducto}/{idAtributo}','PedidosController@controlStockGraficoTotal');

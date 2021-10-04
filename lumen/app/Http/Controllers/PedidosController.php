@@ -9,8 +9,6 @@ class PedidosController extends Controller{
 
         function controlPedidosAlmacen(){
 
-
-
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
@@ -39,22 +37,31 @@ class PedidosController extends Controller{
 
         function controlHistoricoStock($id_producto){
 
-            $resultado = DB::table('ng_historico_stock')
-                    ->select('*')
-                    ->where('ng_historico_stock.id_producto','=',$id_producto)
-                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
-                    ->get();
+            $resultado = DB::table('ng_historico_stock as h')
+                        ->select('h.id_producto','l.name','h.id_atributo','h.fecha_actualizacion','h.stock')
+                        ->join('hg_product_lang as l','h.id_producto','=','l.id_product')
+                        ->where('h.id_producto','=',$id_producto)
+                        ->groupBy('h.fecha_actualizacion')
+                        ->orderBy('h.id_resgistro','DESC')
+                        ->get();
 
             return response()->json($resultado);
         }
 
         function controlHistoricoStockAtributo($id_atributo){
 
-            $resultado = DB::table('ng_historico_stock')
-                    ->select('*')
-                    ->where('ng_historico_stock.id_atributo','=',$id_atributo)
-                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
-                    ->get();
+            $resultado = DB::table('ng_historico_stock as h')
+                        ->select('h.id_producto','l.name','h.id_atributo','agl.name AS grupo','al.name AS valor','h.fecha_actualizacion','h.stock')
+                        ->join('hg_product_lang AS l','h.id_producto','=','l.id_product')
+                        ->leftJoin('hg_product_attribute AS pa','h.id_atributo','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
+                        ->where('h.id_atributo','=',$id_atributo)
+                        ->groupBy('h.fecha_actualizacion')
+                        ->orderBy('h.id_resgistro','DESC')
+                        ->get();
 
             return response()->json($resultado);
         }
@@ -70,6 +77,62 @@ class PedidosController extends Controller{
                     ->get();
 
             return response()->json($resultado);
+        }
+
+
+        //Funciones para el grafico
+        function controlStockGraficoIdProducto($idProducto){
+
+            $variables = [];
+
+            for($a = 0 ; $a < 20 ; $a++){
+
+                $resultado = DB::table('ng_historico_stock AS p')
+                        ->where('p.id_producto','=',DB::raw($idProducto.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
+                        FROM ng_historico_stock AS a WHERE a.id_producto ='.$idProducto.')'))
+                        ->groupBy('p.id_producto')
+                        ->get();
+
+                array_push($variables, $resultado);
+            }
+
+            return response()->json( array_reverse($variables));
+        }
+
+        function controlStockGraficoIdAtributo($idAtributo){
+
+            $variables = [];
+
+            for($a = 0 ; $a < 20 ; $a++){
+
+                $resultado = DB::table('ng_historico_stock AS p')
+                        ->where('p.id_atributo','=',DB::raw($idAtributo.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
+                        FROM ng_historico_stock AS a WHERE a.id_atributo ='.$idAtributo.')'))
+                        ->groupBy('p.id_atributo')
+                        ->get();
+
+                array_push($variables, $resultado);
+            }
+
+            return response()->json( array_reverse($variables));
+        }
+
+        function controlStockGraficoTotal($idProducto,$idAtributo){
+
+            $variables = [];
+
+            for($a = 0 ; $a < 20 ; $a++){
+
+                $resultado = DB::table('ng_historico_stock AS p')
+                        ->where('p.id_producto','=',DB::raw($idProducto.' and p.id_atributo = '.$idAtributo.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
+                        FROM ng_historico_stock AS a WHERE a.id_producto ='.$idProducto.' and a.id_atributo = '.$idAtributo.')'))
+                        ->groupBy('p.id_producto')
+                        ->get();
+
+                array_push($variables, $resultado);
+            }
+
+            return response()->json( array_reverse($variables));
         }
 
 
@@ -364,12 +427,6 @@ class PedidosController extends Controller{
                                 'fecha'=>$fecha
                             ]);
             return $resultado;
-        }
-
-        function cargarSelect(){
-
-
-
         }
 
 
