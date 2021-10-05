@@ -77,3 +77,20 @@ $router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
 $router->get('/controlStockGraficoIdProducto/{idProducto}','PedidosController@controlStockGraficoIdProducto');
 $router->get('/controlStockGraficoIdAtributo/{idAtributo}','PedidosController@controlStockGraficoIdAtributo');
 $router->get('/controlStockGraficoTotal/{idProducto}/{idAtributo}','PedidosController@controlStockGraficoTotal');
+
+//Rutas de Estadisticas
+$router->get('/importeDeVentas','EstadisticasController@importeDeVentas');
+$router->get('/importeDeVentasManoMano','EstadisticasController@manoMano');
+$router->get('/importeDeVentasCarrefour','EstadisticasController@carrefour');
+$router->get('/importeDeVentasAliExpress','EstadisticasController@aliExpress');
+$router->get('/importeDeVentasAmazon','EstadisticasController@amazon');
+$router->get('/importeDeVentasGroupon','EstadisticasController@groupon');
+$router->get('/importeDeVentasEmbargos','EstadisticasController@embargos');
+$router->get('/importeDeVentasMequedoUno','EstadisticasController@mequedoUno');
+$router->get('/importeDeVentasFnac','EstadisticasController@fnac');
+$router->get('/importeDeVentasWish','EstadisticasController@wish');
+$router->get('/importeDeVentasMakro','EstadisticasController@makro');
+$router->get('/importeDeVentasPcComponentes','EstadisticasController@pcComponentes');
+$router->get('/importeDeVentasSprinter','EstadisticasController@sprinter');
+$router->get('/importeDeVentasBulevip','EstadisticasController@bulevip');
+
