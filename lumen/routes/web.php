@@ -94,3 +94,5 @@ $router->get('/importeDeVentasPcComponentes','EstadisticasController@pcComponent
 $router->get('/importeDeVentasSprinter','EstadisticasController@sprinter');
 $router->get('/importeDeVentasBulevip','EstadisticasController@bulevip');
 
+//Rutas Badges
+$router->get('/controlPedidosPagadosBadge','PedidosController@controlPedidosPagadosBadge');

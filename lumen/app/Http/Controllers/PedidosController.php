@@ -12,10 +12,8 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where(DB::raw('hg_ewax_orders.send_ok = 0 OR null'))
-                        ->where('hg_orders.current_state','=','2')
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) > 0'))
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30'))
+                        ->where('hg_ewax_orders.send_ok','!=',DB::raw('1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30'))
+
                         ->get();
 
             return response()->json($resultado);
@@ -33,6 +31,21 @@ class PedidosController extends Controller{
                 ->get();
 
             return response()->json($resultado);
+        }
+
+        function controlPedidosPagadosBadge(){
+
+            $resultado = DB::table('hg_orders')
+                ->select('hg_orders.id_order',DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),'hg_order_payment.amount',
+                    DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'), 'hg_orders.reference','hg_orders.payment','hg_orders.date_add')
+                ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
+                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',DB::raw('ROUND(hg_orders.total_shipping,2)'))
+                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'>',DB::raw("0.1 AND hg_orders.date_add > '2021-09-01 00:00:00'"))
+                ->orderBy('hg_orders.id_order','DESC')
+                ->get();
+
+            return response()->json(count($resultado));
+
         }
 
         function controlHistoricoStock($id_producto){
