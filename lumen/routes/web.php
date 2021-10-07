@@ -93,6 +93,11 @@ $router->get('/importeDeVentasMakro','EstadisticasController@makro');
 $router->get('/importeDeVentasPcComponentes','EstadisticasController@pcComponentes');
 $router->get('/importeDeVentasSprinter','EstadisticasController@sprinter');
 $router->get('/importeDeVentasBulevip','EstadisticasController@bulevip');
+$router->get('/sumatoriaPorSemana','EstadisticasController@sumatoriaPorSemana');
+$router->get('/sumatoriaOrion','EstadisticasController@sumatoriaOrion');
+
 
 //Rutas Badges
 $router->get('/controlPedidosPagadosBadge','PedidosController@controlPedidosPagadosBadge');
+$router->get('/controlCategoriasVaciasBadge','PedidosController@controlCategoriasVaciasContador');
+$router->get('/controlManoManoBadge','PedidosController@manoAmanoPorDivisionBadge');

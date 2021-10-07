@@ -313,6 +313,45 @@
 
             return response()->json($resultado);
         }
+
+        function sumatoriaPorSemana(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function sumatoriaOrion(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw("(SELECT round(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND WEEK(hg_orders.date_add) = WEEK(o.date_add) AND o.id_customer
+                                            <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment
+                                            = 'Sequra - Pago flexible' OR o.payment = 'Bizum' or o.payment = 'PayPal'
+                                            OR o.payment = 'Transferencia bancaria' AND o.current_state <> 6 AND o.current_state <> 7)) AS ORION91_SUM"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

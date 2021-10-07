@@ -26,7 +26,7 @@ class PedidosController extends Controller{
                     DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'), 'hg_orders.reference','hg_orders.payment','hg_orders.date_add')
                 ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
                 ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',DB::raw('ROUND(hg_orders.total_shipping,2)'))
-                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'>','0.1')
+                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'>', DB::raw("0.1 AND hg_orders.date_add > '2021-09-01 00:00:00'"))
                 ->orderBy('hg_orders.id_order','DESC')
                 ->get();
 
@@ -163,12 +163,43 @@ class PedidosController extends Controller{
                         ->where('clpadre.id_lang','=',1)
                         ->where('c.active','=',1)
                         ->where(DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
-                        INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                            INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
                             WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1)'),'=','0')
                         ->orderBy('contador','ASC')
                         ->get();
 
             return response()->json($resultado);
+        }
+
+        function controlCategoriasVaciasContador(){
+
+            $resultado = DB::table('hg_category as c')
+                        ->select('c.id_category','cl.name','c.active','clpadre.name as padre',DB::raw(' CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
+                                DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
+                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
+                                DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS rediridiga'))
+                        ->join('hg_category_lang AS cl','cl.id_category','=','c.id_category')
+                        ->join('hg_category_lang AS clpadre','clpadre.id_category','=','c.id_parent')
+                        ->where('cl.id_lang','=',1)
+                        ->where('clpadre.id_lang','=',1)
+                        ->where('c.active','=',1)
+                        ->where(DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
+                            INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                            WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1)'),'=','0')
+                        ->get();
+
+                $miArray = [];
+
+                for($a = 0; $a < count($resultado); $a++){
+                    if($resultado[$a]->rediridiga === "NO"){
+                        array_push($miArray,$resultado[$a]);
+                    }else{
+                        $a++;
+                    }
+                }
+
+            return count($miArray);
         }
 
         function controlPreCompras(){
@@ -209,6 +240,7 @@ class PedidosController extends Controller{
                         ->join('hg_country_lang AS col','col.id_country','=',DB::raw('ad.id_country AND col.id_lang = 1'))
                         //->where(DB::raw('SUBSTRING(o.gift_message, -3) <> "MFN" AND YEAR(o.date_add) > 2020'))
                         //->groupBy('o.id_order','o.reference','col.name','o.payment','o.gift_message','carrier.name','o.date_add','oh.date_add','oh_entregado.date_add')
+                        ->where('oh.date_add','!=','null')
                         ->groupBy('o.id_order')
                         ->orderBy('o.id_order','DESC')
                         ->get();
@@ -352,6 +384,27 @@ class PedidosController extends Controller{
                         ->get();
 
             return response()->json($resultado);
+        }
+
+        function manoAmanoPorDivisionBadge(){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','!=',1.180000)
+                        ->where('man.division','!=',1.030000)
+                        ->get();
+
+            return response()->json(count($resultado));
         }
 
 
