@@ -314,6 +314,8 @@
             return response()->json($resultado);
         }
 
+        //Sumatorias Semanales
+
         function sumatoriaPorSemana(){
 
             $resultado = DB::table('hg_orders')
@@ -336,6 +338,8 @@
             $resultado = DB::table('hg_orders')
                         ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
                                     DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
                                     DB::raw("(SELECT round(SUM(o.total_paid),2) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND WEEK(hg_orders.date_add) = WEEK(o.date_add) AND o.id_customer
                                             <> '107584' AND
@@ -351,6 +355,87 @@
 
             return response()->json($resultado);
         }
+
+        function sumatoriaManoMano(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
+                                    DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND
+                                            (o.payment = 'Manomano') AND o.current_state <> 6 AND o.current_state <> 7) AS MANOMANO_SUM"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function sumatorioCarrefour(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
+                                    DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND
+                                            (o.payment = 'Carrefour') AND o.current_state <> 6 AND o.current_state <> 7) AS CARREFOUR_SUM"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function sumatorioAliExpress(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
+                                    DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND
+                                            (o.payment = 'AliExpress Payment') AND o.current_state <> 6 AND o.current_state <> 7) AS ALIEXPRESS_SUM"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function sumatoriaAmazon(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(   DB::raw('week(hg_orders.date_add,7) AS semana'),
+                                    DB::raw('YEAR(hg_orders.date_add) AS year_'),
+                                    DB::raw('COUNT(hg_orders.id_order) AS tot_ped'),
+                                    DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
+                                    DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND WEEK(hg_orders.date_add) = WEEK(o.date_add) AND
+                                            (o.payment = 'Waadby Payment' AND o.current_state <> 6 AND o.current_state <> 7)) AS AMAZON_SUM"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
+                        ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('WEEK(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
 
     }
 

@@ -93,9 +93,14 @@ $router->get('/importeDeVentasMakro','EstadisticasController@makro');
 $router->get('/importeDeVentasPcComponentes','EstadisticasController@pcComponentes');
 $router->get('/importeDeVentasSprinter','EstadisticasController@sprinter');
 $router->get('/importeDeVentasBulevip','EstadisticasController@bulevip');
+
+//Rutas de Sumatorias Semanales
 $router->get('/sumatoriaPorSemana','EstadisticasController@sumatoriaPorSemana');
 $router->get('/sumatoriaOrion','EstadisticasController@sumatoriaOrion');
-
+$router->get('/sumatoriaManoMano','EstadisticasController@sumatoriaManoMano');
+$router->get('/sumatorioCarrefour','EstadisticasController@sumatorioCarrefour');
+$router->get('/sumatorioAliExpress','EstadisticasController@sumatorioAliExpress');
+$router->get('/sumatoriaAmazon','EstadisticasController@sumatoriaAmazon');
 
 //Rutas Badges
 $router->get('/controlPedidosPagadosBadge','PedidosController@controlPedidosPagadosBadge');
