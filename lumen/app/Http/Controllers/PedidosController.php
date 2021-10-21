@@ -12,7 +12,7 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where('hg_ewax_orders.send_ok','!=',DB::raw('1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30'))
+                        ->where('hg_ewax_orders.send_ok','!=',DB::raw("1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89 OR (hg_orders.current_state = 1 AND hg_orders.payment = 'Pago con tarjeta Redsys')) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
 
                         ->get();
 
@@ -381,6 +381,8 @@ class PedidosController extends Controller{
                         ->where('p.active','=',1)
                         ->where('man.division','!=',1.180000)
                         ->where('man.division','!=',1.030000)
+                        ->where('man.division','!=',1.190000)
+                        ->where('man.division','!=',1.170000)
                         ->get();
 
             return response()->json($resultado);
@@ -402,6 +404,19 @@ class PedidosController extends Controller{
                         ->where('p.active','=',1)
                         ->where('man.division','!=',1.180000)
                         ->where('man.division','!=',1.030000)
+                        ->where('man.division','!=',1.190000)
+                        ->where('man.division','!=',1.170000)
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+        function pedidosAlmacenBadge(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select('*')
+                        ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
+                        ->where('hg_ewax_orders.send_ok','!=',DB::raw("1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89 OR (hg_orders.current_state = 1 AND hg_orders.payment = 'Pago con tarjeta Redsys')) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
                         ->get();
 
             return response()->json(count($resultado));
@@ -495,6 +510,50 @@ class PedidosController extends Controller{
             return $resultado;
         }
 
+        /*Funciones de Makro Offers*/
+
+        function productosTotalesMakro(){
+
+            $resultado = DB::table('aux_makro_offers AS au')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->orderBy('au.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function offersPublicados(){
+
+            $resultado = DB::table('aux_makro_offers AS au')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->where('au.status','=',1)
+                        ->orderBy('au.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function offerNoPublicados(){
+
+            $resultado = DB::table('aux_makro_offers AS au')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->where('au.status','=',0)
+                        ->orderBy('au.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function offerPorIdProducto($idProduct){
+
+            $resultado = DB::table('aux_makro_offers AS au')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->where('au.id_product','=',$idProduct)
+                        ->orderBy('au.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
 
     }
 ?>

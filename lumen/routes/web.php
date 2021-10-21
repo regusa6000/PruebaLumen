@@ -78,6 +78,12 @@ $router->get('/controlStockGraficoIdProducto/{idProducto}','PedidosController@co
 $router->get('/controlStockGraficoIdAtributo/{idAtributo}','PedidosController@controlStockGraficoIdAtributo');
 $router->get('/controlStockGraficoTotal/{idProducto}/{idAtributo}','PedidosController@controlStockGraficoTotal');
 
+//Rutas Makro
+$router->get('/productosTotalesMakro','PedidosController@productosTotalesMakro');
+$router->get('/offersPublicados','PedidosController@offersPublicados');
+$router->get('/offerNoPublicados','PedidosController@offerNoPublicados');
+$router->get('/offerPorIdProducto/{idProduct}','PedidosController@offerPorIdProducto');
+
 //Rutas de Estadisticas
 $router->get('/importeDeVentas','EstadisticasController@importeDeVentas');
 $router->get('/importeDeVentasManoMano','EstadisticasController@manoMano');
@@ -101,8 +107,18 @@ $router->get('/sumatoriaManoMano','EstadisticasController@sumatoriaManoMano');
 $router->get('/sumatorioCarrefour','EstadisticasController@sumatorioCarrefour');
 $router->get('/sumatorioAliExpress','EstadisticasController@sumatorioAliExpress');
 $router->get('/sumatoriaAmazon','EstadisticasController@sumatoriaAmazon');
+$router->get('/sumatorioGrupon','EstadisticasController@sumatorioGrupon');
+$router->get('/sumatorioEmbargos','EstadisticasController@sumatorioEmbargos');
+$router->get('/sumatorioMequedoUno','EstadisticasController@sumatorioMequedoUno');
+$router->get('/sumatorioFnac','EstadisticasController@sumatorioFnac');
+$router->get('/sumatorioWish','EstadisticasController@sumatorioWish');
+$router->get('/sumatorioMakro','EstadisticasController@sumatorioMakro');
+$router->get('/sumatorioPcComponenetes','EstadisticasController@sumatorioPcComponenetes');
+$router->get('/sumatorioSprinter','EstadisticasController@sumatorioSprinter');
+$router->get('/sumatorioBulevip','EstadisticasController@sumatorioBulevip');
 
 //Rutas Badges
 $router->get('/controlPedidosPagadosBadge','PedidosController@controlPedidosPagadosBadge');
 $router->get('/controlCategoriasVaciasBadge','PedidosController@controlCategoriasVaciasContador');
 $router->get('/controlManoManoBadge','PedidosController@manoAmanoPorDivisionBadge');
+$router->get('/pedidosAlmacenBadge','PedidosController@pedidosAlmacenBadge');
