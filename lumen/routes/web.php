@@ -122,3 +122,8 @@ $router->get('/controlPedidosPagadosBadge','PedidosController@controlPedidosPaga
 $router->get('/controlCategoriasVaciasBadge','PedidosController@controlCategoriasVaciasContador');
 $router->get('/controlManoManoBadge','PedidosController@manoAmanoPorDivisionBadge');
 $router->get('/pedidosAlmacenBadge','PedidosController@pedidosAlmacenBadge');
+
+//Imagenes
+$router->get('/imagenes','PedidosController@imagenes');
+$router->get('/imagenesName/{name}','PedidosController@imagenesName');
+$router->get('/imagenesReference/{reference}','PedidosController@imagenesReference');

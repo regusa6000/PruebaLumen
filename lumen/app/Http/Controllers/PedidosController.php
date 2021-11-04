@@ -22,13 +22,20 @@ class PedidosController extends Controller{
         function controlPedidosPagados(){
 
             $resultado = DB::table('hg_orders')
-                ->select('hg_orders.id_order',DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),'hg_order_payment.amount',
-                    DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'), 'hg_orders.reference','hg_orders.payment','hg_orders.date_add')
-                ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
-                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',DB::raw('ROUND(hg_orders.total_shipping,2)'))
-                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'>', DB::raw("0.1 AND hg_orders.date_add > '2021-09-01 00:00:00'"))
-                ->orderBy('hg_orders.id_order','DESC')
-                ->get();
+                        ->select('hg_orders.id_order',
+                                    DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),
+                                    'hg_order_payment.amount',
+                                    DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'),
+                                    'hg_orders.reference','hg_orders.payment','hg_orders.current_state','hg_orders.date_add')
+                        ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
+                        ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',
+                                DB::raw("ROUND(hg_orders.total_shipping,2)
+                                AND ROUND(hg_orders.total_paid,2) - hg_order_payment.amount > 0.1
+                                AND TIMESTAMPDIFF(DAY,hg_orders.date_add, NOW()) < 10
+                                AND hg_orders.payment <> 'Pagos por transferencia bancaria'
+                                AND hg_orders.current_state <> 6"))
+                        ->orderBy('hg_orders.id_order','DESC')
+                        ->get();
 
             return response()->json($resultado);
         }
@@ -36,13 +43,20 @@ class PedidosController extends Controller{
         function controlPedidosPagadosBadge(){
 
             $resultado = DB::table('hg_orders')
-                ->select('hg_orders.id_order',DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),'hg_order_payment.amount',
-                    DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'), 'hg_orders.reference','hg_orders.payment','hg_orders.date_add')
-                ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
-                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',DB::raw('ROUND(hg_orders.total_shipping,2)'))
-                ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'>',DB::raw("0.1 AND hg_orders.date_add > '2021-09-01 00:00:00'"))
-                ->orderBy('hg_orders.id_order','DESC')
-                ->get();
+                        ->select('hg_orders.id_order',
+                                    DB::raw('ROUND(hg_orders.total_paid,2) as total_paid'),
+                                    'hg_order_payment.amount',
+                                    DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount as diferencia'),
+                                    'hg_orders.reference','hg_orders.payment','hg_orders.current_state','hg_orders.date_add')
+                        ->leftJoin('hg_order_payment','hg_orders.reference','=','hg_order_payment.order_reference')
+                        ->where(DB::raw('ROUND(hg_orders.total_paid,2) - hg_order_payment.amount'),'<>',
+                                DB::raw("ROUND(hg_orders.total_shipping,2)
+                                AND ROUND(hg_orders.total_paid,2) - hg_order_payment.amount > 0.1
+                                AND TIMESTAMPDIFF(DAY,hg_orders.date_add, NOW()) < 10
+                                AND hg_orders.payment <> 'Pagos por transferencia bancaria'
+                                AND hg_orders.current_state <> 6"))
+                        ->orderBy('hg_orders.id_order','DESC')
+                        ->get();
 
             return response()->json(count($resultado));
 
@@ -152,20 +166,20 @@ class PedidosController extends Controller{
         function controlCategoriasVacias(){
 
             $resultado = DB::table('hg_category as c')
-                        ->select('c.id_category','cl.name','c.active','clpadre.name as padre',DB::raw(' CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
-                                DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
-                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
-                                WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
-                                DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS rediridiga'))
+                        ->select(   'c.id_category','cl.name','c.active','clpadre.name as padre',
+                                    DB::raw('CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
+                                    DB::raw('(SELECT COUNT(hg_category_product.id_category) FROM hg_category_product
+                                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                                WHERE hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
+                                    DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS redirigida'))
                         ->join('hg_category_lang AS cl','cl.id_category','=','c.id_category')
                         ->join('hg_category_lang AS clpadre','clpadre.id_category','=','c.id_parent')
-                        ->where('cl.id_lang','=',1)
-                        ->where('clpadre.id_lang','=',1)
-                        ->where('c.active','=',1)
-                        ->where(DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
-                            INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
-                            WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1)'),'=','0')
-                        ->orderBy('contador','ASC')
+                        ->where('cl.id_lang','=',DB::raw('1 AND clpadre.id_lang = 1 AND c.active = 1 AND
+                                    (SELECT COUNT(hg_category_product.id_category) FROM hg_category_product
+                                    INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                    WHERE hg_category_product.id_category = c.id_category AND hg_product.active = 1) = 0 AND c.id_category <> 2'))
+                        ->having('redirigida', '=' ,'NO')
+                        ->orderBy('contador')
                         ->get();
 
             return response()->json($resultado);
@@ -174,32 +188,23 @@ class PedidosController extends Controller{
         function controlCategoriasVaciasContador(){
 
             $resultado = DB::table('hg_category as c')
-                        ->select('c.id_category','cl.name','c.active','clpadre.name as padre',DB::raw(' CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
-                                DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
-                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
-                                WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
-                                DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS rediridiga'))
+                        ->select(   'c.id_category','cl.name','c.active','clpadre.name as padre',
+                                    DB::raw('CONCAT("https://orion91.com/", cl.link_rewrite) as urlOrigen'),
+                                    DB::raw('(SELECT COUNT(hg_category_product.id_category) FROM hg_category_product
+                                                INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                                WHERE hg_category_product.id_category = c.id_category AND hg_product.active = 1) AS contador'),
+                                    DB::raw('IF((SELECT count(hg_lgseoredirect.id) FROM hg_lgseoredirect WHERE hg_lgseoredirect.url_old = CONCAT("/",cl.link_rewrite))>0,"SI","NO") AS redirigida'))
                         ->join('hg_category_lang AS cl','cl.id_category','=','c.id_category')
                         ->join('hg_category_lang AS clpadre','clpadre.id_category','=','c.id_parent')
-                        ->where('cl.id_lang','=',1)
-                        ->where('clpadre.id_lang','=',1)
-                        ->where('c.active','=',1)
-                        ->where(DB::raw('(SELECT  COUNT(hg_category_product.id_category) FROM hg_category_product
-                            INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
-                            WHERE  hg_category_product.id_category = c.id_category AND hg_product.active = 1)'),'=','0')
+                        ->where('cl.id_lang','=',DB::raw('1 AND clpadre.id_lang = 1 AND c.active = 1 AND
+                                    (SELECT COUNT(hg_category_product.id_category) FROM hg_category_product
+                                    INNER JOIN hg_product ON hg_product.id_product = hg_category_product.id_product
+                                    WHERE hg_category_product.id_category = c.id_category AND hg_product.active = 1) = 0 AND c.id_category <> 2'))
+                        ->having('redirigida', '=' ,'NO')
+                        ->orderBy('contador')
                         ->get();
 
-                $miArray = [];
-
-                for($a = 0; $a < count($resultado); $a++){
-                    if($resultado[$a]->rediridiga === "NO"){
-                        array_push($miArray,$resultado[$a]);
-                    }else{
-                        $a++;
-                    }
-                }
-
-            return count($miArray);
+            return response()->json(count($resultado));
         }
 
         function controlPreCompras(){
@@ -339,7 +344,7 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
                         ->where('p.active','=',1)
-                        ->where('man.division','=',1.180000)
+                        ->where('man.division','=',1.200000)
                         ->get();
 
             return response()->json($resultado);
@@ -379,9 +384,9 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
                         ->where('p.active','=',1)
-                        ->where('man.division','!=',1.180000)
+                        ->where('man.division','!=',1.200000)
                         ->where('man.division','!=',1.030000)
-                        ->where('man.division','!=',1.190000)
+                        ->where('man.division','!=',1.210000)
                         ->where('man.division','!=',1.170000)
                         ->get();
 
@@ -402,9 +407,9 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
                         ->where('p.active','=',1)
-                        ->where('man.division','!=',1.180000)
+                        ->where('man.division','!=',1.200000)
                         ->where('man.division','!=',1.030000)
-                        ->where('man.division','!=',1.190000)
+                        ->where('man.division','!=',1.210000)
                         ->where('man.division','!=',1.170000)
                         ->get();
 
@@ -550,6 +555,91 @@ class PedidosController extends Controller{
                         ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
                         ->where('au.id_product','=',$idProduct)
                         ->orderBy('au.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
+        function imagenes(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select(   'p.id_product',
+                                    DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13'),
+                                    DB::raw('IFNULL(pa.reference, p.reference) AS ref'),
+                                    'pl.name AS nombre_producto','agl.name AS nombre_atributo','al.name AS nombre_valor_att',
+                                    DB::raw('IFNULL(ima_att.id_image,ima.id_image) AS id_image'),
+                                    DB::raw("CONCAT('https://orion91.com/', pl.link_rewrite) as link"),
+                                    'ima.position','ima.cover')
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang as pl','pl.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_image AS ima','ima.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_image AS ima_att','ima_att.id_product_attribute','=','pa.id_product_attribute')
+                        ->where('p.active','=',DB::raw('1 AND ima.position = 1'))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function imagenesName($name){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select(   'p.id_product',
+                                    DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13'),
+                                    DB::raw('IFNULL(pa.reference, p.reference) AS ref'),
+                                    'pl.name AS nombre_producto','agl.name AS nombre_atributo','al.name AS nombre_valor_att',
+                                    DB::raw('IFNULL(ima_att.id_image,ima.id_image) AS id_image'),
+                                    DB::raw("CONCAT('https://orion91.com/', pl.link_rewrite) as link"),
+                                    'ima.position','ima.cover')
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang as pl','pl.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_image AS ima','ima.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_image AS ima_att','ima_att.id_product_attribute','=','pa.id_product_attribute')
+                        ->where('p.active','=',DB::raw("1 AND pl.name LIKE '%".$name."%'") )
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function imagenesReference($reference){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select(   'p.id_product',
+                                    DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13'),
+                                    DB::raw('IFNULL(pa.reference, p.reference) AS ref'),
+                                    'pl.name AS nombre_producto','agl.name AS nombre_atributo','al.name AS nombre_valor_att',
+                                    DB::raw('IFNULL(ima_att.id_image,ima.id_image) AS id_image'),
+                                    DB::raw("CONCAT('https://orion91.com/', pl.link_rewrite) as link"),
+                                    'ima.position','ima.cover')
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang as pl','pl.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_image AS ima','ima.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_image AS ima_att','ima_att.id_product_attribute','=','pa.id_product_attribute')
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.reference = ".$reference.",p.reference = ".$reference.")"))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
                         ->get();
 
             return response()->json($resultado);
