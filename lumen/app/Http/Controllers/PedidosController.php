@@ -65,12 +65,24 @@ class PedidosController extends Controller{
         function controlHistoricoStock($id_producto){
 
             $resultado = DB::table('ng_historico_stock as h')
-                        ->select('h.id_producto','l.name','h.id_atributo','h.fecha_actualizacion','h.stock')
-                        ->join('hg_product_lang as l','h.id_producto','=','l.id_product')
+                        ->select(   'h.id_producto',
+                                    'l.name',
+                                    DB::raw("IFNULL(h.id_atributo, 'Sin Atributo') AS id_atributo"),
+                                    DB::raw("IFNULL(agl.name, 'Sin Grupo') AS grupo"),
+                                    DB::raw("IFNULL(al.name, 'Sin valor') AS valor"),
+                                    'h.fecha_actualizacion',
+                                    'h.stock')
+                        ->join('hg_product_lang AS l', 'h.id_producto','=','l.id_product')
+                        ->leftJoin('hg_product_attribute AS pa','h.id_atributo','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
                         ->where('h.id_producto','=',$id_producto)
                         ->groupBy('h.fecha_actualizacion')
                         ->orderBy('h.id_resgistro','DESC')
                         ->get();
+
 
             return response()->json($resultado);
         }
@@ -96,12 +108,25 @@ class PedidosController extends Controller{
 
         function controlHistoricoStockTotal($id_producto,$id_atributo){
 
-            $resultado = DB::table('ng_historico_stock')
-                    ->select('*')
-                    ->where('ng_historico_stock.id_producto','=',$id_producto)
-                    ->where('ng_historico_stock.id_atributo','=',$id_atributo)
-                    ->orderBy('ng_historico_stock.id_resgistro','DESC')
-                    ->get();
+            $resultado = DB::table('ng_historico_stock as h')
+                        ->select(   'h.id_producto',
+                                    'l.name',
+                                    DB::raw("IFNULL(h.id_atributo, 'Sin Atributo') AS id_atributo"),
+                                    DB::raw("IFNULL(agl.name, 'Sin Grupo') AS grupo"),
+                                    DB::raw("IFNULL(al.name, 'Sin valor') AS valor"),
+                                    'h.fecha_actualizacion',
+                                    'h.stock')
+                        ->join('hg_product_lang AS l', 'h.id_producto','=','l.id_product')
+                        ->leftJoin('hg_product_attribute AS pa','h.id_atributo','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
+                        ->where('h.id_producto','=',DB::raw("$id_producto AND h.id_atributo = $id_atributo") )
+                        ->groupBy('h.fecha_actualizacion')
+                        ->orderBy('h.id_resgistro','DESC')
+                        ->get();
+
 
             return response()->json($resultado);
         }
@@ -645,5 +670,72 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
+
+        //Funciones de categorias
+
+        function categoriasName(){
+
+            $resultado = DB::table('ng_position_category AS pos')
+                        ->select(DB::raw('DISTINCT pos.idCategoryName'),'pos.idCategory')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function categoriaNamePorIdCategory($idCategory){
+
+            $resultado = DB::table('ng_position_category AS pos')
+                        ->select('pos.idCategory','pos.idFeature','pos.featureName')
+                        ->where('pos.idCategory','=',$idCategory)
+                        ->orderBy('pos.position','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function cambiarPosition($position,$idCategory,$idFeature){
+
+            $resultado = DB::table('ng_position_category')
+                        ->where('idCategory','=',DB::raw("$idCategory AND idFeature = $idFeature"))
+                        ->update(['position'=>$position]);
+            return $resultado;
+        }
+
+
+        //FUNCIONES CATEGORIAS SOBRE PRODUCTOS
+        function categoriasProductosName(){
+
+            $resultado = DB::table('hg_category_product AS catpro')
+                        ->select(DB::raw('DISTINCT(catpro.id_category)'),'catlan.name')
+                        ->join('hg_category AS cat','cat.id_category','=',DB::raw('catpro.id_category AND cat.active = 1'))
+                        ->join('hg_category_lang AS catlan','catlan.id_category','=',DB::raw('catpro.id_category AND catlan.id_lang = 1'))
+                        ->orderBy('catpro.id_category','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function productosPorIdCategoria($idCategoria){
+
+            $resultado = DB::table('hg_category_product AS cp')
+                        ->select('cp.id_category','cl.name','cp.id_product','pl.name','cp.position','sav.quantity','image_shop.id_image AS id_image')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cp.id_category AND cl.id_lang = 1'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('cp.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('cp.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->leftJoin('hg_stock_available AS sav','sav.id_product','=',DB::raw('cp.id_product AND sav.id_product_attribute = 0 AND sav.id_shop = 1 AND sav.id_shop_group = 0'))
+                        ->where('cp.id_category','=',$idCategoria)
+                        ->orderBy('cp.position','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function actualizarPosicionProducto($idCategoria,$idProducto,$posicion){
+
+            $resultado = DB::table('hg_category_product')
+                        ->where('id_category','=',DB::raw("$idCategoria AND id_product = $idProducto"))
+                        ->update(['position'=>$posicion]);
+            return $resultado;
+        }
     }
 ?>

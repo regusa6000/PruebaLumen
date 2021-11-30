@@ -127,3 +127,25 @@ $router->get('/pedidosAlmacenBadge','PedidosController@pedidosAlmacenBadge');
 $router->get('/imagenes','PedidosController@imagenes');
 $router->get('/imagenesName/{name}','PedidosController@imagenesName');
 $router->get('/imagenesReference/{reference}','PedidosController@imagenesReference');
+
+//Caracteristicas
+$router->get('/caracteristicasName','PedidosController@categoriasName');
+$router->get('/caracteristicasNamePorIdCategory/{idCategory}','PedidosController@categoriaNamePorIdCategory');
+$router->get('/cambiarPosicionCaracteristica/{position}/{idCategory}/{idFeature}','PedidosController@cambiarPosition');
+
+//Caracteristicas por Producto
+$router->get('/categoriasProductosName','PedidosController@categoriasProductosName');
+$router->get('/productosPorIdCategoria/{idCategoria}','PedidosController@productosPorIdCategoria');
+$router->get('/actualizarPosicionProducto/{idCategoria}/{idProducto}/{posicion}','PedidosController@actualizarPosicionProducto');
+
+
+//Categorias por meses
+$router->get('/categoriasPorMeses','EstadisticasController@categoriasPorMeses');
+$router->get('/categoriaIdPorMeses/{idCategory}','EstadisticasController@categoriaIdPorMeses');
+$router->get('/categoriasGeneral','EstadisticasController@categoriasGeneral');
+$router->get('/categoriasPorTiendas/{variable}','EstadisticasController@categoriasPorTiendas');
+$router->get('/categoriaIdPorMesesPorTienda/{variableTienda}/{idCategory}','EstadisticasController@categoriaIdPorMesesPorTienda');
+
+
+//Categorias por meses ORION91
+$router->get('/categoriasPorTiendaOrion','EstadisticasController@categoriasPorTiendaOrion');
