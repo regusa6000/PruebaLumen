@@ -149,3 +149,13 @@ $router->get('/categoriaIdPorMesesPorTienda/{variableTienda}/{idCategory}','Esta
 
 //Categorias por meses ORION91
 $router->get('/categoriasPorTiendaOrion','EstadisticasController@categoriasPorTiendaOrion');
+$router->get('categoriaPorTiendaOrionPorIdCategoria/{idCategory}','EstadisticasController@categoriaPorTiendaOrionPorIdCategoria');
+
+
+//Categorias por meses WISH
+$router->get('/categoriasPorTiendaWish','EstadisticasController@categoriasPorTiendaWish');
+$router->get('/categoriaPorTiendaWishPorIdCategoria/{idCategory}','EstadisticasController@categoriaPorTiendaWishPorIdCategoria');
+
+
+//Venta de Productos
+$router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}','EstadisticasController@ventaProductos');
