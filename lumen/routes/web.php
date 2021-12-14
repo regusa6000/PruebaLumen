@@ -158,4 +158,9 @@ $router->get('/categoriaPorTiendaWishPorIdCategoria/{idCategory}','EstadisticasC
 
 
 //Venta de Productos
-$router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}','EstadisticasController@ventaProductos');
+$router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}/{tienda}','EstadisticasController@ventaProductos');
+
+
+//Rango de precios de makro
+$router->get('productosPublicadosMakro','RangosController@productosPublicadosMakro');
+$router->get('listaDeRangosMakro/{ean13}','RangosController@listaDeRangosMakro');
