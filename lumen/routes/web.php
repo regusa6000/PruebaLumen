@@ -164,3 +164,4 @@ $router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}/{tienda}','Es
 //Rango de precios de makro
 $router->get('productosPublicadosMakro','RangosController@productosPublicadosMakro');
 $router->get('listaDeRangosMakro/{ean13}','RangosController@listaDeRangosMakro');
+$router->put('actualizarRango','RangosController@actualizarRango');
