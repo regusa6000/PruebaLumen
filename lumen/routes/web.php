@@ -72,6 +72,7 @@ $router->get('/manoAManoDivision','PedidosController@manoAmanoPorDivision');
 $router->get('/manoAmanoPorPrimero','PedidosController@manoAmanoPorPrimero');
 $router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
 $router->get('/manoAmanoPorTercero','PedidosController@manoAmanoPorTercero');
+$router->get('manoAmanoPorCuarto','PedidosController@manoAmanoPorCuarto');
 
 
 //Rutas de Gráficos
