@@ -72,7 +72,7 @@ $router->get('/manoAManoDivision','PedidosController@manoAmanoPorDivision');
 $router->get('/manoAmanoPorPrimero','PedidosController@manoAmanoPorPrimero');
 $router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
 $router->get('/manoAmanoPorTercero','PedidosController@manoAmanoPorTercero');
-$router->get('manoAmanoPorCuarto','PedidosController@manoAmanoPorCuarto');
+$router->get('manoAmafiognoPorCuarto','PedidosController@manoAmanoPorCuarto');
 
 
 //Rutas de Gráficos
@@ -168,6 +168,8 @@ $router->get('productosPublicadosMakro','RangosController@productosPublicadosMak
 $router->get('listaDeRangosMakro/{ean13}','RangosController@listaDeRangosMakro');
 $router->put('actualizarRango','RangosController@actualizarRango');
 $router->get('buscarListado/{ean13}','RangosController@buscarListado');
+$router->post('registrarRangoMakro','RangosController@registrarNuevoRango');
+$router->delete('eliminarRango/{ean13}/{rango}','RangosController@eliminarRango');
 
 //Rango de precios de Makro Select
 $router->get('productosPublicadosMakroConRangoYConStock','RangosController@productosPublicadosMakroConRangoYConStock');
