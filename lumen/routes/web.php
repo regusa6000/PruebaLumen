@@ -161,7 +161,7 @@ $router->get('/categoriaPorTiendaWishPorIdCategoria/{idCategory}','EstadisticasC
 
 //Venta de Productos
 $router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}/{tienda}','EstadisticasController@ventaProductos');
-
+$router->get('ventasSemanalesTiendas','EstadisticasController@ventasSemanales');
 
 //Rango de precios de makro
 $router->get('productosPublicadosMakro','RangosController@productosPublicadosMakro');
@@ -176,3 +176,8 @@ $router->get('productosPublicadosMakroConRangoYConStock','RangosController@produ
 $router->get('productosPublicadosMakroConRangoYSinStock','RangosController@productosPublicadosMakroConRangoYSinStock');
 $router->get('productosPublicadosMakroSinRangoYConStock','RangosController@productosPublicadosMakroSinRangoYConStock');
 $router->get('productosPublicadosMakroSinRangoYSinStock','RangosController@productosPublicadosMakroSinRangoYSinStock');
+
+
+//Funciones para combinados predeterminados sin stock
+$router->get('CombinadospredeterminadosSinStock','EstadisticasController@CombinadospredeterminadosSinStock');
+$router->get('CombinadospredeterminadosSinStockCount','EstadisticasController@CombinadospredeterminadosSinStockCount');
