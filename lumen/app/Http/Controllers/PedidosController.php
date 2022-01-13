@@ -12,7 +12,14 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where('hg_ewax_orders.send_ok','!=',DB::raw("1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89 OR (hg_orders.current_state = 1 AND hg_orders.payment = 'Pago con tarjeta Redsys')) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
+                        ->where('hg_ewax_orders.send_ok','!=',
+                                DB::raw("1 and (hg_orders.current_state = 2 OR
+                                                 hg_orders.current_state = 89 OR
+                                                 hg_orders.current_state = 8 OR
+                                                 (hg_orders.current_state = 1 AND
+                                                 hg_orders.payment = 'Pago con tarjeta Redsys')) AND
+                                                 hg_orders.payment <> 'AliExpress Payment' AND
+                                                 TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
 
                         ->get();
 
@@ -33,7 +40,8 @@ class PedidosController extends Controller{
                                 AND ROUND(hg_orders.total_paid,2) - hg_order_payment.amount > 0.1
                                 AND TIMESTAMPDIFF(DAY,hg_orders.date_add, NOW()) < 10
                                 AND hg_orders.payment <> 'Pagos por transferencia bancaria'
-                                AND hg_orders.current_state <> 6"))
+                                AND hg_orders.current_state <> 6
+                                AND hg_orders.current_state <> 7"))
                         ->orderBy('hg_orders.id_order','DESC')
                         ->get();
 
@@ -54,7 +62,8 @@ class PedidosController extends Controller{
                                 AND ROUND(hg_orders.total_paid,2) - hg_order_payment.amount > 0.1
                                 AND TIMESTAMPDIFF(DAY,hg_orders.date_add, NOW()) < 10
                                 AND hg_orders.payment <> 'Pagos por transferencia bancaria'
-                                AND hg_orders.current_state <> 6"))
+                                AND hg_orders.current_state <> 6
+                                AND hg_orders.current_state <> 7"))
                         ->orderBy('hg_orders.id_order','DESC')
                         ->get();
 
@@ -435,6 +444,48 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
+
+        function manoAmanoPorSexto(){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','=', DB::raw('1.050000 OR man.division = 1.060000 OR man.division = 1.070000'))
+                        ->orderBy('man.division','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function manoAmanoPorSeptimo(){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','=',1.100000)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
         function manoAmanoPorDivision(){
 
             $resultado = DB::table('ng_mano_a_mano_aux AS man')
@@ -455,6 +506,10 @@ class PedidosController extends Controller{
                         ->where('man.division','!=',1.170000)
                         ->where('man.division','!=',1.180000)
                         ->where('man.division','!=',1.000000)
+                        ->where('man.division','!=',1.060000)
+                        ->where('man.division','!=',1.070000)
+                        ->where('man.division','!=',1.050000)
+                        ->where('man.division','!=',1.100000)
                         ->get();
 
             return response()->json($resultado);
@@ -480,6 +535,10 @@ class PedidosController extends Controller{
                         ->where('man.division','!=',1.170000)
                         ->where('man.division','!=',1.180000)
                         ->where('man.division','!=',1.000000)
+                        ->where('man.division','!=',1.060000)
+                        ->where('man.division','!=',1.050000)
+                        ->where('man.division','!=',1.070000)
+                        ->where('man.division','!=',1.100000)
                         ->get();
 
             return response()->json(count($resultado));

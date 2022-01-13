@@ -72,7 +72,9 @@ $router->get('/manoAManoDivision','PedidosController@manoAmanoPorDivision');
 $router->get('/manoAmanoPorPrimero','PedidosController@manoAmanoPorPrimero');
 $router->get('/manoAmanoPorSegundo','PedidosController@manoAmanoPorSegundo');
 $router->get('/manoAmanoPorTercero','PedidosController@manoAmanoPorTercero');
-$router->get('manoAmafiognoPorCuarto','PedidosController@manoAmanoPorCuarto');
+$router->get('manoAmanoPorCuarto','PedidosController@manoAmanoPorCuarto');
+$router->get('manoAmanoPorSexto','PedidosController@manoAmanoPorSexto');
+$router->get('manoAmanoPorSeptimo','PedidosController@manoAmanoPorSeptimo');
 
 
 //Rutas de Gráficos
@@ -181,3 +183,10 @@ $router->get('productosPublicadosMakroSinRangoYSinStock','RangosController@produ
 //Funciones para combinados predeterminados sin stock
 $router->get('CombinadospredeterminadosSinStock','EstadisticasController@CombinadospredeterminadosSinStock');
 $router->get('CombinadospredeterminadosSinStockCount','EstadisticasController@CombinadospredeterminadosSinStockCount');
+
+//Funciones Dashboard
+$router->get('dashboardsTodos','EstadisticasController@dashboardsTodos');
+$router->get('dashboardsAmazon','EstadisticasController@dashboardsAmazon');
+$router->get('dashboardsAliExpress','EstadisticasController@dashboardsAliExpress');
+$router->get('dashboardsOrion91','EstadisticasController@dashboardsOrion91');
+$router->get('dashboardsMakro','EstadisticasController@dashboardsMakro');

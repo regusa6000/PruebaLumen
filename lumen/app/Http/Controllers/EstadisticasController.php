@@ -2748,6 +2748,174 @@
             return response()->json(count($resultado));
         }
 
+
+        /** FUNCIONES DASHBOARS **/
+
+        function dashboardsTodos(){
+
+            $resultado = DB::table('ng_previsiones_ventas AS ng')
+                        ->select('ng.nombre_mes','ng.nombre_canal','ng.dias_mes',
+                                    DB::raw("ROUND(ng.importe,2) AS 'ImporteTotal'"),
+                                    DB::raw("ROUND((ng.importe/ng.dias_mes),2) AS 'DiarioMes'"),
+                                    DB::raw("(SELECT ROUND(sum(o.total_paid_tax_excl),2)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7) AS 'TotalActualAyer'"),
+                                    DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                        o.reference NOT LIKE 'INCI-%' AND
+                                                        o.valid = 1 AND
+                                                        o.current_state <> 6 AND
+                                                        o.current_state <> 7)*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
+                        ->where('ng.mes','=',1)
+                        ->where('ng.nombre_canal','=','Todos')
+                        ->get();
+
+            return $resultado;
+        }
+
+        function dashboardsOrion91(){
+
+            $resultado = DB::table('ng_previsiones_ventas AS ng')
+                        ->select('ng.nombre_mes','ng.nombre_canal','ng.dias_mes',
+                                    DB::raw("ROUND(ng.importe,2) AS 'ImporteTotal'"),
+                                    DB::raw("ROUND((ng.importe/ng.dias_mes),2) AS 'DiarioMes'"),
+                                    DB::raw("(SELECT ROUND(sum(o.total_paid_tax_excl),2)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    (o.payment = 'Pago con tarjeta Redsys' OR
+                                                    o.payment = 'Redsys BBVA' OR
+                                                    o.payment = 'Paga Fraccionado' OR
+                                                    o.payment = 'Sequra - Pago flexible' OR
+                                                    o.payment = 'Bizum' OR
+                                                    o.payment = 'Bizum - Pago online' OR
+                                                    o.payment = 'PayPal' OR
+                                                    o.payment = 'Transferencia bancaria')
+                                                    ) AS 'TotalActualAyer'"),
+                                    DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                        o.reference NOT LIKE 'INCI-%' AND
+                                                        o.valid = 1 AND
+                                                        o.current_state <> 6 AND
+                                                        o.current_state <> 7 AND
+                                                        (o.payment = 'Pago con tarjeta Redsys' OR
+                                                        o.payment = 'Redsys BBVA' OR
+                                                        o.payment = 'Paga Fraccionado' OR
+                                                        o.payment = 'Sequra - Pago flexible' OR
+                                                        o.payment = 'Bizum' OR
+                                                        o.payment = 'Bizum - Pago online' OR
+                                                        o.payment = 'PayPal' OR
+                                                        o.payment = 'Transferencia bancaria')
+                                                        )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
+                        ->where('ng.mes','=',1)
+                        ->where('ng.nombre_canal','=','ORION91')
+                        ->get();
+
+            return $resultado;
+        }
+
+        function dashboardsAmazon(){
+
+            $resultado = DB::table('ng_previsiones_ventas AS ng')
+                        ->select('ng.nombre_mes','ng.nombre_canal','ng.dias_mes',
+                                    DB::raw("ROUND(ng.importe,2) AS 'ImporteTotal'"),
+                                    DB::raw("ROUND((ng.importe/ng.dias_mes),2) AS 'DiarioMes'"),
+                                    DB::raw("(SELECT ROUND(sum(o.total_paid_tax_excl),2)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    o.payment = 'Waadby Payment'
+                                                    ) AS 'TotalActualAyer'"),
+                                    DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                        o.reference NOT LIKE 'INCI-%' AND
+                                                        o.valid = 1 AND
+                                                        o.current_state <> 6 AND
+                                                        o.current_state <> 7 AND
+                                                        o.payment = 'Waadby Payment'
+                                                        )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
+                        ->where('ng.mes','=',1)
+                        ->where('ng.nombre_canal','=','Amazon')
+                        ->get();
+
+            return $resultado;
+        }
+
+        function dashboardsAliExpress(){
+
+            $resultado = DB::table('ng_previsiones_ventas AS ng')
+                        ->select('ng.nombre_mes','ng.nombre_canal','ng.dias_mes',
+                                    DB::raw("ROUND(ng.importe,2) AS 'ImporteTotal'"),
+                                    DB::raw("ROUND((ng.importe/ng.dias_mes),2) AS 'DiarioMes'"),
+                                    DB::raw("(SELECT ROUND(sum(o.total_paid_tax_excl),2)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    o.payment = 'AliExpress Payment'
+                                                    ) AS 'TotalActualAyer'"),
+                                    DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
+                                            FROM hg_orders AS o
+                                            WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    o.payment = 'AliExpress Payment'
+                                                    )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
+                        ->where('ng.mes','=',1)
+                        ->where('ng.nombre_canal','=','Aliexpress')
+                        ->get();
+
+            return $resultado;
+        }
+
+        function dashboardsMakro(){
+
+            $resultado = DB::table('ng_previsiones_ventas AS ng')
+                        ->select('ng.nombre_mes','ng.nombre_canal','ng.dias_mes',
+                                    DB::raw("ROUND(ng.importe,2) AS 'ImporteTotal'"),
+                                    DB::raw("ROUND((ng.importe/ng.dias_mes),2) AS 'DiarioMes'"),
+                                    DB::raw("(SELECT ROUND(sum(o.total_paid_tax_excl),2)
+                                                FROM hg_orders AS o
+                                                WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    o.payment = 'Makro'
+                                                    ) AS 'TotalActualAyer'"),
+                                    DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
+                                            FROM hg_orders AS o
+                                            WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
+                                                    o.reference NOT LIKE 'INCI-%' AND
+                                                    o.valid = 1 AND
+                                                    o.current_state <> 6 AND
+                                                    o.current_state <> 7 AND
+                                                    o.payment = 'Makro'
+                                                    )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
+                        ->where('ng.mes','=',1)
+                        ->where('ng.nombre_canal','=','Makro')
+                        ->get();
+
+            return $resultado;
+        }
+
     }
 
 ?>
