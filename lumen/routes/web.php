@@ -185,8 +185,20 @@ $router->get('CombinadospredeterminadosSinStock','EstadisticasController@Combina
 $router->get('CombinadospredeterminadosSinStockCount','EstadisticasController@CombinadospredeterminadosSinStockCount');
 
 //Funciones Dashboard
-$router->get('dashboardsTodos','EstadisticasController@dashboardsTodos');
-$router->get('dashboardsAmazon','EstadisticasController@dashboardsAmazon');
-$router->get('dashboardsAliExpress','EstadisticasController@dashboardsAliExpress');
-$router->get('dashboardsOrion91','EstadisticasController@dashboardsOrion91');
-$router->get('dashboardsMakro','EstadisticasController@dashboardsMakro');
+$router->get('dashboardsTodos','PrevisionesController@dashboardsTodos');
+$router->get('dashboardsAmazon','PrevisionesController@dashboardsAmazon');
+$router->get('dashboardsAliExpress','PrevisionesController@dashboardsAliExpress');
+$router->get('dashboardsOrion91','PrevisionesController@dashboardsOrion91');
+$router->get('dashboardsMakro','PrevisionesController@dashboardsMakro');
+$router->get('dashboardsManoMano','PrevisionesController@dashboardsManoMano');
+$router->get('dashboardsGroupon','PrevisionesController@dashboardsGroupon');
+$router->get('dashboardsMequedoUno','PrevisionesController@dashboardsMequedoUno');
+
+
+//Funciones Top
+$router->get('productosTop','PrevisionesController@productosTop');
+$router->get('canalesTop','PrevisionesController@canalesTop');
+$router->get('productosTopIncidenciasHoy','PrevisionesController@productosTopIncidenciasHoy');
+
+//Funciones Previsiones de Incidencias
+$router->get('previsionIncidencias','PrevisionesController@previsionIncidencias');
