@@ -202,3 +202,6 @@ $router->get('productosTopIncidenciasHoy','PrevisionesController@productosTopInc
 
 //Funciones Previsiones de Incidencias
 $router->get('previsionIncidencias','PrevisionesController@previsionIncidencias');
+
+//Funciones categorias anuales por opciones
+$router->get('categoriasPorOpciones/{idCategory}/{fechaInicio}/{fechaFin}/{opcion}','EstadisticasController@categoriasPorOpciones');

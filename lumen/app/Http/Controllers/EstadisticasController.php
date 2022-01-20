@@ -2749,6 +2749,63 @@
         }
 
 
+        /**FUNCIONES PARA LA PARTE DE CATEGORIAS POR MESES SEGUN OPCIONES**/
+        function categoriasPorOpciones($idCategory, $fechaInicio, $fechaFin, $opcion){
+
+            $resultado = '';
+
+            switch($opcion){
+                case 1:
+                    $resultado = DB::table('hg_category_product AS cp')
+                                ->select('od.product_id'
+                                        ,'pl.name'
+                                        ,DB::raw("SUM(od.product_quantity) AS 'productosVendidos'")
+                                        ,DB::raw("ROUND(SUM(od.total_price_tax_incl),2) AS 'TotalVentas'"))
+                                ->join('hg_order_detail AS od','od.product_id','=','cp.id_product')
+                                ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                                ->join('hg_product_lang AS pl','pl.id_lang','=',DB::raw('1 AND pl.id_product = od.product_id'))
+                                ->where('cp.id_category','=',$idCategory)
+                                ->where('o.date_add','>=',$fechaInicio)
+                                ->where('o.date_add','<=',$fechaFin)
+                                ->groupBy('od.product_id')
+                                ->get();
+                    break;
+                case 2:
+                    $resultado = DB::table('hg_category_product AS cp')
+                                ->select('od.product_id'
+                                        ,DB::raw("o.payment AS 'canal'")
+                                        ,'pl.name'
+                                        ,DB::raw("sum(od.product_quantity) AS 'cantidadVendida'")
+                                        ,DB::raw("ROUND(SUM(od.total_price_tax_incl),2) AS 'totalVenta'"))
+                                ->join('hg_order_detail AS od','od.product_id','=','cp.id_product')
+                                ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                                ->join('hg_product_lang AS pl','pl.id_lang','=',DB::raw('1 AND pl.id_product = od.product_id'))
+                                ->where('cp.id_category','=',$idCategory)
+                                ->where('o.date_add','>=',$fechaInicio)
+                                ->where('o.date_add','<=',$fechaFin)
+                                ->groupBy('o.payment','od.product_id')
+                                ->get();
+                    break;
+                case 3:
+                    $resultado = DB::table('hg_category_product AS cp')
+                                ->select(DB::raw("o.payment AS 'canal'")
+                                        ,DB::raw("SUM(od.product_quantity) AS 'cantidadVendida'")
+                                        ,DB::raw("ROUND(SUM(od.total_price_tax_incl),2) AS 'totalVendido'"))
+                                ->join('hg_order_detail AS od','od.product_id','=','cp.id_product')
+                                ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                                ->join('hg_product_lang AS pl','pl.id_lang','=',DB::raw('1 AND pl.id_product = od.product_id'))
+                                ->where('cp.id_category','=',$idCategory)
+                                ->where('o.date_add','>=',$fechaInicio)
+                                ->where('o.date_add','<=',$fechaFin)
+                                ->groupBy('o.payment')
+                                ->get();
+                    break;
+            }
+
+            return response()->json($resultado);
+
+        }
+
     }
 
 ?>
