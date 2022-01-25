@@ -12,9 +12,9 @@ class RangosController extends Controller{
                     ->select(   'am.gtin','am.sku','am.itemid','am.name','am.stock',
                                 DB::raw("ROUND(am.pack) AS pack"),
                                 DB::raw("ROUND(am.pallet) AS pallet"),
-                                DB::raw("ROUND(am.pmp,2) AS pmp"),
-                                DB::raw("ROUND(am.margen,2) AS margen"),
-                                DB::raw("ROUND(am.price,2) AS price"),
+                                DB::raw("CONCAT(ROUND(am.pmp,2),'€') AS pmp"),
+                                DB::raw("CONCAT(ROUND(am.margen,2),'%') AS margen"),
+                                DB::raw("CONCAT(ROUND(am.price,2),'€') AS price"),
                                 DB::raw("IFNULL(am.category_default,'Sin categoría por defecto') AS category_default"),
                                 DB::raw('(SELECT COUNT(aux_makro_rangos.rango)FROM aux_makro_rangos WHERE aux_makro_rangos.ean13 = am.sku) AS contadorRangos')
                                 ,'amr.ean13','amr.nombreProducto','amr.rango',
@@ -113,7 +113,8 @@ class RangosController extends Controller{
 
         $resultado = DB::table('aux_makro_rangos AS amr')
                     ->select(   'amr.ean13','amr.id_product','amr.nombreProducto','amr.nombreAtributo','amr.valorAtributo','amr.rango',
-                                DB::raw('ROUND(precio_sin_iva,2) as precio_sin_iva'))
+                                DB::raw("CONCAT(ROUND(precio_sin_iva,2),'€') as precio_sin_iva"),
+                                DB::raw("CONCAT(ROUND(((amr.precio_sin_iva - amr.pmp)/ amr.precio_sin_iva)*100,2),'%') AS margenNuevo"))
                     ->where('amr.ean13','=',$ean13)
                     ->get();
         return response()->json($resultado);
@@ -163,6 +164,8 @@ class RangosController extends Controller{
         $atributo = $request->input('nombreAtributo');
         $valorAtributo = $request->input('valorAtributo');
         $rango = $request->input('rango');
+        $margen = $request->input('margen');
+        $pmp = $request->input('pmp');
         $precio = $request->input('precio_sin_iva');
 
         $consulta = DB::table('aux_makro_rangos')->insert([
@@ -172,6 +175,8 @@ class RangosController extends Controller{
             'nombreAtributo'=>$atributo,
             'valorAtributo'=>$valorAtributo,
             'rango'=>$rango,
+            'margen'=>$margen,
+            'pmp'=>$pmp,
             'precio_sin_iva'=>$precio
         ]);
 
