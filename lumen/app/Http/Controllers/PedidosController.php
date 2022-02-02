@@ -7,6 +7,7 @@
 
 class PedidosController extends Controller{
 
+
         function controlPedidosAlmacen(){
 
             $resultado = DB::table('hg_orders')
@@ -18,8 +19,8 @@ class PedidosController extends Controller{
                                                  hg_orders.current_state = 8 OR
                                                  (hg_orders.current_state = 1 AND
                                                  hg_orders.payment = 'Pago con tarjeta Redsys')) AND
-                                                 hg_orders.payment <> 'AliExpress Payment' AND
-                                                 TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
+                                                 TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30 AND
+                                                 TIMESTAMPDIFF(MINUTE,hg_orders.date_add,NOW()) > 60"))
 
                         ->get();
 
@@ -71,10 +72,11 @@ class PedidosController extends Controller{
 
         }
 
-        function controlHistoricoStock($id_producto){
+        function controlHistoricoStock($ean13){
 
             $resultado = DB::table('ng_historico_stock as h')
                         ->select(   'h.id_producto',
+                                    'h.ean13',
                                     'l.name',
                                     DB::raw("IFNULL(h.id_atributo, 'Sin Atributo') AS id_atributo"),
                                     DB::raw("IFNULL(agl.name, 'Sin Grupo') AS grupo"),
@@ -87,7 +89,7 @@ class PedidosController extends Controller{
                         ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
                         ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
-                        ->where('h.id_producto','=',$id_producto)
+                        ->where('h.ean13','=',$ean13)
                         ->groupBy('h.fecha_actualizacion')
                         ->orderBy('h.id_resgistro','DESC')
                         ->get();
@@ -95,63 +97,18 @@ class PedidosController extends Controller{
 
             return response()->json($resultado);
         }
-
-        function controlHistoricoStockAtributo($id_atributo){
-
-            $resultado = DB::table('ng_historico_stock as h')
-                        ->select('h.id_producto','l.name','h.id_atributo','agl.name AS grupo','al.name AS valor','h.fecha_actualizacion','h.stock')
-                        ->join('hg_product_lang AS l','h.id_producto','=','l.id_product')
-                        ->leftJoin('hg_product_attribute AS pa','h.id_atributo','=','pa.id_product_attribute')
-                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
-                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
-                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
-                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
-                        ->where('h.id_atributo','=',$id_atributo)
-                        ->groupBy('h.fecha_actualizacion')
-                        ->orderBy('h.id_resgistro','DESC')
-                        ->get();
-
-            return response()->json($resultado);
-        }
-
-
-        function controlHistoricoStockTotal($id_producto,$id_atributo){
-
-            $resultado = DB::table('ng_historico_stock as h')
-                        ->select(   'h.id_producto',
-                                    'l.name',
-                                    DB::raw("IFNULL(h.id_atributo, 'Sin Atributo') AS id_atributo"),
-                                    DB::raw("IFNULL(agl.name, 'Sin Grupo') AS grupo"),
-                                    DB::raw("IFNULL(al.name, 'Sin valor') AS valor"),
-                                    'h.fecha_actualizacion',
-                                    'h.stock')
-                        ->join('hg_product_lang AS l', 'h.id_producto','=','l.id_product')
-                        ->leftJoin('hg_product_attribute AS pa','h.id_atributo','=','pa.id_product_attribute')
-                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
-                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=', DB::raw('al.id_attribute AND al.id_lang = 1'))
-                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
-                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
-                        ->where('h.id_producto','=',DB::raw("$id_producto AND h.id_atributo = $id_atributo") )
-                        ->groupBy('h.fecha_actualizacion')
-                        ->orderBy('h.id_resgistro','DESC')
-                        ->get();
-
-
-            return response()->json($resultado);
-        }
-
 
         //Funciones para el grafico
-        function controlStockGraficoIdProducto($idProducto){
+        function controlStockGraficoIdProducto($ean13){
 
             $variables = [];
 
             for($a = 0 ; $a < 20 ; $a++){
 
                 $resultado = DB::table('ng_historico_stock AS p')
-                        ->where('p.id_producto','=',DB::raw($idProducto.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
-                        FROM ng_historico_stock AS a WHERE a.id_producto ='.$idProducto.')'))
-                        ->groupBy('p.id_producto')
+                        ->where('p.ean13','=',DB::raw($ean13.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
+                        FROM ng_historico_stock AS a WHERE a.ean13 ='.$ean13.')'))
+                        ->groupBy('p.ean13')
                         ->get();
 
                 array_push($variables, $resultado);
@@ -159,43 +116,6 @@ class PedidosController extends Controller{
 
             return response()->json( array_reverse($variables));
         }
-
-        function controlStockGraficoIdAtributo($idAtributo){
-
-            $variables = [];
-
-            for($a = 0 ; $a < 20 ; $a++){
-
-                $resultado = DB::table('ng_historico_stock AS p')
-                        ->where('p.id_atributo','=',DB::raw($idAtributo.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
-                        FROM ng_historico_stock AS a WHERE a.id_atributo ='.$idAtributo.')'))
-                        ->groupBy('p.id_atributo')
-                        ->get();
-
-                array_push($variables, $resultado);
-            }
-
-            return response()->json( array_reverse($variables));
-        }
-
-        function controlStockGraficoTotal($idProducto,$idAtributo){
-
-            $variables = [];
-
-            for($a = 0 ; $a < 20 ; $a++){
-
-                $resultado = DB::table('ng_historico_stock AS p')
-                        ->where('p.id_producto','=',DB::raw($idProducto.' and p.id_atributo = '.$idAtributo.' and date(p.fecha_actualizacion) = (SELECT MAX(DATE_SUB(date(a.fecha_actualizacion), INTERVAL '.$a.' DAY))
-                        FROM ng_historico_stock AS a WHERE a.id_producto ='.$idProducto.' and a.id_atributo = '.$idAtributo.')'))
-                        ->groupBy('p.id_producto')
-                        ->get();
-
-                array_push($variables, $resultado);
-            }
-
-            return response()->json( array_reverse($variables));
-        }
-
 
         function controlCategoriasVacias(){
 
@@ -277,8 +197,6 @@ class PedidosController extends Controller{
                         ->leftJoin('hg_order_history AS oh_entregado','oh_entregado.id_order','=',DB::raw('o.id_order AND oh_entregado.id_order_state = 5'))
                         ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
                         ->join('hg_country_lang AS col','col.id_country','=',DB::raw('ad.id_country AND col.id_lang = 1'))
-                        //->where(DB::raw('SUBSTRING(o.gift_message, -3) <> "MFN" AND YEAR(o.date_add) > 2020'))
-                        //->groupBy('o.id_order','o.reference','col.name','o.payment','o.gift_message','carrier.name','o.date_add','oh.date_add','oh_entregado.date_add')
                         ->where('oh.date_add','!=','null')
                         ->groupBy('o.id_order')
                         ->orderBy('o.id_order','DESC')
@@ -549,7 +467,15 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders')
                         ->select('*')
                         ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where('hg_ewax_orders.send_ok','!=',DB::raw("1 and (hg_orders.current_state = 2 OR hg_orders.current_state = 89 OR (hg_orders.current_state = 1 AND hg_orders.payment = 'Pago con tarjeta Redsys')) AND TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30"))
+                        ->where('hg_ewax_orders.send_ok','!=',
+                                DB::raw("1 and (hg_orders.current_state = 2 OR
+                                                 hg_orders.current_state = 89 OR
+                                                 hg_orders.current_state = 8 OR
+                                                 (hg_orders.current_state = 1 AND
+                                                 hg_orders.payment = 'Pago con tarjeta Redsys')) AND
+                                                 TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30 AND
+                                                 TIMESTAMPDIFF(MINUTE,hg_orders.date_add,NOW()) > 60"))
+
                         ->get();
 
             return response()->json(count($resultado));
@@ -641,6 +567,32 @@ class PedidosController extends Controller{
                                 'fecha'=>$fecha
                             ]);
             return $resultado;
+        }
+
+        /**CONTROLES DE ALIEXPRESS**/
+        function controlAliExpress(){
+
+            $resultado = DB::table('hg_aliexpress_error AS ali_err')
+                        ->select(DB::raw("CONVERT(ali_err.item_id,char) AS 'Pedido Aliexpress'")
+                                ,"ali_err.error AS Error"
+                                ,"ali_err.code AS Code"
+                                ,"ali_err.date_upd AS Fecha Actualizacion",
+                                'ali_err.id_aliexpress_error As idAli')
+                        ->where('ali_err.item','=','order')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function badgeAliExpress(){
+
+            $resultado = DB::table('hg_aliexpress_error AS ali_err')
+                        ->select('*')
+                        ->where('ali_err.item','=','order')
+                        ->get();
+
+            return count($resultado);
+
         }
 
         /*Funciones de Makro Offers*/
@@ -840,5 +792,48 @@ class PedidosController extends Controller{
                         ->update(['position'=>$posicion]);
             return $resultado;
         }
+
+        function pruebaPing(){
+
+            $ip = '147.135.161.121';
+            $url = $ip ; $ch = curl_init($url); curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $data = curl_exec($ch);
+            $health = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($health) {
+                $json = json_encode(['health' => $health, 'status' => '1']);
+                return $json;
+            } else {
+                $json = json_encode(['health' => $health, 'status' => '0']);
+                return $json;
+            }
+
+        }
+
+        function enviarMensaje(){
+
+            $claveApi = '2eX0GNKponBuheog5AAQ';
+
+            $json = array(
+                array(
+                    "recipient"=>"+34611612038",
+                    "body"=>"Mensaje de Prueba",
+                    "sender"=>"ORION91"
+                )
+            );
+
+            $clase = new PedidosController;
+            $rutahttp = "https://acumbamail.com/api/1/".$clase->sendSMS($claveApi,$json)."/";
+
+            return $rutahttp;
+        }
+
+        function sendSMS($auth_token,$JSON){
+
+            json_encode($JSON);
+        }
+
+
     }
 ?>

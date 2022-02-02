@@ -27,6 +27,9 @@ $router->get('/productosOk','ProductosController@tablaOk');
 $router->post('/login','UserAdminController@login');
 $router->post('/register','UserAdminController@register');
 
+//Datos de Usuario
+$router->get('datosEmail/{idUser}','UserAdminController@datosEmail');
+
 //Rutas de Errores
 $router->get('/errors/{id_product}/{id_image}/{id_ax}/{error}/{ok}','ErrorsController@insertError');
 $router->get('/errorsVerify/{id_image}','ErrorsController@verify');
@@ -53,9 +56,7 @@ $router->get('/controlTransportistasName/{nameTransportista}','PedidosController
 $router->get('/cargarComboName','PedidosController@cargarComboName');
 
 //Rutas de Control de Stock
-$router->get('/controlHistoricoStock/{id_producto}','PedidosController@controlHistoricoStock');
-$router->get('/controlHistoricoStockAtributo/{id_atributo}','PedidosController@controlHistoricoStockAtributo');
-$router->get('/controlHistoricoStockTotal/{id_producto}/{id_atributo}','PedidosController@controlHistoricoStockTotal');
+$router->get('/controlHistoricoStock/{ean13}','PedidosController@controlHistoricoStock');
 
 //Rutas Noticias
 $router->post('/noticia','PedidosController@registrarNoticias');
@@ -64,6 +65,8 @@ $router->get('/noticiasGeneral','PedidosController@monstrarTodasNoticias');
 $router->delete('/eliminarNoticia/{id_noticia}','PedidosController@eliminarNoticia');
 $router->put('/actualizarNoticia','PedidosController@actualizarNoticia');
 
+$router->get('controlAliExpress','PedidosController@controlAliExpress');
+$router->get('badgeAliExpress','PedidosController@badgeAliExpress');
 
 //Rutas Mano a Mano
 $router->get('/manoAmano','PedidosController@manoAmano');
@@ -78,9 +81,7 @@ $router->get('manoAmanoPorSeptimo','PedidosController@manoAmanoPorSeptimo');
 
 
 //Rutas de Gráficos
-$router->get('/controlStockGraficoIdProducto/{idProducto}','PedidosController@controlStockGraficoIdProducto');
-$router->get('/controlStockGraficoIdAtributo/{idAtributo}','PedidosController@controlStockGraficoIdAtributo');
-$router->get('/controlStockGraficoTotal/{idProducto}/{idAtributo}','PedidosController@controlStockGraficoTotal');
+$router->get('/controlStockGraficoIdProducto/{ean13}','PedidosController@controlStockGraficoIdProducto');
 
 //Rutas Makro
 $router->get('/productosTotalesMakro','PedidosController@productosTotalesMakro');
@@ -205,3 +206,15 @@ $router->get('previsionIncidencias','PrevisionesController@previsionIncidencias'
 
 //Funciones categorias anuales por opciones
 $router->get('categoriasPorOpciones/{idCategory}/{fechaInicio}/{fechaFin}/{opcion}','EstadisticasController@categoriasPorOpciones');
+
+
+//Ping
+$router->get('pruebaPing','PedidosController@pruebaPing');
+
+
+//Prueba Json
+$router->get('textoJson','PedidosController@textoJson');
+$router->get('enviarMensaje','PedidosController@enviarMensaje');
+
+
+

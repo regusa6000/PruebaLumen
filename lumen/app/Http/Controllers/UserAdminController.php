@@ -81,6 +81,16 @@ class UserAdminController extends Controller{
 
         }
 
+        function datosEmail($idUser){
+
+            $resultado = DB::table('ng_users AS u')
+                        ->select('*')
+                        ->where('u.id_user','=',$idUser)
+                        ->get();
+
+            return $resultado;
+        }
+
     }
 
 ?>

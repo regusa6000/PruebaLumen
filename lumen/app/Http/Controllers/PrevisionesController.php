@@ -307,7 +307,7 @@
                                     DB::raw("ROUND(sum(od.total_price_tax_excl),2) AS 'suma_importe'"))
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where(DB::raw('DATEDIFF(NOW(),o.date_add)'),'=',DB::raw("0 AND o.reference LIKE 'INCI-%'"))
+                        ->where(DB::raw('DATEDIFF(NOW(),o.date_add)'),'>',DB::raw("30 AND o.reference LIKE 'INCI-%'"))
                         ->groupBy('od.product_id')
                         ->orderBy(DB::raw('sum(od.total_price_tax_excl)'),'DESC')
                         ->limit(10)
