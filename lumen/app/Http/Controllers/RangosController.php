@@ -113,6 +113,7 @@ class RangosController extends Controller{
 
         $resultado = DB::table('aux_makro_rangos AS amr')
                     ->select(   'amr.ean13','amr.id_product','amr.nombreProducto','amr.nombreAtributo','amr.valorAtributo','amr.rango',
+                                DB::raw("CONCAT(ROUND(amr.porcentaje_dto,2),'%') AS porcentaje_dto"),
                                 DB::raw("CONCAT(ROUND(precio_sin_iva,2),'€') as precio_sin_iva"),
                                 DB::raw("CONCAT(ROUND(((amr.precio_sin_iva - amr.pmp)/ amr.precio_sin_iva)*100,2),'%') AS margenNuevo"))
                     ->where('amr.ean13','=',$ean13)
@@ -124,11 +125,12 @@ class RangosController extends Controller{
 
         $ean13 = $request->input('ean13');
         $rango = $request->input('rango');
+        $descuento = $request->input('descuento');
         $precio = $request->input('precio');
 
         $resultado = DB::table('aux_makro_rangos AS amr')
                     ->where('amr.ean13','=',DB::raw("$ean13 AND amr.rango = $rango"))
-                    ->update(['amr.precio_sin_iva' => $precio]);
+                    ->update(['amr.precio_sin_iva' => $precio, 'amr.porcentaje_dto' => $descuento]);
 
         return $resultado;
     }
@@ -167,6 +169,8 @@ class RangosController extends Controller{
         $margen = $request->input('margen');
         $pmp = $request->input('pmp');
         $precio = $request->input('precio_sin_iva');
+        $descuento = $request->input('porcentaje_dto');
+        $precioPadre = $request->input('precioUnidadAx');
 
         $consulta = DB::table('aux_makro_rangos')->insert([
             'id_product'=>$id_product,
@@ -177,7 +181,9 @@ class RangosController extends Controller{
             'rango'=>$rango,
             'margen'=>$margen,
             'pmp'=>$pmp,
-            'precio_sin_iva'=>$precio
+            'precio_sin_iva'=>$precio,
+            'porcentaje_dto'=>$descuento,
+            'precioUnidadAx'=>$precioPadre
         ]);
 
         return $consulta;

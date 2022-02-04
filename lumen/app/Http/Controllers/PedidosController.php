@@ -10,18 +10,20 @@ class PedidosController extends Controller{
 
         function controlPedidosAlmacen(){
 
-            $resultado = DB::table('hg_orders')
-                        ->select('*')
-                        ->join('hg_ewax_orders','hg_orders.id_order','=','hg_ewax_orders.id_order')
-                        ->where('hg_ewax_orders.send_ok','!=',
-                                DB::raw("1 and (hg_orders.current_state = 2 OR
-                                                 hg_orders.current_state = 89 OR
-                                                 hg_orders.current_state = 8 OR
-                                                 (hg_orders.current_state = 1 AND
-                                                 hg_orders.payment = 'Pago con tarjeta Redsys')) AND
-                                                 TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()) < 30 AND
-                                                 TIMESTAMPDIFF(MINUTE,hg_orders.date_add,NOW()) > 60"))
-
+           $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order'
+                                ,'o.reference'
+                                ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url")
+                                ,'o.payment'
+                                ,'o.date_add')
+                        ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
+                        ->where('ewo.send_ok','!=',DB::raw("1 AND (o.current_state = 2 OR
+                                                            o.current_state = 89 OR
+                                                            o.current_state = 8 OR
+                                                            (o.current_state = 1 AND
+                                                            o.payment = 'Pago con tarjeta Redsys')) AND
+                                                            TIMESTAMPDIFF(DAY,o.date_add,NOW()) < 30 AND
+                                                            TIMESTAMPDIFF(MINUTE,o.date_add,NOW()) > 60 "))
                         ->get();
 
             return response()->json($resultado);
