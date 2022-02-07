@@ -298,7 +298,7 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
                         ->where('p.active','=',1)
-                        ->where('man.division','=',1.200000)
+                        ->where('man.division','=',DB::raw('1.200000 OR man.division = 1.190000'))
                         ->get();
 
             return response()->json($resultado);
@@ -419,17 +419,17 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
-                        ->where('p.active','=',1)
-                        ->where('man.division','!=',1.200000)
-                        ->where('man.division','!=',1.030000)
-                        ->where('man.division','!=',1.210000)
-                        ->where('man.division','!=',1.170000)
-                        ->where('man.division','!=',1.180000)
-                        ->where('man.division','!=',1.000000)
-                        ->where('man.division','!=',1.060000)
-                        ->where('man.division','!=',1.070000)
-                        ->where('man.division','!=',1.050000)
-                        ->where('man.division','!=',1.100000)
+                        ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
+                                                        man.division <> 1.190000 AND
+                                                        man.division <> 1.030000 AND
+                                                        man.division <> 1.210000 AND
+                                                        man.division <> 1.170000 AND
+                                                        man.division <> 1.180000 AND
+                                                        man.division <> 1.000000 AND
+                                                        man.division <> 1.060000 AND
+                                                        man.division <> 1.070000 AND
+                                                        man.division <> 1.050000 AND
+                                                        man.division <> 1.100000'))
                         ->get();
 
             return response()->json($resultado);
@@ -448,17 +448,17 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
                                 DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
-                        ->where('p.active','=',1)
-                        ->where('man.division','!=',1.200000)
-                        ->where('man.division','!=',1.030000)
-                        ->where('man.division','!=',1.210000)
-                        ->where('man.division','!=',1.170000)
-                        ->where('man.division','!=',1.180000)
-                        ->where('man.division','!=',1.000000)
-                        ->where('man.division','!=',1.060000)
-                        ->where('man.division','!=',1.050000)
-                        ->where('man.division','!=',1.070000)
-                        ->where('man.division','!=',1.100000)
+                        ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
+                                                        man.division <> 1.190000 AND
+                                                        man.division <> 1.030000 AND
+                                                        man.division <> 1.210000 AND
+                                                        man.division <> 1.170000 AND
+                                                        man.division <> 1.180000 AND
+                                                        man.division <> 1.000000 AND
+                                                        man.division <> 1.060000 AND
+                                                        man.division <> 1.070000 AND
+                                                        man.division <> 1.050000 AND
+                                                        man.division <> 1.100000'))
                         ->get();
 
             return response()->json(count($resultado));
@@ -797,45 +797,73 @@ class PedidosController extends Controller{
 
         function pruebaPing(){
 
-            $ip = '147.135.161.121';
-            $url = $ip ; $ch = curl_init($url); curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $data = curl_exec($ch);
-            $health = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            if ($health) {
-                $json = json_encode(['health' => $health, 'status' => '1']);
-                return $json;
-            } else {
-                $json = json_encode(['health' => $health, 'status' => '0']);
-                return $json;
+            $clases = new PedidosController;
+
+            $respuesta = $clases->ping();
+
+            if($respuesta == 0){
+                $clases->generar();
+            }else{
+                echo "Todo Bien";
             }
 
         }
 
-        function enviarMensaje(){
+        function ping(){
+
+            $ip = '147.135.161.121';
+                $url = $ip ; $ch = curl_init($url); curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $data = curl_exec($ch);
+                $health = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+                if ($health) {
+                    $json = json_encode(['health' => $health, 'status' => '1']);
+                    return 1;
+                } else {
+                    $json = json_encode(['health' => $health, 'status' => '0']);
+                    return 0;
+                }
+        }
+
+        function generar(){
 
             $claveApi = '2eX0GNKponBuheog5AAQ';
 
-            $json = array(
-                array(
-                    "recipient"=>"+34611612038",
-                    "body"=>"Mensaje de Prueba",
-                    "sender"=>"ORION91"
-                )
-            );
+            $cuerpo = "Servidor Caido ORION91. Enlace: https://raiolanetworks.es/clientes/. user: informatica@hidalgosgroup.com .  pass: @w2d*gnGQL^swjoBjXx55  .Telefono Raiola: 982776081";
 
-            $clase = new PedidosController;
-            $rutahttp = "https://acumbamail.com/api/1/".$clase->sendSMS($claveApi,$json)."/";
+                $json = array(
+                    array(
+                        "recipient"=>"+34611612038",
+                        "body"=>$cuerpo,
+                        "sender"=>"ORION91"
+                    ),
+                    array(
+                        "recipient"=>"+34652187504",
+                        "body"=>$cuerpo,
+                        "sender"=>"ORION91"
+                    ),
+                    array(
+                        "recipient"=>"+34651066618",
+                        "body"=>$cuerpo,
+                        "sender"=>"ORION91"
+                    )
+                );
 
-            return $rutahttp;
+                $enviar = json_encode($json);
+
+            $url = "https://acumbamail.com/api/1/sendSMS/";
+            $curl = curl_init($url);
+            curl_setopt($curl,CURLOPT_POSTFIELDS, array(
+                "auth_token" => $claveApi,
+                "messages"=> $enviar
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $json = json_decode($response, true);
+
+            echo $json;
         }
-
-        function sendSMS($auth_token,$JSON){
-
-            json_encode($JSON);
-        }
-
 
     }
 ?>

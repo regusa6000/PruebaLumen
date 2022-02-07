@@ -10,6 +10,7 @@ class RangosController extends Controller{
 
         $resultado = DB::table('aux_makro_offers AS am')
                     ->select(   'am.gtin','am.sku','am.itemid','am.name','am.stock',
+                                DB::raw("CONCAT(ROUND(am.pricePs,2),'€') AS 'pricePs'"),
                                 DB::raw("ROUND(am.pack) AS pack"),
                                 DB::raw("ROUND(am.pallet) AS pallet"),
                                 DB::raw("CONCAT(ROUND(am.pmp,2),'€') AS pmp"),
@@ -159,7 +160,6 @@ class RangosController extends Controller{
 
     function registrarNuevoRango(Request $request){
 
-
         $id_product = $request->input('id_product');
         $ean13 = $request->input('ean13');
         $name = $request->input('nombreProducto');
@@ -171,6 +171,7 @@ class RangosController extends Controller{
         $precio = $request->input('precio_sin_iva');
         $descuento = $request->input('porcentaje_dto');
         $precioPadre = $request->input('precioUnidadAx');
+        $precioPs = $request->input('precioPadre');
 
         $consulta = DB::table('aux_makro_rangos')->insert([
             'id_product'=>$id_product,
@@ -183,7 +184,8 @@ class RangosController extends Controller{
             'pmp'=>$pmp,
             'precio_sin_iva'=>$precio,
             'porcentaje_dto'=>$descuento,
-            'precioUnidadAx'=>$precioPadre
+            'precioUnidadAx'=>$precioPadre,
+            'precioPs'=>$precioPs
         ]);
 
         return $consulta;
