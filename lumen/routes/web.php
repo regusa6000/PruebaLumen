@@ -216,5 +216,10 @@ $router->get('pruebaPing','PedidosController@pruebaPing');
 $router->get('textoJson','PedidosController@textoJson');
 $router->get('enviarMensaje','PedidosController@enviarMensaje');
 
+//Roturas de Stock
+$router->get('roturaStock','EstadisticasController@roturaStock');
 
 
+//Alertas de Pagos
+$router->get('pedidosFraccionados','PedidosController@pedidosFraccionados');
+$router->get('badgePedidosFraccionados','PedidosController@badgePedidosFraccionados');

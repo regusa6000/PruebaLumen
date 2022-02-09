@@ -15,7 +15,7 @@ class RangosController extends Controller{
                                 DB::raw("ROUND(am.pallet) AS pallet"),
                                 DB::raw("CONCAT(ROUND(am.pmp,2),'€') AS pmp"),
                                 DB::raw("CONCAT(ROUND(am.margen,2),'%') AS margen"),
-                                DB::raw("CONCAT(ROUND(am.price,2),'€') AS price"),
+                                DB::raw("CONCAT(ROUND(am.price,2),'€') AS priceMakro"),
                                 DB::raw("IFNULL(am.category_default,'Sin categoría por defecto') AS category_default"),
                                 DB::raw('(SELECT COUNT(aux_makro_rangos.rango)FROM aux_makro_rangos WHERE aux_makro_rangos.ean13 = am.sku) AS contadorRangos')
                                 ,'amr.ean13','amr.nombreProducto','amr.rango',

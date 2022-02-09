@@ -2712,7 +2712,8 @@
 
             $resultado = DB::table('hg_stock_available AS sa')
                         ->select(   'p.id_product','pa.id_product_attribute','pl.name','pa.default_on',"sa.quantity AS cantidad_combinacion",
-                                    DB::raw("(SELECT sum(sa1.quantity) FROM hg_stock_available AS sa1 WHERE sa1.id_product = sa.id_product GROUP BY sa1.id_product, sa1.id_product_attribute LIMIT 1) AS 'total_producto'"))
+                                    DB::raw("(SELECT sum(sa1.quantity) FROM hg_stock_available AS sa1 WHERE sa1.id_product = sa.id_product GROUP BY sa1.id_product, sa1.id_product_attribute LIMIT 1) AS 'total_producto'"),
+                                    DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php/sell/catalog/products/',p.id_product) AS url"))
                         ->join('hg_product_attribute AS pa','pa.id_product_attribute','=','sa.id_product_attribute')
                         ->join('hg_product AS p','p.id_product','=','sa.id_product')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('sa.id_product AND pl.id_lang = 1'))
@@ -2804,6 +2805,53 @@
 
             return response()->json($resultado);
 
+        }
+
+        /**FUNCIÓN ROTURA DE STOCK**/
+        function roturaStock(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select('p.id_product'
+                                ,DB::raw("IFNULL(pa.id_product_attribute,'Sin IdAtributo') AS id_product_attribute")
+                                ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
+                                ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,"pl.name AS producto"
+                                ,DB::raw("IFNULL(agl.name,'Sin Atriuto') AS atributo")
+                                ,DB::raw("IFNULL(al.name,'Sin Valor Att') AS 'valor_att'")
+                                ,DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock')
+                                ,DB::raw("(SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id) AS ud_30_dias")
+                                ,DB::raw("ROUND((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/30,2) AS m_30")
+                                ,DB::raw("ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/30)),2) AS 'rotura_en'"))
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang as pl','pl.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute as a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
+                        ->where('p.active','=',DB::raw('1 AND IFNULL(stock_a.quantity, stock.quantity) > 0
+                                                            AND IFNULL(stock_a.quantity, stock.quantity) <=
+                                                            (SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                                                INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0)
+                                                                GROUP BY od90.product_id, od90.product_attribute_id)'))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
         }
 
     }

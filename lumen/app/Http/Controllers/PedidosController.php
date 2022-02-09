@@ -865,5 +865,35 @@ class PedidosController extends Controller{
             echo $json;
         }
 
+        function pedidosFraccionados(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order'
+                                ,'o.reference'
+                                ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url")
+                                ,'o.payment'
+                                ,'o.date_add')
+                        ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
+                        ->where('o.payment','=',DB::raw("'Paga Fraccionada' AND o.current_state = 13"))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function badgePedidosFraccionados(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order'
+                                ,'o.reference'
+                                ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url")
+                                ,'o.payment'
+                                ,'o.date_add')
+                        ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
+                        ->where('o.payment','=',DB::raw("'Paga Fraccionada' AND o.current_state = 13"))
+                        ->get();
+
+            return count($resultado);
+        }
+
     }
 ?>
