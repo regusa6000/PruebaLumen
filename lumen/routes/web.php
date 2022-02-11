@@ -223,3 +223,8 @@ $router->get('roturaStock','EstadisticasController@roturaStock');
 //Alertas de Pagos
 $router->get('pedidosFraccionados','PedidosController@pedidosFraccionados');
 $router->get('badgePedidosFraccionados','PedidosController@badgePedidosFraccionados');
+
+
+//Pedidos Sin Stock Makro
+$router->get('pedidosSinStockMakro','PedidosController@pedidosSinStockMakro');
+$router->get('badgepedidosSinStockMakro','PedidosController@badgepedidosSinStockMakro');

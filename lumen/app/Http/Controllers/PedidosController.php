@@ -874,7 +874,7 @@ class PedidosController extends Controller{
                                 ,'o.payment'
                                 ,'o.date_add')
                         ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
-                        ->where('o.payment','=',DB::raw("'Paga Fraccionada' AND o.current_state = 13"))
+                        ->where('o.payment','=',DB::raw("'Paga Fraccionado' AND o.current_state = 13"))
                         ->get();
 
             return response()->json($resultado);
@@ -889,10 +889,29 @@ class PedidosController extends Controller{
                                 ,'o.payment'
                                 ,'o.date_add')
                         ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
-                        ->where('o.payment','=',DB::raw("'Paga Fraccionada' AND o.current_state = 13"))
+                        ->where('o.payment','=',DB::raw("'Paga Fraccionado' AND o.current_state = 13"))
                         ->get();
 
             return count($resultado);
+        }
+
+        function pedidosSinStockMakro(){
+
+            $resultado = DB::table('aux_makro_sin_stock')
+                        ->select('*')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function badgepedidosSinStockMakro(){
+
+            $resultado = DB::table('aux_makro_sin_stock')
+                        ->select('*')
+                        ->get();
+
+            return count($resultado);
+
         }
 
     }

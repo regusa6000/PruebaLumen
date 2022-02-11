@@ -2819,18 +2819,18 @@
                                 ,DB::raw("IFNULL(agl.name,'Sin Atriuto') AS atributo")
                                 ,DB::raw("IFNULL(al.name,'Sin Valor Att') AS 'valor_att'")
                                 ,DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock')
-                                ,DB::raw("(SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                ,DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
-                                                GROUP BY od90.product_id, od90.product_attribute_id) AS ud_30_dias")
-                                ,DB::raw("ROUND((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_30_dias")
+                                ,DB::raw("IFNULL(ROUND((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
-                                                GROUP BY od90.product_id, od90.product_attribute_id)/30,2) AS m_30")
-                                ,DB::raw("ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/30,2),0) AS m_30")
+                                ,DB::raw("IFNULL(ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
-                                                GROUP BY od90.product_id, od90.product_attribute_id)/30)),2) AS 'rotura_en'"))
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/30)),2),0) AS 'rotura_en'"))
                         ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
                         ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
                         ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
@@ -2848,7 +2848,10 @@
                                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0)
                                                                 GROUP BY od90.product_id, od90.product_attribute_id)'))
                         ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
-                        ->orderBy('p.id_product','DESC')
+                        ->orderBy(DB::raw('ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                            WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                            GROUP BY od90.product_id, od90.product_attribute_id)/30)),2)'),'ASC')
                         ->get();
 
             return response()->json($resultado);
