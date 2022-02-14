@@ -228,3 +228,6 @@ $router->get('badgePedidosFraccionados','PedidosController@badgePedidosFracciona
 //Pedidos Sin Stock Makro
 $router->get('pedidosSinStockMakro','PedidosController@pedidosSinStockMakro');
 $router->get('badgepedidosSinStockMakro','PedidosController@badgepedidosSinStockMakro');
+
+//Porcentaje de transportistas
+$router->get('porcentajeTransportistas','EstadisticasController@porcentajeTransportistas');

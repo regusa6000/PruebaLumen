@@ -575,10 +575,10 @@ class PedidosController extends Controller{
         function controlAliExpress(){
 
             $resultado = DB::table('hg_aliexpress_error AS ali_err')
-                        ->select(DB::raw("CONVERT(ali_err.item_id,char) AS 'Pedido Aliexpress'")
+                        ->select(DB::raw("CONVERT(ali_err.item_id,char) AS 'Pedido_Aliexpress'")
                                 ,"ali_err.error AS Error"
                                 ,"ali_err.code AS Code"
-                                ,"ali_err.date_upd AS Fecha Actualizacion",
+                                ,"ali_err.date_upd AS Fecha_Actualizacion",
                                 'ali_err.id_aliexpress_error As idAli')
                         ->where('ali_err.item','=','order')
                         ->get();

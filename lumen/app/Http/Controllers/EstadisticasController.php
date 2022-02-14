@@ -2857,6 +2857,49 @@
             return response()->json($resultado);
         }
 
+
+        /**Función porcentajes transportistas**/
+        function porcentajeTransportistas(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(DB::raw("date_format(hg_orders.date_add, '%d-%m-%Y') AS date")
+                                ,DB::raw("week(hg_orders.date_add,7) AS week")
+                                ,DB::raw("COUNT(hg_orders.id_order) AS total")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%paa%' AND o.valid = 1 AND o.current_state = 4) AS paack")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%gls%' AND o.valid = 1 AND o.current_state = 4) AS gls")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%Tolosa%' AND o.valid = 1 AND o.current_state = 4) AS Tolosa")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%envia%'  AND o.valid = 1 AND o.current_state = 4) AS Envialia")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)  AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%tipsa%'  AND o.valid = 1 AND o.current_state = 4) AS Tipsa")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%seur%' AND o.valid = 1 AND o.current_state = 89) AS Seur"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=',DB::raw('hg_orders.id_order WHERE DATEDIFF(NOW(), hg_orders.date_add) < 60
+                                                                                    AND hg_orders.valid = 1 AND (hg_orders.current_state = 4  OR hg_orders.current_state = 89)'))
+                        ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
+                        ->orderBy(DB::raw("YEAR(hg_orders.date_add)"),'DESC')
+                        ->orderBy(DB::raw('MONTH(hg_orders.date_add)'), 'DESC')
+                        ->orderBy(DB::raw('day(hg_orders.date_add)'), 'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

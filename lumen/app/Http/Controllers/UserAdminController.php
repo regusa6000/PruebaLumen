@@ -35,7 +35,7 @@ class UserAdminController extends Controller{
                                 ->select('*')
                                 ->where('email','=',$email)
                                 ->get();
-                    return response()->json(['message'=> 'OK','data'=>$datosUser]);
+                    return response()->json(['message'=> 'OK','data'=>$datosUser,'token'=>$datosUser]);
                 }
 
             }
