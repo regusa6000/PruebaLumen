@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class RangosController extends Controller{
 
@@ -114,9 +115,9 @@ class RangosController extends Controller{
 
         $resultado = DB::table('aux_makro_rangos AS amr')
                     ->select(   'amr.ean13','amr.id_product','amr.nombreProducto','amr.nombreAtributo','amr.valorAtributo','amr.rango',
-                                DB::raw("CONCAT(ROUND(amr.porcentaje_dto,2),'%') AS porcentaje_dto"),
-                                DB::raw("CONCAT(ROUND(precio_sin_iva,2),'€') as precio_sin_iva"),
-                                DB::raw("CONCAT(ROUND(((amr.precio_sin_iva - amr.pmp)/ amr.precio_sin_iva)*100,2),'%') AS margenNuevo"))
+                                DB::raw("ROUND(amr.porcentaje_dto,2) AS porcentaje_dto"),
+                                DB::raw("ROUND(precio_sin_iva,2) as precio_sin_iva"),
+                                DB::raw("ROUND(((amr.precio_sin_iva - amr.pmp)/ amr.precio_sin_iva)*100,2) AS margenNuevo"))
                     ->where('amr.ean13','=',$ean13)
                     ->get();
         return response()->json($resultado);
@@ -190,6 +191,42 @@ class RangosController extends Controller{
 
         return $consulta;
 
+    }
+
+
+    function pruebaRangos(){
+
+        $productosPublicados = DB::table('aux_makro_offers AS am')
+                    ->select(   'am.gtin','am.sku','am.itemid','am.name','am.stock',
+                                DB::raw("CONCAT(ROUND(am.pricePs,2),'€') AS 'pricePs'"),
+                                DB::raw("ROUND(am.pack) AS pack"),
+                                DB::raw("ROUND(am.pallet) AS pallet"),
+                                DB::raw("CONCAT(ROUND(am.pmp,2),'€') AS pmp"),
+                                DB::raw("CONCAT(ROUND(am.margen,2),'%') AS margen"),
+                                DB::raw("CONCAT(ROUND(am.price,2),'€') AS priceMakro"),
+                                DB::raw("IFNULL(am.category_default,'Sin categoría por defecto') AS category_default"),
+                                DB::raw('(SELECT COUNT(aux_makro_rangos.rango)FROM aux_makro_rangos WHERE aux_makro_rangos.ean13 = am.sku) AS contadorRangos')
+                                ,'amr.ean13','amr.nombreProducto','amr.rango',
+                                DB::raw('ROUND(amr.precio_sin_iva,2) as precio_sin_iva'))
+                    ->leftJoin('aux_makro_rangos AS amr','amr.ean13','=','am.sku')
+                    ->where('am.status','=',1)
+                    ->groupBy('am.sku')
+                    ->orderBy('am.name','ASC')
+                    ->get();
+
+
+        $jsonResult = array();
+
+        for($a = 0 ; $a < count($productosPublicados); $a++){
+            $jsonResult[$a]['producto'] = $productosPublicados[$a];
+            $jsonResult[$a]['rangos'] = DB::table('aux_makro_rangos AS amr')
+                                                ->select('*')
+                                                ->where('amr.ean13','=',$productosPublicados[$a]->ean13)
+                                                ->get();
+
+        }
+
+        return response()->json($jsonResult);
     }
 
 }

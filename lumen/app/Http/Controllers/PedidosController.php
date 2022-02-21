@@ -776,11 +776,12 @@ class PedidosController extends Controller{
 
             $resultado = DB::table('hg_category_product AS cp')
                         ->select('cp.id_category','cl.name','cp.id_product','pl.name','cp.position','sav.quantity','image_shop.id_image AS id_image')
+                        ->join('hg_product AS p','p.id_product','=','cp.id_product')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cp.id_category AND cl.id_lang = 1'))
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('cp.id_product AND pl.id_lang = 1'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('cp.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->leftJoin('hg_stock_available AS sav','sav.id_product','=',DB::raw('cp.id_product AND sav.id_product_attribute = 0 AND sav.id_shop = 1 AND sav.id_shop_group = 0'))
-                        ->where('cp.id_category','=',$idCategoria)
+                        ->where('cp.id_category','=', DB::raw("$idCategoria AND p.active = 1"))
                         ->orderBy('cp.position','ASC')
                         ->get();
 

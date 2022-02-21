@@ -2889,7 +2889,7 @@
                                             LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
                                                 WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
                                                 AND carr.name LIKE '%seur%' AND o.valid = 1 AND o.current_state = 89) AS Seur"))
-                        ->join('hg_ewax_orders AS eo','eo.id_order','=',DB::raw('hg_orders.id_order WHERE DATEDIFF(NOW(), hg_orders.date_add) < 60
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=',DB::raw('hg_orders.id_order WHERE DATEDIFF(NOW(), hg_orders.date_add) < 30
                                                                                     AND hg_orders.valid = 1 AND (hg_orders.current_state = 4  OR hg_orders.current_state = 89)'))
                         ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
                         ->orderBy(DB::raw("YEAR(hg_orders.date_add)"),'DESC')

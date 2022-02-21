@@ -231,3 +231,8 @@ $router->get('badgepedidosSinStockMakro','PedidosController@badgepedidosSinStock
 
 //Porcentaje de transportistas
 $router->get('porcentajeTransportistas','EstadisticasController@porcentajeTransportistas');
+
+
+
+//Prueba RangosMakro
+$router->get('pruebaRangos','RangosController@pruebaRangos');
