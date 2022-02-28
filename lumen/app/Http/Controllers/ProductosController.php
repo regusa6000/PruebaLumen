@@ -124,6 +124,46 @@ class ProductosController extends Controller{
 
             return response()->json($producto);
         }
+
+
+        /**FUNCIONES CATEGORIAS REDIRECCIONADAS**/
+        function categoriasRedireccionadas(){
+
+            $resultado = DB::table('hg_category_lang AS cl')
+                        ->select(DB::raw("CONCAT('https://orion91.com/', cl.link_rewrite) AS url_antigua")
+                                ,'cl.id_category'
+                                ,DB::raw("(SELECT redi.url_new FROM hg_lgseoredirect AS redi
+                                            WHERE CONCAT('https://orion91.com',redi.url_old) = CONCAT('https://orion91.com/', cl.link_rewrite)) AS url_destino")
+                                ,'p.id_product','pl.name','p.active')
+                        ->leftJoin('hg_product AS p','p.id_category_default','=','cl.id_category')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('cl.id_lang','=',DB::raw("1 AND p.active = 1
+                                                            AND (SELECT CONCAT('https://orion91.com',redi.url_old) FROM hg_lgseoredirect AS redi
+                                                            WHERE CONCAT('https://orion91.com',redi.url_old) = CONCAT('https://orion91.com/', cl.link_rewrite)) IS NOT null"))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countCategoriasRedireccionadas(){
+
+            $resultado = DB::table('hg_category_lang AS cl')
+                        ->select(DB::raw("CONCAT('https://orion91.com/', cl.link_rewrite) AS url_antigua")
+                                ,'cl.id_category'
+                                ,DB::raw("(SELECT CONCAT('https://orion91.com',redi.url_new) FROM hg_lgseoredirect AS redi
+                                            WHERE CONCAT('https://orion91.com',redi.url_old) = CONCAT('https://orion91.com/', cl.link_rewrite)) AS url_destino")
+                                ,'p.id_product','pl.name','p.active')
+                        ->leftJoin('hg_product AS p','p.id_category_default','=','cl.id_category')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('cl.id_lang','=',DB::raw("1 AND p.active = 1
+                                                            AND (SELECT CONCAT('https://orion91.com',redi.url_old) FROM hg_lgseoredirect AS redi
+                                                            WHERE CONCAT('https://orion91.com',redi.url_old) = CONCAT('https://orion91.com/', cl.link_rewrite)) IS NOT null"))
+                        ->get();
+
+            return count($resultado);
+        }
+
+
     }
 
 ?>

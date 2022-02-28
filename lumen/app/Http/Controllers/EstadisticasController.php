@@ -625,63 +625,123 @@
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                             GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                         INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                         INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                             GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                         INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                         INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                             GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                         INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                         INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                             GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -741,72 +801,12 @@
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                             WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                            GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                            GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("(SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=',0)
                 ->orderBy('cat.id_category','ASC')
                 ->get();
@@ -821,63 +821,123 @@
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                                     GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                                 INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                                 INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                                     GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                                 INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                                 INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                                     GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                                 INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                                 INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                                     GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -937,67 +997,7 @@
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where('cat.id_category','=',$idCategory)
                 ->orderBy('cat.id_category','ASC')
@@ -1073,75 +1073,147 @@
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                             AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
                                             GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                         INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                         INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                             AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
                                             GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                         INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                         INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                             AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
                                             GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                         INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                         INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                             AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
                                             GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
+                                            GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
+                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
+                                            GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
+                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -1214,89 +1286,17 @@
                                             WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                            AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
-                                            GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                            AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
-                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                            AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
-                                            GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                            AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
-                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"),
                             DB::raw("   IFNULL((SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                             GROUP BY p6.id_category_default),0) AS 'Media2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("(SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=',0)
                 ->orderBy('cat.id_category','ASC')
                 ->get();
@@ -1356,75 +1356,147 @@
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                                     AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
                                                     GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                                 INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                                 INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                                     AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
                                                     GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                                 INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                                 INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                                     AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
                                                     GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                                 INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                                 INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                                     AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
                                                     GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
+                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
+                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
+                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
+                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -1496,79 +1568,7 @@
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                                    AND o2.payment = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
-                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                                    AND o3.payment = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
-                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                                    AND o4.payment = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
-                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                                    AND o5.payment = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
-                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.payment = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where('cat.id_category','=',$idCategory)
                 ->orderBy('cat.id_category','ASC')
@@ -1586,75 +1586,147 @@
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                             AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
                                             GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                         INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                         INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                             AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
                                             GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                         INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                         INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                             AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
                                             GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                         INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                         INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                             AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
                                             GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
+                                            GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
+                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
+                                            GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
+                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -1726,86 +1798,14 @@
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                             WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                            AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
-                                            GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                            AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
-                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                            AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
-                                            GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                            AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
-                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
 
 
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("   (SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=',0)
                 ->orderBy('cat.id_category','ASC')
                 ->get();
@@ -1820,75 +1820,147 @@
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                             AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
                                             GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                         INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                         INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                             AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
                                             GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                         INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                         INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                             AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
                                             GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                         INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                         INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                             AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
                                             GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
                                             GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                            WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                            AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
+                                            GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                            WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                            AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
+                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                            WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                            AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
+                                            GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                            WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                            AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
+                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                            WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                             DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                         INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                         INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -1960,86 +2032,14 @@
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                             WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                        INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                        INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                            WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                            AND (o2.payment = 'Pago con tarjeta Redsys' OR o2.payment = 'Redsys BBVA' OR o2.payment = 'Paga Fraccionado' OR o2.payment = 'Sequra - Pago flexible' OR  o2.payment = 'Bizum' or o2.payment = 'PayPal' OR o2.payment = 'Transferencia bancaria' AND o2.current_state <> 6 AND o2.current_state <> 7)
-                                            GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                        INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                        INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                            WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                            AND (o3.payment = 'Pago con tarjeta Redsys' OR o3.payment = 'Redsys BBVA' OR o3.payment = 'Paga Fraccionado' OR o3.payment = 'Sequra - Pago flexible' OR  o3.payment = 'Bizum' or o3.payment = 'PayPal' OR o3.payment = 'Transferencia bancaria' AND o3.current_state <> 6 AND o3.current_state <> 7)
-                                            GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                        INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                        INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                            WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                            AND (o4.payment = 'Pago con tarjeta Redsys' OR o4.payment = 'Redsys BBVA' OR o4.payment = 'Paga Fraccionado' OR o4.payment = 'Sequra - Pago flexible' OR  o4.payment = 'Bizum' or o4.payment = 'PayPal' OR o4.payment = 'Transferencia bancaria' AND o4.current_state <> 6 AND o4.current_state <> 7)
-                                            GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                        INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                        INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                            WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                            AND (o5.payment = 'Pago con tarjeta Redsys' OR o5.payment = 'Redsys BBVA' OR o5.payment = 'Paga Fraccionado' OR o5.payment = 'Sequra - Pago flexible' OR  o5.payment = 'Bizum' or o5.payment = 'PayPal' OR o5.payment = 'Transferencia bancaria' AND o5.current_state <> 6 AND o5.current_state <> 7)
-                                            GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                            DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                        INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                        INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                            AND (o6.payment = 'Pago con tarjeta Redsys' OR o6.payment = 'Redsys BBVA' OR o6.payment = 'Paga Fraccionado' OR o6.payment = 'Sequra - Pago flexible' OR  o6.payment = 'Bizum' or o6.payment = 'PayPal' OR o6.payment = 'Transferencia bancaria' AND o6.current_state <> 6 AND o6.current_state <> 7)
-                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                            GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
 
 
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("   (SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=',DB::raw("0 AND cat.id_category = $idCategory"))
                 ->get();
 
@@ -2058,75 +2058,146 @@
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                                     AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
                                                     GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                                 INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                                 INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                                     AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
                                                     GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                                 INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                                 INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                                     AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
                                                     GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                                 INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                                 INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                                     AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
                                                     GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
+                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
+                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
+                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
+                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'MAYO20201 FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -2185,7 +2256,7 @@
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-10-01 0:00:00' AND o6.date_add <= '2020-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    AND o6.id_customer= '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE2020'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
@@ -2198,84 +2269,12 @@
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                                    AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
-                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                                    AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
-                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                                    AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
-                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                                    AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
-                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer= '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("(SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=',0)
                 ->orderBy('cat.id_category','ASC')
                 ->get();
@@ -2294,75 +2293,147 @@
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    WHERE o2.date_add >= '2022-01-01 0:00:00' AND o2.date_add <= '2022-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
                                                     AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
                                                     GROUP BY p2.id_category_default),0) AS 'ENERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
                                                 INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
                                                 INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    WHERE o3.date_add >= '2022-02-01 0:00:00' AND o3.date_add <= '2022-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
                                                     AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
                                                     GROUP BY p3.id_category_default),0) AS 'FEBRERO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
                                                 INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
                                                 INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    WHERE o4.date_add >= '2022-03-01 0:00:00' AND o4.date_add <= '2022-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
                                                     AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
                                                     GROUP BY p4.id_category_default),0) AS 'MARZO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
                                                 INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
                                                 INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    WHERE o5.date_add >= '2022-04-01 0:00:00' AND o5.date_add <= '2022-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
                                                     AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
                                                     GROUP BY p5.id_category_default),0) AS 'ABRIL'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-05-01 0:00:00' AND o6.date_add <= '2022-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'MAYO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-06-01 0:00:00' AND o6.date_add <= '2022-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JUNIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-07-01 0:00:00' AND o6.date_add <= '2022-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'JULIO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-08-01 0:00:00' AND o6.date_add <= '2022-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'AGOSTO'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-09-01 0:00:00' AND o6.date_add <= '2022-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-10-01 0:00:00' AND o6.date_add <= '2022-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-11-01 0:00:00' AND o6.date_add <= '2022-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    WHERE o6.date_add >= '2022-12-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'DICIEMBRE'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
+                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
+                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
+                                                    WHERE o2.date_add >= '2021-01-01 0:00:00' AND o2.date_add <= '2021-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
+                                                    AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
+                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
+                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
+                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
+                                                    WHERE o3.date_add >= '2021-02-01 0:00:00' AND o3.date_add <= '2021-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
+                                                    AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
+                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
+                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
+                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
+                                                    WHERE o4.date_add >= '2021-03-01 0:00:00' AND o4.date_add <= '2021-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
+                                                    AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
+                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
+                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
+                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
+                                                    WHERE o5.date_add >= '2021-04-01 0:00:00' AND o5.date_add <= '2021-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
+                                                    AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
+                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-05-01 0:00:00' AND o6.date_add <= '2021-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-06-01 0:00:00' AND o6.date_add <= '2021-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-07-01 0:00:00' AND o6.date_add <= '2021-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-08-01 0:00:00' AND o6.date_add <= '2021-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-09-01 0:00:00' AND o6.date_add <= '2021-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-10-01 0:00:00' AND o6.date_add <= '2021-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-11-01 0:00:00' AND o6.date_add <= '2021-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2021'"),
+                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
+                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
+                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
+                                                    WHERE o6.date_add >= '2021-12-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2021'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
                                                 INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
                                                 INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
@@ -2421,7 +2492,7 @@
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-10-01 0:00:00' AND o6.date_add <= '2020-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
+                                                    AND o6.id_customer= '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
                                                     GROUP BY p6.id_category_default),0) AS 'OCTUBRE2020'"),
                                     DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                                 INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
@@ -2434,84 +2505,12 @@
                                                 INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
                                                     WHERE o6.date_add >= '2020-12-01 0:00:00' AND o6.date_add <= '2020-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                                     AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od2.total_price_tax_incl),2) FROM hg_order_detail AS od2
-                                                INNER JOIN hg_product AS p2 ON p2.id_product = od2.product_id
-                                                INNER JOIN hg_orders AS o2 ON o2.id_order = od2.id_order
-                                                    WHERE o2.date_add >= '2019-01-01 0:00:00' AND o2.date_add <= '2019-01-30 23:23:59' AND o2.valid = 1 AND p2.id_category_default = cat.id_category
-                                                    AND o2.id_customer = '".$tienda."' AND o2.current_state <> 6 AND o2.current_state <> 7
-                                                    GROUP BY p2.id_category_default),0) AS 'ENERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od3.total_price_tax_incl),2) FROM hg_order_detail AS od3
-                                                INNER JOIN hg_product AS p3 ON p3.id_product = od3.product_id
-                                                INNER JOIN hg_orders AS o3 ON o3.id_order = od3.id_order
-                                                    WHERE o3.date_add >= '2019-02-01 0:00:00' AND o3.date_add <= '2019-02-30 23:23:59' AND o3.valid = 1 AND p3.id_category_default = cat.id_category
-                                                    AND o3.id_customer = '".$tienda."' AND o3.current_state <> 6 AND o3.current_state <> 7
-                                                    GROUP BY p3.id_category_default),0) AS 'FEBRERO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od4.total_price_tax_incl),2) FROM hg_order_detail AS od4
-                                                INNER JOIN hg_product AS p4 ON p4.id_product = od4.product_id
-                                                INNER JOIN hg_orders AS o4 ON o4.id_order = od4.id_order
-                                                    WHERE o4.date_add >= '2019-03-01 0:00:00' AND o4.date_add <= '2019-03-30 23:23:59' AND o4.valid = 1 AND p4.id_category_default = cat.id_category
-                                                    AND o4.id_customer = '".$tienda."' AND o4.current_state <> 6 AND o4.current_state <> 7
-                                                    GROUP BY p4.id_category_default),0) AS 'MARZO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od5.total_price_tax_incl),2) FROM hg_order_detail AS od5
-                                                INNER JOIN hg_product AS p5 ON p5.id_product = od5.product_id
-                                                INNER JOIN hg_orders AS o5 ON o5.id_order = od5.id_order
-                                                    WHERE o5.date_add >= '2019-04-01 0:00:00' AND o5.date_add <= '2019-04-30 23:23:59' AND o5.valid = 1 AND p5.id_category_default = cat.id_category
-                                                    AND o5.id_customer = '".$tienda."' AND o5.current_state <> 6 AND o5.current_state <> 7
-                                                    GROUP BY p5.id_category_default),0) AS 'ABRIL2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-05-01 0:00:00' AND o6.date_add <= '2019-05-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'MAYO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-06-01 0:00:00' AND o6.date_add <= '2019-06-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JUNIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-07-01 0:00:00' AND o6.date_add <= '2019-07-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'JULIO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-08-01 0:00:00' AND o6.date_add <= '2019-08-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'AGOSTO2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-09-01 0:00:00' AND o6.date_add <= '2019-09-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'SEPTIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-10-01 0:00:00' AND o6.date_add <= '2019-10-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer= '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'OCTUBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-11-01 0:00:00' AND o6.date_add <= '2019-11-30 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'NOVIEMBRE2019'"),
-                                    DB::raw("   IFNULL((SELECT round(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
-                                                INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
-                                                INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                                    WHERE o6.date_add >= '2019-12-01 0:00:00' AND o6.date_add <= '2019-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
-                                                    AND o6.id_customer = '".$tienda."' AND o6.current_state <> 6 AND o6.current_state <> 7
-                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2019'"))
+                                                    GROUP BY p6.id_category_default),0) AS 'DICIEMBRE2020'"))
                 ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                 ->where(    DB::raw("(SELECT ROUND(SUM(od6.total_price_tax_incl),2) FROM hg_order_detail AS od6
                                         INNER JOIN hg_product AS p6 ON p6.id_product = od6.product_id
                                         INNER JOIN hg_orders AS o6 ON o6.id_order = od6.id_order
-                                            WHERE o6.date_add >= '2019-01-01 0:00:00' AND o6.date_add <= '2021-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
+                                            WHERE o6.date_add >= '2020-01-01 0:00:00' AND o6.date_add <= '2022-12-31 23:23:59' AND o6.valid = 1 AND p6.id_category_default = cat.id_category
                                             GROUP BY p6.id_category_default)"),'!=', DB::raw("0 AND cat.id_category = $idCategory"))
                 ->orderBy('cat.id_category','ASC')
                 ->get();

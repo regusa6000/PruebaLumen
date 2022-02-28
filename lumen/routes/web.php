@@ -236,3 +236,12 @@ $router->get('porcentajeTransportistas','EstadisticasController@porcentajeTransp
 
 //Prueba RangosMakro
 $router->get('pruebaRangos','RangosController@pruebaRangos');
+
+
+//
+$router->get('categoriasRedireccionadas','ProductosController@categoriasRedireccionadas');
+$router->get('countCategoriasRedireccionadas','ProductosController@countCategoriasRedireccionadas');
+
+
+//Productos top entre fechas
+$router->get('productosTopEntreFechas/{fechaInicio}/{fechaFin}','PrevisionesController@productosTopEntreFechas');

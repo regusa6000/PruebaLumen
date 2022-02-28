@@ -11,7 +11,7 @@ class RangosController extends Controller{
 
         $resultado = DB::table('aux_makro_offers AS am')
                     ->select(   'am.gtin','am.sku','am.itemid','am.name','am.stock',
-                                DB::raw("CONCAT(ROUND(am.pricePs,2),'€') AS 'pricePs'"),
+                                DB::raw("CONCAT(ROUND(am.pricePs,2),'€') AS pricePs"),
                                 DB::raw("ROUND(am.pack) AS pack"),
                                 DB::raw("ROUND(am.pallet) AS pallet"),
                                 DB::raw("CONCAT(ROUND(am.pmp,2),'€') AS pmp"),

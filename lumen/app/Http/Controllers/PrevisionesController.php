@@ -334,6 +334,30 @@
 
             return response()->json($resultado);
         }
+
+
+        /**Productos top entre fechas**/
+        function productosTopEntreFechas($fechaInicio, $fechaFin){
+
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('p.id_product','pl.name','cl.name AS nombre_cat'
+                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad')
+                                ,DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes'))
+                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->join('hg_product AS p','p.id_product','=','od.product_id')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->where('o.date_add','>=',$fechaInicio)
+                        ->where('o.date_add','<=',$fechaFin)
+                        ->where('o.valid','=',1)
+                        ->groupBy('p.id_product')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>
