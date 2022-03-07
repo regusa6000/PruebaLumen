@@ -406,6 +406,27 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
+        function manoAmanoPorOctavo(){
+
+            $resultado = DB::table('ng_mano_a_mano_aux AS man')
+                        ->select('man.id_product','man.name',
+                                DB::raw('ROUND(man.price,2) AS price'),
+                                DB::raw('ROUND(man.normal_shipping_price,2) AS normal_shipping_price'),
+                                DB::raw('ROUND(man.totalManoMano,2) AS totalManoMano'),
+                                DB::raw('ROUND(man.division,2) AS division'),
+                                DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
+                                DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
+                                DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                        ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->where('p.active','=',1)
+                        ->where('man.division','=', DB::raw('1.140000 OR man.division = 1.150000 OR man.division = 1.160000'))
+                        ->orderBy('man.division','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
         function manoAmanoPorDivision(){
 
             $resultado = DB::table('ng_mano_a_mano_aux AS man')
@@ -429,7 +450,10 @@ class PedidosController extends Controller{
                                                         man.division <> 1.060000 AND
                                                         man.division <> 1.070000 AND
                                                         man.division <> 1.050000 AND
-                                                        man.division <> 1.100000'))
+                                                        man.division <> 1.100000 AND
+                                                        man.division <> 1.150000 AND
+                                                        man.division <> 1.140000 AND
+                                                        man.division <> 1.160000'))
                         ->get();
 
             return response()->json($resultado);
@@ -458,7 +482,10 @@ class PedidosController extends Controller{
                                                         man.division <> 1.060000 AND
                                                         man.division <> 1.070000 AND
                                                         man.division <> 1.050000 AND
-                                                        man.division <> 1.100000'))
+                                                        man.division <> 1.100000 AND
+                                                        man.division <> 1.150000 AND
+                                                        man.division <> 1.140000 AND
+                                                        man.division <> 1.160000'))
                         ->get();
 
             return response()->json(count($resultado));
@@ -729,7 +756,6 @@ class PedidosController extends Controller{
 
 
         //Funciones de categorias
-
         function categoriasName(){
 
             $resultado = DB::table('ng_position_category AS pos')
@@ -763,7 +789,10 @@ class PedidosController extends Controller{
         function categoriasProductosName(){
 
             $resultado = DB::table('hg_category_product AS catpro')
-                        ->select(DB::raw('DISTINCT(catpro.id_category)'),'catlan.name')
+                        ->select(DB::raw('DISTINCT(catpro.id_category)'),'catlan.name'
+                                ,DB::raw('(SELECT count(cp.id_product) FROM hg_category_product AS cp
+                                            INNER JOIN hg_product AS p ON p.id_product = cp.id_product
+                                            WHERE cp.id_category = catpro.id_category AND p.active = 1) AS cantidadProductos'))
                         ->join('hg_category AS cat','cat.id_category','=',DB::raw('catpro.id_category AND cat.active = 1'))
                         ->join('hg_category_lang AS catlan','catlan.id_category','=',DB::raw('catpro.id_category AND catlan.id_lang = 1'))
                         ->orderBy('catpro.id_category','ASC')

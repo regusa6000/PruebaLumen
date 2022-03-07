@@ -78,6 +78,7 @@ $router->get('/manoAmanoPorTercero','PedidosController@manoAmanoPorTercero');
 $router->get('manoAmanoPorCuarto','PedidosController@manoAmanoPorCuarto');
 $router->get('manoAmanoPorSexto','PedidosController@manoAmanoPorSexto');
 $router->get('manoAmanoPorSeptimo','PedidosController@manoAmanoPorSeptimo');
+$router->get('manoAmanoPorOctavo','PedidosController@manoAmanoPorOctavo');
 
 
 //Rutas de Gráficos
@@ -138,7 +139,7 @@ $router->get('/caracteristicasName','PedidosController@categoriasName');
 $router->get('/caracteristicasNamePorIdCategory/{idCategory}','PedidosController@categoriaNamePorIdCategory');
 $router->get('/cambiarPosicionCaracteristica/{position}/{idCategory}/{idFeature}','PedidosController@cambiarPosition');
 
-//Caracteristicas por Producto
+//Categorias por Producto
 $router->get('/categoriasProductosName','PedidosController@categoriasProductosName');
 $router->get('/productosPorIdCategoria/{idCategoria}','PedidosController@productosPorIdCategoria');
 $router->get('/actualizarPosicionProducto/{idCategoria}/{idProducto}/{posicion}','PedidosController@actualizarPosicionProducto');
@@ -245,3 +246,17 @@ $router->get('countCategoriasRedireccionadas','ProductosController@countCategori
 
 //Productos top entre fechas
 $router->get('productosTopEntreFechas/{fechaInicio}/{fechaFin}','PrevisionesController@productosTopEntreFechas');
+
+
+//Arbol de Categorias
+$router->get('arbolCategorias','EstadisticasController@arbolCategorias');
+
+//Opiniones
+$router->get('listadoCanales','OpinionesController@listadoCanales');
+$router->get('listadoGeneral','OpinionesController@listadoGeneral');
+$router->get('baseTipoOpinion/{id}','OpinionesController@baseTipoOpinion');
+$router->post('registrarPorcentaje','OpinionesController@registrarPorcentaje');
+$router->put('actualizarPorcentaje','OpinionesController@actualizarPorcentaje');
+$router->delete('eliminarPorcentaje/{idOpinionesTipo}','OpinionesController@eliminarPorcentaje');
+$router->get('rellenarSelect','OpinionesController@rellenarSelect');
+$router->get('cargarGrafico/{id}','OpinionesController@cargarGrafico');

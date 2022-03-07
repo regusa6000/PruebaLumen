@@ -2899,6 +2899,81 @@
             return response()->json($resultado);
         }
 
+        /**Funcion Arbol Categorias**/
+        function arbolCategorias(){
+
+            $arrayPrincipales = array('idCategory'=>2,'name'=>'Inicio','value'=>2,'children'=>array());
+
+            $resultado1 = DB::table('hg_category AS cat')
+                        ->select('cat.id_category','catl.name')
+                        ->join('hg_category_lang AS catl','catl.id_category','=',DB::raw('cat.id_category AND catl.id_lang = 1'))
+                        ->where('cat.id_parent','=',2)
+                        ->get();
+
+            //LLenamos el array Principales
+            for($principales = 0 ; $principales < count($resultado1); $principales++){
+                $arrayTmp = array('idCategory' => $resultado1[$principales]->id_category ,'name' => $resultado1[$principales]->name, 'value' => $resultado1[$principales]->id_category , 'children' => array());
+                array_push($arrayPrincipales['children'],$arrayTmp);
+            }
+
+            //LLenamos el segundo array de hijos
+            for($b = 0 ; $b < count($arrayPrincipales['children']); $b++){
+
+                $resultado2 = DB::table('hg_category AS cat')
+                            ->select('cat.id_category','catl.name','cat.id_parent')
+                            ->join('hg_category_lang AS catl','catl.id_category','=',DB::raw('cat.id_category AND catl.id_lang = 1'))
+                            ->where('cat.id_parent','=',$arrayPrincipales['children'][$b]['idCategory'])
+                            ->get();
+
+                    for($hijos1 = 0; $hijos1 < count($resultado2); $hijos1++){
+                        $arrayTmp2 = array('idCategory'=>$resultado2[$hijos1]->id_category,'name' => $resultado2[$hijos1]->name, 'value' => $resultado2[$hijos1]->id_category , 'children' => array());
+                        array_push($arrayPrincipales['children'][$b]['children'],$arrayTmp2);
+                    }
+
+
+                //Llenamos el tercer array de hijos
+                for($c = 0 ; $c < count($arrayPrincipales['children'][$b]['children']) ; $c++){
+
+                    $resultado3 = DB::table('hg_category AS cat')
+                                ->select('cat.id_category','catl.name','cat.id_parent')
+                                ->join('hg_category_lang AS catl','catl.id_category','=',DB::raw('cat.id_category AND catl.id_lang = 1'))
+                                ->where('cat.id_parent','=',$arrayPrincipales['children'][$b]['children'][$c]['idCategory'])
+                                ->get();
+
+                        for($hijos2 = 0 ; $hijos2 < count($resultado3); $hijos2++){
+                            $arratTmp3 = array('idCategory' => $resultado3[$hijos2]->id_category, 'name' => $resultado3[$hijos2]->name, 'value' => $resultado3[$hijos2]->id_category,'children' => []);
+                            array_push($arrayPrincipales['children'][$b]['children'][$c]['children'],$arratTmp3);
+                        }
+
+
+                    //Llenamos el cuarto array de hijos
+                    for($d = 0 ; $d < count($arrayPrincipales['children'][$b]['children'][$c]['children']); $d++){
+
+                        $resultado4 = DB::table('hg_category AS cat')
+                                    ->select('cat.id_category','catl.name','cat.id_parent')
+                                    ->join('hg_category_lang AS catl','catl.id_category','=',DB::raw('cat.id_category AND catl.id_lang = 1'))
+                                    ->where('cat.id_parent','=',$arrayPrincipales['children'][$b]['children'][$c]['children'][$d]['idCategory'])
+                                    ->get();
+
+                            for($hijos3 = 0; $hijos3 < count($resultado4); $hijos3++){
+                                $arrayTmp4 = array('idCategory'=>$resultado4[$hijos3]->id_category,'name' => $resultado4[$hijos3]->name, 'value' => $resultado4[$hijos3]->id_category);
+                                array_push($arrayPrincipales['children'][$b]['children'][$c]['children'][$d]['children'],$arrayTmp4);
+                            }
+
+                    }
+
+                }
+
+
+            }
+
+
+
+                return response()->json($arrayPrincipales);
+                // return response()->json($arrayPrincipales[0]['idCategory']);
+
+        }
+
     }
 
 ?>
