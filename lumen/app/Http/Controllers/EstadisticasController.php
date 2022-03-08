@@ -2678,9 +2678,9 @@
                         ->select(   DB::raw("DAY(hg_orders.date_add) AS dia"),
                                     DB::raw("MONTH(hg_orders.date_add) AS mes"),
                                     DB::raw("YEAR(hg_orders.date_add) AS amo"),
-                                    DB::raw("COUNT(hg_orders.id_order) AS tot_ped, round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA"),
-                                    DB::raw("ROUND(SUM(hg_orders.total_paid_tax_excl),2) AS tot_SIN_IVA"),
-                                    DB::raw("ROUND(SUM(hg_orders.total_paid)/(COUNT(hg_orders.id_order)),2) AS tot_med_carr"),
+                                    DB::raw("COUNT(hg_orders.id_order) AS tot_ped, CONCAT(round(SUM(hg_orders.total_paid),2),'€') AS tot_sum_IVA"),
+                                    DB::raw("CONCAT(ROUND(SUM(hg_orders.total_paid_tax_excl),2),'€') AS tot_SIN_IVA"),
+                                    DB::raw("CONCAT(ROUND(SUM(hg_orders.total_paid)/(COUNT(hg_orders.id_order)),2),'€') AS tot_med_carr"),
                                     DB::raw("CONCAT(ELT(WEEKDAY(hg_orders.date_add) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) AS dia_SEMANA"),
                                     DB::raw("(SELECT count(o.id_order) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add)
@@ -2693,7 +2693,22 @@
                                             AND HOUR(o.date_add)>= 12 AND HOUR(o.date_add) <18) AS 'media18'"),
                                     DB::raw("(SELECT count(o.id_order) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add)
-                                            AND HOUR(o.date_add)>= 18 AND HOUR(o.date_add) <24) AS 'media24'"))
+                                            AND HOUR(o.date_add)>= 18 AND HOUR(o.date_add) <24) AS 'media24'"),
+                                    DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                            AND o.id_customer <> '107584' AND (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible'
+                                            OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6
+                                            AND o.current_state <> 7 AND o.valid = 1 AND o.reference NOT LIKE 'INCI-%') AS ORION91"),
+                                    DB::raw("CONCAT((SELECT round(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND o.id_customer <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal'
+                                            OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 and o.valid = 1 AND o.reference NOT LIKE 'INCI-%'),'€') AS ORION91_SUM"),
+                                    DB::raw("CONCAT(ROUND(((SELECT round(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND o.id_customer <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 and o.valid = 1 AND o.reference NOT LIKE 'INCI-%')/
+                                            (SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND o.id_customer <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 AND o.valid = 1 AND o.reference NOT LIKE 'INCI-%')),2),'€') AS MEDIAORION91"))
                         ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
                         ->where(DB::raw('DATEDIFF(NOW(), hg_orders.date_add)'),'<',DB::raw("15 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1 AND hg_orders.valid = 1"))
                         ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))

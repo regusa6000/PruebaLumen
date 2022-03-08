@@ -298,19 +298,44 @@
             return response()->json($resultado);
         }
 
-        function productosTopIncidenciasHoy(){
+        function productosTopIncidenciasMensual(){
 
-            $resultado = DB::table('hg_order_detail AS od')
-                        ->select(   'od.product_id',
-                                    'pl.name',
-                                    DB::raw("SUM(od.product_quantity) 'cantidad'"),
-                                    DB::raw("ROUND(sum(od.total_price_tax_excl),2) AS 'suma_importe'"))
+           $resultado = DB::table('hg_order_detail AS od')
+                        ->select('o.id_order AS orderId','od.product_id AS productId','od.product_name AS name'
+                                ,DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id) AS incidencias")
+                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.total_price_tax_incl) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id),2),'€') AS totalIncidencias")
+                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                            WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
+                                            GROUP BY hg_order_detail.product_id)*100/(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                            WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
+                                            GROUP BY hg_order_detail.product_id),2),'%') AS porcentajeIncidencias")
+                                ,DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id) AS ventas")
+                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.total_price_tax_incl) FROM hg_order_detail
+                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id),2),'€') AS totalVentas"))
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
-                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where(DB::raw('DATEDIFF(NOW(),o.date_add)'),'>',DB::raw("30 AND o.reference LIKE 'INCI-%'"))
+                        ->where('o.date_add','>',DB::raw('DATE_SUB(NOW(), INTERVAL 30 DAY)'))
                         ->groupBy('od.product_id')
-                        ->orderBy(DB::raw('sum(od.total_price_tax_excl)'),'DESC')
-                        ->limit(10)
+                        ->orderBy(DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                    INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                    WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
+                                    GROUP BY hg_order_detail.product_id)*100/(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                    INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                    WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
+                                    GROUP BY hg_order_detail.product_id)"),'DESC')
+                        ->limit(50)
                         ->get();
 
             return response()->json($resultado);

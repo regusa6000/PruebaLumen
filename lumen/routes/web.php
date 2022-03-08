@@ -200,7 +200,7 @@ $router->get('dashboardsMequedoUno','PrevisionesController@dashboardsMequedoUno'
 //Funciones Top
 $router->get('productosTop','PrevisionesController@productosTop');
 $router->get('canalesTop','PrevisionesController@canalesTop');
-$router->get('productosTopIncidenciasHoy','PrevisionesController@productosTopIncidenciasHoy');
+$router->get('productosTopIncidenciasMensual','PrevisionesController@productosTopIncidenciasMensual');
 
 //Funciones Previsiones de Incidencias
 $router->get('previsionIncidencias','PrevisionesController@previsionIncidencias');
@@ -260,3 +260,14 @@ $router->put('actualizarPorcentaje','OpinionesController@actualizarPorcentaje');
 $router->delete('eliminarPorcentaje/{idOpinionesTipo}','OpinionesController@eliminarPorcentaje');
 $router->get('rellenarSelect','OpinionesController@rellenarSelect');
 $router->get('cargarGrafico/{id}','OpinionesController@cargarGrafico');
+
+//Zonas
+$router->get('cargarZonas','ZonasController@cargarZonas');
+$router->get('cargarLinksPorZonas/{idZona}','ZonasController@cargarLinksPorZonas');
+$router->post('crearNuevaZona','ZonasController@crearNuevaZona');
+$router->put('actualizarDatosZona','ZonasController@actualizarDatosZona');
+$router->get('cargarLinks','ZonasController@cargarLinks');
+$router->get('cargarSelectZonas','ZonasController@cargarSelectZonas');
+$router->post('crearNuevoLink','ZonasController@crearNuevoLink');
+$router->put('actualizarLink','ZonasController@actualizarLink');
+$router->delete('eliminarLink/{idLink}','ZonasController@eliminarLink');
