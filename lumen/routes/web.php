@@ -271,3 +271,32 @@ $router->get('cargarSelectZonas','ZonasController@cargarSelectZonas');
 $router->post('crearNuevoLink','ZonasController@crearNuevoLink');
 $router->put('actualizarLink','ZonasController@actualizarLink');
 $router->delete('eliminarLink/{idLink}','ZonasController@eliminarLink');
+
+//Elementor
+$router->get('productosDescatalogadosElementor','PrevisionesController@productosDescatalogadosElementor');
+$router->get('badgeProductosDescatalogadosElementor','PrevisionesController@badgeProductosDescatalogadosElementor');
+
+
+//Precios Cambiados
+$router->get('controlPreciosCambiadosAx','ProductosController@controlPreciosCambiadosAx');
+$router->get('badgeControlPreciosCambiadosAx','ProductosController@badgeControlPreciosCambiadosAx');
+
+//Faqs
+$router->get('cargarFaqs','ProductosController@cargarFaqs');
+$router->post('crearFaq','ProductosController@crearFaq');
+$router->put('actualizarFaq','ProductosController@actualizarFaq');
+$router->delete('eliminarFaq/{idFaq}','ProductosController@eliminarFaq');
+
+
+//Alertas Amazon
+$router->get('alertaCaracteresAmazon','PrevisionesController@alertaCaracteresAmazon');
+$router->get('countAlertaCaracteresAmazon','PrevisionesController@countAlertaCaracteresAmazon');
+
+
+//Pre-Almacen
+$router->get('preAlmacen','PedidosController@preAlmacen');
+$router->get('countPreAlmacen','PedidosController@countPreAlmacen');
+
+
+//Favoritos
+$router->get('cargarTopFavoritos','ProductosController@cargarTopFavoritos');

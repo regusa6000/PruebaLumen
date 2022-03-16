@@ -6,6 +6,7 @@
     use Illuminate\Auth\Access\Response;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Carbon;
 
 class ProductosController extends Controller{
 
@@ -163,6 +164,137 @@ class ProductosController extends Controller{
             return count($resultado);
         }
 
+        function controlPreciosCambiadosAx(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product'
+                                ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
+                                ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,DB::raw('ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) AS precioORION91')
+                                ,DB::raw('round(pmp.precioOfertaAx,2) AS precioAX')
+                                ,'pl.name AS nombre_producto','agl.name AS nombre_atributo','al.name AS nombre_valor_att')
+                        ->leftJoin('hg_product_attribute AS pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination AS patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_specific_price AS precio_espe_att','precio_espe_att.id_product_attribute','=',DB::raw('0
+                                        AND precio_espe_att.id_product = p.id_product AND precio_espe_att.id_group = 0 AND precio_espe_att.id_customer = 0
+                                        AND precio_espe_att.id_cart = 0'))
+                        ->leftJoin('hg_specific_price AS precio_espe','precio_espe.id_product','=',DB::raw('p.id_product AND precio_espe.id_group = 0
+                                        AND precio_espe.id_customer = 0 AND precio_espe.id_cart = 0'))
+                        ->join('ng_pmp_aux AS pmp','pmp.reference','=',DB::raw('IFNULL(pa.reference, p.reference)'))
+                        ->where('p.active','=',DB::raw("1 AND round(pmp.precioOfertaAx,2) <> '0.00' AND pl.name NOT LIKE '%navidad%'AND
+                                                            ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) <> round(pmp.precioOfertaAx,2)"))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function badgeControlPreciosCambiadosAx(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product'
+                                ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
+                                ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,DB::raw('ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) AS precioORION91')
+                                ,DB::raw('round(pmp.precioOfertaAx,2) AS precioAX')
+                                ,'pl.name AS nombre_producto','agl.name AS nombre_atributo','al.name AS nombre_valor_att')
+                        ->leftJoin('hg_product_attribute AS pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination AS patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_specific_price AS precio_espe_att','precio_espe_att.id_product_attribute','=',DB::raw('0
+                                        AND precio_espe_att.id_product = p.id_product AND precio_espe_att.id_group = 0 AND precio_espe_att.id_customer = 0
+                                        AND precio_espe_att.id_cart = 0'))
+                        ->leftJoin('hg_specific_price AS precio_espe','precio_espe.id_product','=',DB::raw('p.id_product AND precio_espe.id_group = 0
+                                        AND precio_espe.id_customer = 0 AND precio_espe.id_cart = 0'))
+                        ->join('ng_pmp_aux AS pmp','pmp.reference','=',DB::raw('IFNULL(pa.reference, p.reference)'))
+                        ->where('p.active','=',DB::raw("1 AND round(pmp.precioOfertaAx,2) <> '0.00' AND pl.name NOT LIKE '%navidad%'AND
+                                                            ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) <> round(pmp.precioOfertaAx,2)"))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+        function cargarFaqs(){
+
+            $resultado = DB::table('hg_product_faqs')
+                        ->select('*')
+                        ->orderBy('hg_product_faqs.date_add','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function crearFaq(Request $request){
+
+            $idProduct = $request->input('idProduct');
+            $faq = $request->input('faq');
+            $fechaCreacion = Carbon::now();
+
+            $resultado = DB::table('hg_product_faqs')
+                        ->insert([
+                            'id_product' => $idProduct,
+                            'faq' => $faq,
+                            'date_add' => $fechaCreacion
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function actualizarFaq(Request $request){
+
+            $idFaq = $request->input('idFaq');
+            $idProduct = $request->input('idProduct');
+            $fechaActualizacion = Carbon::now();
+            $faq = $request->input('faq');
+
+            $resultado = DB::table('hg_product_faqs')
+                        ->where('id_product_faq','=',$idFaq)
+                        ->update([
+                            'id_product' => $idProduct,
+                            'faq' => $faq,
+                            'date_update' => $fechaActualizacion,
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function eliminarFaq($idFaq){
+
+            $resultado = DB::table('hg_product_faqs')
+                        ->where('id_product_faq','=',$idFaq)
+                        ->delete();
+
+            return response()->json($resultado);
+        }
+
+
+        /**FAVORITOS**/
+        function cargarTopFavoritos(){
+
+            $resultado = DB::table('hg_ws_wishlist_product AS wh')
+                        ->select('wh.id_product','pl.name',DB::raw('COUNT(wh.id_product) AS nFavoritos'))
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('wh.id_product AND pl.id_lang = 1'))
+                        ->groupBy('wh.id_product')
+                        ->orderBy(DB::raw('COUNT(wh.id_product)'),'DESC')
+                        ->limit(20)
+                        ->get();
+
+            return response()->json($resultado);
+        }
 
     }
 

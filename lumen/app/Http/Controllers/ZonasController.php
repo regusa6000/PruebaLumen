@@ -21,8 +21,8 @@
 
             $resultado = DB::table('ng_links AS link')
                         ->select('link.*','us.name','zona.nombre_zona')
-                        ->join('ng_users AS us','us.id_user','=','link.id_user_add')
-                        ->join('ng_zonas AS zona','zona.id_zona','=','link.id_zona')
+                        ->leftJoin('ng_users AS us','us.id_user','=','link.id_user_add')
+                        ->leftJoin('ng_zonas AS zona','zona.id_zona','=','link.id_zona')
                         ->where('link.id_zona','=',$idZona)
                         ->orderBy('link.posicion','ASC')
                         ->get();

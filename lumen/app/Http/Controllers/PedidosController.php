@@ -944,5 +944,28 @@ class PedidosController extends Controller{
 
         }
 
+        function preAlmacen(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order','o.reference','o.payment','ol.name','o.date_add')
+                        ->join('hg_order_state_lang AS ol','ol.id_order_state','=',DB::raw('o.current_state AND ol.id_lang = 1'))
+                        ->where('o.current_state','=',DB::raw('9 AND TIMESTAMPDIFF(DAY,o.date_add, NOW()) < 90'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countPreAlmacen(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order','o.reference','o.payment','ol.name','o.date_add')
+                        ->join('hg_order_state_lang AS ol','ol.id_order_state','=',DB::raw('o.current_state AND ol.id_lang = 1'))
+                        ->where('o.current_state','=',DB::raw('9 AND TIMESTAMPDIFF(DAY,o.date_add, NOW()) < 90'))
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+
     }
 ?>

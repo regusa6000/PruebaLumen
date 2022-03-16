@@ -300,42 +300,26 @@
 
         function productosTopIncidenciasMensual(){
 
-           $resultado = DB::table('hg_order_detail AS od')
-                        ->select('o.id_order AS orderId','od.product_id AS productId','od.product_name AS name'
-                                ,DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
-                                                GROUP BY hg_order_detail.product_id) AS incidencias")
-                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.total_price_tax_incl) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
-                                                GROUP BY hg_order_detail.product_id),2),'€') AS totalIncidencias")
-                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                            WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
-                                            GROUP BY hg_order_detail.product_id)*100/(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                            WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
-                                            GROUP BY hg_order_detail.product_id),2),'%') AS porcentajeIncidencias")
-                                ,DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
-                                                GROUP BY hg_order_detail.product_id) AS ventas")
-                                ,DB::raw("CONCAT(ROUND((SELECT SUM(hg_order_detail.total_price_tax_incl) FROM hg_order_detail
-                                            INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
-                                                GROUP BY hg_order_detail.product_id),2),'€') AS totalVentas"))
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('od.product_id','od.product_name'
+                                    ,DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
+                                                INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 10 DAY) AND hg_order_detail.product_id = od.product_id
+                                                    AND hg_orders.reference LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id) AS cantidadIncidencias")
+                                    ,DB::raw("ROUND((SELECT SUM(hg_order_detail.total_price_tax_incl) FROM hg_order_detail
+                                                INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
+                                                WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 10 DAY) AND hg_order_detail.product_id = od.product_id
+                                                    AND hg_orders.reference LIKE 'INCI%'
+                                                GROUP BY hg_order_detail.product_id),2) AS importeIncidencias"))
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
-                        ->where('o.date_add','>',DB::raw('DATE_SUB(NOW(), INTERVAL 30 DAY)'))
+                        ->where('o.date_add','>',DB::raw("DATE_SUB(NOW(), INTERVAL 10 DAY ) AND o.reference LIKE 'INCI%'"))
                         ->groupBy('od.product_id')
                         ->orderBy(DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
                                     INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                    WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
-                                    GROUP BY hg_order_detail.product_id)*100/(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
-                                    INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
-                                    WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 30 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference NOT LIKE 'INCI%'
+                                    WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 10 DAY) AND hg_order_detail.product_id = od.product_id AND hg_orders.reference LIKE 'INCI%'
                                     GROUP BY hg_order_detail.product_id)"),'DESC')
-                        ->limit(50)
+                        ->limit(10)
                         ->get();
 
             return response()->json($resultado);
@@ -366,6 +350,7 @@
 
             $resultado = DB::table('hg_order_detail AS od')
                         ->select('p.id_product','pl.name','cl.name AS nombre_cat'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen")
                                 ,DB::raw('sum(od.product_quantity) AS suma_cantidad')
                                 ,DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes'))
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
@@ -373,6 +358,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('od.product_id AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('o.date_add','>=',$fechaInicio)
                         ->where('o.date_add','<=',$fechaFin)
                         ->where('o.valid','=',1)
@@ -381,6 +367,73 @@
                         ->get();
 
             return response()->json($resultado);
+        }
+
+        /**ELEMENTOR**/
+
+        function productosDescatalogadosElementor(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','pl.name'
+                                ,DB::raw('(SELECT cl.name FROM hg_category_lang AS cl WHERE cl.id_lang = 1 AND cl.id_category  =
+                                (SELECT substring(meta.id,1,3) from hg_ce_meta AS meta WHERE meta.id > 99999999
+                                    AND meta.value LIKE CONCAT('."'".'%"'."'".',p.id_product,'."'".'"%'."'".') LIMIT 1)) AS cat_name'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('p.active','=',DB::raw('0
+                                    AND (SELECT meta.value from hg_ce_meta AS meta WHERE meta.id > 99999999 AND
+                                    meta.value LIKE CONCAT('."'".'%"'."'".',p.id_product,'."'".'"%'."'".') LIMIT 1) IS NOT NULL'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function badgeProductosDescatalogadosElementor(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','pl.name'
+                                ,DB::raw('(SELECT cl.name FROM hg_category_lang AS cl WHERE cl.id_lang = 1 AND cl.id_category  =
+                                (SELECT substring(meta.id,1,3) from hg_ce_meta AS meta WHERE meta.id > 99999999
+                                    AND meta.value LIKE CONCAT('."'".'%"'."'".',p.id_product,'."'".'"%'."'".') LIMIT 1)) AS cat_name'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('p.active','=',DB::raw('0
+                                    AND (SELECT meta.value from hg_ce_meta AS meta WHERE meta.id > 99999999 AND
+                                    meta.value LIKE CONCAT('."'".'%"'."'".',p.id_product,'."'".'"%'."'".') LIMIT 1) IS NOT NULL'))
+                        ->get();
+
+            return response()->json(count($resultado));
+
+        }
+
+        function alertaCaracteresAmazon(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','ewp.ax_id','pl.name AS Name_ORION91','fvl.value AS MP_NombreArticulo'
+                                ,DB::raw('CHAR_LENGTH(fvl.value) AS caracteres'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_feature_product AS fp','fp.id_product','=',DB::raw('p.id_product AND fp.id_feature = 961'))
+                        ->join('hg_feature_value_lang AS fvl','fvl.id_feature_value','=',DB::raw('fp.id_feature_value AND fvl.id_lang = 1'))
+                        ->join('hg_ewax_product AS ewp','ewp.id_product','=','p.id_product')
+                        ->where(DB::raw('CHAR_LENGTH(fvl.value)'),'>',200)
+                        ->orderBy(DB::raw('CHAR_LENGTH(fvl.value)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countAlertaCaracteresAmazon(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','ewp.ax_id','pl.name AS Name_ORION91','fvl.value AS MP_NombreArticulo'
+                                ,DB::raw('CHAR_LENGTH(fvl.value) AS caracteres'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_feature_product AS fp','fp.id_product','=',DB::raw('p.id_product AND fp.id_feature = 961'))
+                        ->join('hg_feature_value_lang AS fvl','fvl.id_feature_value','=',DB::raw('fp.id_feature_value AND fvl.id_lang = 1'))
+                        ->join('hg_ewax_product AS ewp','ewp.id_product','=','p.id_product')
+                        ->where(DB::raw('CHAR_LENGTH(fvl.value)'),'>',200)
+                        ->orderBy(DB::raw('CHAR_LENGTH(fvl.value)'),'DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
         }
 
     }
