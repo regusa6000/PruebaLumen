@@ -166,6 +166,7 @@ $router->get('/categoriaPorTiendaWishPorIdCategoria/{idCategory}','EstadisticasC
 //Venta de Productos
 $router->get('ventaProductos/{idProducto}/{fechaInicio}/{fechaFin}/{tienda}','EstadisticasController@ventaProductos');
 $router->get('ventasSemanalesTiendas','EstadisticasController@ventasSemanales');
+$router->get('ventasSemanalesTodasLasTiendas','EstadisticasController@ventasSemanalesTodasLasTiendas');
 
 //Rango de precios de makro
 $router->get('productosPublicadosMakro','RangosController@productosPublicadosMakro');
@@ -300,3 +301,12 @@ $router->get('countPreAlmacen','PedidosController@countPreAlmacen');
 
 //Favoritos
 $router->get('cargarTopFavoritos','ProductosController@cargarTopFavoritos');
+$router->get('cargarGraficoFavoritos','ProductosController@cargarGraficoFavoritos');
+
+
+//Precios Fijos Makro
+$router->get('cargarSelectProductos','RangosController@cargarSelectProductos');
+$router->get('cargarTablaPreciosFijos','RangosController@cargarTablaPreciosFijos');
+$router->post('registrarPrecioFijo','RangosController@registrarPrecioFijo');
+$router->put('actualizarPrecioFijo','RangosController@actualizarPrecioFijo');
+$router->delete('eliminarPrecioFijo/{id}','RangosController@eliminarPrecioFijo');

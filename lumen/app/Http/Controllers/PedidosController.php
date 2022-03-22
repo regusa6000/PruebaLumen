@@ -529,7 +529,7 @@ class PedidosController extends Controller{
             $imagen = $_FILES['imagen']['name'];
             $datos = json_decode($_REQUEST['datos'],true);
 
-            $directorioFinal = "./../../../AngularAdmin/src/assets/".$imagen;
+            $directorioFinal = "http://172.26.1.142/var/www/html/orion/assets/images/".$imagen;
             move_uploaded_file($_FILES['imagen']['tmp_name'],$directorioFinal);
 
             $noticia = $datos['noticia'];

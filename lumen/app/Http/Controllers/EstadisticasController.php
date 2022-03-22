@@ -2708,9 +2708,17 @@
                                             (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 and o.valid = 1 AND o.reference NOT LIKE 'INCI-%')/
                                             (SELECT COUNT(o.id_order) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND o.id_customer <> '107584' AND
-                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 AND o.valid = 1 AND o.reference NOT LIKE 'INCI-%')),2),'€') AS MEDIAORION91"))
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' OR o.payment = 'Bizum - Pago online' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria') AND o.current_state <> 6 AND o.current_state <> 7 AND o.valid = 1 AND o.reference NOT LIKE 'INCI-%')),2),'€') AS MEDIAORION91"),
+                                    DB::raw("(SELECT COUNT(o2.id_order) FROM hg_orders AS o2
+                                                INNER JOIN hg_ewax_orders AS ew_o ON ew_o.id_order = o2.id_order
+                                                    WHERE TIMESTAMPDIFF(DAY,date(o2.date_add),date(hg_orders.date_add)) = 7
+                                                    AND o2.reference NOT LIKE 'INCI-%' AND ew_o.send_ok = 1 ) AS tot_ped_7"),
+                                    DB::raw("Round((COUNT(hg_orders.id_order) *100)/(SELECT COUNT(o2.id_order) FROM hg_orders AS o2
+                                                INNER JOIN hg_ewax_orders AS ew_o ON ew_o.id_order = o2.id_order
+                                                    WHERE TIMESTAMPDIFF(DAY,date(o2.date_add),date(hg_orders.date_add)) = 7 AND o2.reference NOT LIKE 'INCI-%'
+                                                        AND ew_o.send_ok = 1)-100,2) AS porcentaje"))
                         ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
-                        ->where(DB::raw('DATEDIFF(NOW(), hg_orders.date_add)'),'<',DB::raw("15 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1 AND hg_orders.valid = 1"))
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(hg_orders.date_add),date(NOW())))'),'<',DB::raw("21 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
                         ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
                         ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
                         ->orderBy(DB::raw('MONTH(hg_orders.date_add)'),'DESC')
@@ -2989,6 +2997,89 @@
 
         }
 
+
+        /**Ventas Semanales Todas las tiendas**/
+        function ventasSemanalesTodasLasTiendas(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(DB::raw('day(hg_orders.date_add) AS dia')
+                                ,DB::raw('MONTH(hg_orders.date_add) AS mes')
+                                ,DB::raw('YEAR(hg_orders.date_add) AS year')
+                                ,DB::raw('COUNT(hg_orders.id_order) AS tot_ped')
+                                ,DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA')
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND o.id_customer <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria')) AS ORION91")
+                                ,DB::raw("IFNULL((SELECT round(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND o.id_customer <> '107584' AND
+                                            (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria')),0) AS ORION91_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano')) AS MANOMANO")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano')),0) AS MANOMANO_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'AliExpress Payment')) AS ALIEXPRESS")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'AliExpress Payment')),0) AS ALIEXPRESS_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Waadby Payment')) AS AMAZON")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Waadby Payment')),0) AS AMAZON_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Groupon')) AS GROUPON")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Groupon')),0) AS GROUPON_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'EMBARGOS')) AS EMBARGOS")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'EMBARGOS')),0) AS EMBARGOS_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'MEQUEDOUNO')) AS MEQUEDOUNO")
+                                ,DB::raw("IFNULL((SELECT round(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'MEQUEDOUNO')),0) AS MEQUEDOUNO_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Fnac MarketPlace')) AS FNAC")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Fnac MarketPlace')),0) AS FNAC_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.id_customer = '242380')) AS WISH")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.id_customer = '242380')),0) AS WISH_SUMA")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Carrefour')) AS CARREFOUR")
+                                ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Carrefour')),0) AS CARREFOUR_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add)AND (o.payment = 'Makro')) AS MAKRO")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Makro')),0) AS MAKRO_SUMA")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'PcComponentes')) AS PcCOMPONENTES")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'PcComponentes')),0) AS PcCOMPOMENTES_SUMA")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Sprinter')) AS SPRINTER")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Sprinter')),0) AS SPRINTER_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'BuleVip')) AS BULEVIP")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'BuleVip')),0) AS BULEVIP_SUM")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Venca')) AS VENCA")
+                                ,DB::raw("IFNULL((SELECT ROUND(sum(o.total_paid),2) FROM hg_orders AS o
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Venca')),0) AS VENCA_SUM"))
+
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()))'),'<',DB::raw("9 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
+                        ->groupBy(DB::raw('DAY(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('MONTH(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('day(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
     }
 
 ?>

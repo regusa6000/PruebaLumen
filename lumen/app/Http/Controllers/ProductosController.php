@@ -296,6 +296,17 @@ class ProductosController extends Controller{
             return response()->json($resultado);
         }
 
+        function cargarGraficoFavoritos(){
+
+            $resultado = DB::table('hg_ws_wishlist_product AS wp')
+                        ->select(DB::raw('COUNT(wp.id_wishlist_product) AS contador'),'wp.fecha')
+                        ->groupBy(DB::raw('DAY(wp.fecha)'),DB::raw('MONTH(wp.fecha)'),DB::raw('YEAR(wp.fecha)'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
     }
 
 ?>
