@@ -2713,10 +2713,10 @@
                                                 INNER JOIN hg_ewax_orders AS ew_o ON ew_o.id_order = o2.id_order
                                                     WHERE TIMESTAMPDIFF(DAY,date(o2.date_add),date(hg_orders.date_add)) = 7
                                                     AND o2.reference NOT LIKE 'INCI-%' AND ew_o.send_ok = 1 ) AS tot_ped_7"),
-                                    DB::raw("Round((COUNT(hg_orders.id_order) *100)/(SELECT COUNT(o2.id_order) FROM hg_orders AS o2
+                                    DB::raw("Round((SUM(hg_orders.total_paid) *100)/(SELECT SUM(o2.total_paid) FROM hg_orders AS o2
                                                 INNER JOIN hg_ewax_orders AS ew_o ON ew_o.id_order = o2.id_order
                                                     WHERE TIMESTAMPDIFF(DAY,date(o2.date_add),date(hg_orders.date_add)) = 7 AND o2.reference NOT LIKE 'INCI-%'
-                                                        AND ew_o.send_ok = 1)-100,2) AS porcentaje"))
+                                                    AND ew_o.send_ok = 1)-100,2) AS porcentaje"))
                         ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
                         ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(hg_orders.date_add),date(NOW())))'),'<',DB::raw("21 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
                         ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
@@ -3080,6 +3080,24 @@
 
             return response()->json($resultado);
         }
+
+
+        /**Ventas Habitantes**/
+        function ventasHabitantes(){
+
+            $resultado = DB::table('ng_ventasHabitantes AS ve')
+                        ->select('ve.region','ve.ciudad','ve.poblacion'
+                                ,DB::raw('ROUND(ve.totalVentas,2) AS totalVentas')
+                                ,DB::raw('ROUND(ve.sumaventas,2) AS sumaventas')
+                                ,DB::raw('ROUND(ve.porcentajeVentas,2) AS porcentajeVentas')
+                                ,DB::raw('ROUND(ve.ventaPorHabitante,2) AS ventaPorHabitante')
+                                ,'ve.latitud','ve.longitud')
+                        ->orderBy('ve.ciudad','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

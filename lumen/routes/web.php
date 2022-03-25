@@ -247,6 +247,7 @@ $router->get('countCategoriasRedireccionadas','ProductosController@countCategori
 
 //Productos top entre fechas
 $router->get('productosTopEntreFechas/{fechaInicio}/{fechaFin}','PrevisionesController@productosTopEntreFechas');
+$router->get('productosTopUltimosDias','PrevisionesController@productosTopUltimosDias');
 
 
 //Arbol de Categorias
@@ -310,3 +311,6 @@ $router->get('cargarTablaPreciosFijos','RangosController@cargarTablaPreciosFijos
 $router->post('registrarPrecioFijo','RangosController@registrarPrecioFijo');
 $router->put('actualizarPrecioFijo','RangosController@actualizarPrecioFijo');
 $router->delete('eliminarPrecioFijo/{id}','RangosController@eliminarPrecioFijo');
+
+//Ventas Habitantes
+$router->get('ventasHabitantes','EstadisticasController@ventasHabitantes');

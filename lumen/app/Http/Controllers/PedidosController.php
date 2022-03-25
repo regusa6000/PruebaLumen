@@ -12,11 +12,12 @@ class PedidosController extends Controller{
 
            $resultado = DB::table('hg_orders AS o')
                         ->select('o.id_order'
-                                ,'o.reference'
+                                ,'o.reference','ost.name'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url")
                                 ,'o.payment'
                                 ,'o.date_add')
                         ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')
+                        ->join('hg_order_state_lang AS ost','ost.id_order_state','=',DB::raw('o.current_state AND ost.id_lang = 1'))
                         ->where('ewo.send_ok','!=',DB::raw("1 AND (o.current_state = 2 OR
                                                             o.current_state = 89 OR
                                                             o.current_state = 8 OR

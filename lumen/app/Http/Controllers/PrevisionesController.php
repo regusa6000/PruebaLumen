@@ -369,6 +369,28 @@
             return response()->json($resultado);
         }
 
+        /**Productos Top ultimos 15 dias**/
+        function productosTopUltimosDias(){
+
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('p.id_product','pl.name','cl.name AS nombre_cat'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen")
+                                ,DB::raw("sum(od.product_quantity) AS suma_cantidad")
+                                ,DB::raw("ROUND(sum(od.total_price_tax_incl),2) AS suma_importes"))
+                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->join('hg_product AS p','p.id_product','=','od.product_id')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('od.product_id AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(o.date_add),date(NOW())))'),'<',DB::raw('15 AND o.valid = 1'))
+                        ->groupBy('p.id_product')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
         /**ELEMENTOR**/
 
         function productosDescatalogadosElementor(){
