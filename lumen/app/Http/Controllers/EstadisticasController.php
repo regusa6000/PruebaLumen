@@ -2837,9 +2837,10 @@
                                 ,DB::raw("IFNULL(pa.id_product_attribute,'Sin IdAtributo') AS id_product_attribute")
                                 ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
                                 ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen")
                                 ,"pl.name AS producto"
-                                ,DB::raw("IFNULL(agl.name,'Sin Atriuto') AS atributo")
-                                ,DB::raw("IFNULL(al.name,'Sin Valor Att') AS 'valor_att'")
+                                ,DB::raw("agl.name AS atributo")
+                                ,DB::raw("al.name AS 'valor_att'")
                                 ,DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock')
                                 ,DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
@@ -2863,6 +2864,7 @@
                         ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
                         ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
                         ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',DB::raw('1 AND IFNULL(stock_a.quantity, stock.quantity) > 0
                                                             AND IFNULL(stock_a.quantity, stock.quantity) <=
                                                             (SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90

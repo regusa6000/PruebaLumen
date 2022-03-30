@@ -248,6 +248,7 @@ $router->get('countCategoriasRedireccionadas','ProductosController@countCategori
 //Productos top entre fechas
 $router->get('productosTopEntreFechas/{fechaInicio}/{fechaFin}','PrevisionesController@productosTopEntreFechas');
 $router->get('productosTopUltimosDias','PrevisionesController@productosTopUltimosDias');
+$router->get('productosTopHoy','PrevisionesController@productosTopHoy');
 
 
 //Arbol de Categorias

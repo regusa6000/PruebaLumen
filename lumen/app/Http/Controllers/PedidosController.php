@@ -253,8 +253,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         // ->where('man.division','!=',1.180000)
                         // ->where('man.division','!=',1.030000)
@@ -274,8 +276,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         // ->where('man.division','!=',1.180000)
                         // ->where('man.division','!=',1.030000)
@@ -296,8 +300,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=',DB::raw('1.200000 OR man.division = 1.190000'))
                         ->get();
@@ -316,8 +322,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=',1.030000)
                         ->get();
@@ -336,8 +344,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=',1.180000)
                         ->get();
@@ -356,8 +366,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=',1.000000)
                         ->get();
@@ -377,8 +389,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=', DB::raw('1.050000 OR man.division = 1.060000 OR man.division = 1.070000'))
                         ->orderBy('man.division','DESC')
@@ -398,8 +412,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=',1.100000)
                         ->get();
@@ -418,8 +434,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
                         ->where('man.division','=', DB::raw('1.140000 OR man.division = 1.150000 OR man.division = 1.160000'))
                         ->orderBy('man.division','DESC')
@@ -439,8 +457,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
                                                         man.division <> 1.190000 AND
                                                         man.division <> 1.030000 AND
@@ -471,8 +491,10 @@ class PedidosController extends Controller{
                                 DB::raw('ROUND(man.additionalShippingCostPresta,2) AS additionalShippingCostPresta'),
                                 DB::raw('ROUND(man.pricePresta,2) AS pricePresta'),
                                 DB::raw('ROUND(man.reductionPresta,2) AS reductionPresta'),
-                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'))
+                                DB::raw('ROUND(man.totalOrion,2) AS totalOrion'),
+                                DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
                                                         man.division <> 1.190000 AND
                                                         man.division <> 1.030000 AND
@@ -609,6 +631,7 @@ class PedidosController extends Controller{
                                 ,"ali_err.date_upd AS Fecha_Actualizacion",
                                 'ali_err.id_aliexpress_error As idAli')
                         ->where('ali_err.item','=','order')
+                        ->where('ali_err.code','!=','stock')
                         ->get();
 
             return response()->json($resultado);
@@ -619,6 +642,7 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_aliexpress_error AS ali_err')
                         ->select('*')
                         ->where('ali_err.item','=','order')
+                        ->where('ali_err.code','!=','stock')
                         ->get();
 
             return count($resultado);
@@ -630,7 +654,9 @@ class PedidosController extends Controller{
         function productosTotalesMakro(){
 
             $resultado = DB::table('aux_makro_offers AS au')
-                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('au.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->orderBy('au.id_product','ASC')
                         ->get();
 
@@ -640,7 +666,9 @@ class PedidosController extends Controller{
         function offersPublicados(){
 
             $resultado = DB::table('aux_makro_offers AS au')
-                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('au.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('au.status','=',1)
                         ->orderBy('au.id_product','ASC')
                         ->get();
@@ -651,7 +679,9 @@ class PedidosController extends Controller{
         function offerNoPublicados(){
 
             $resultado = DB::table('aux_makro_offers AS au')
-                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date')
+                        ->select('au.id_product','au.gtin','au.sku','au.name','au.name_att','au.name_value_att',DB::raw('ROUND(au.price,2) as price'),'au.stock','au.status','au.date'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('au.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('au.status','=',0)
                         ->orderBy('au.id_product','ASC')
                         ->get();
@@ -902,6 +932,7 @@ class PedidosController extends Controller{
                         ->select('o.id_order'
                                 ,'o.reference'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url")
+                                , DB::raw('ROUND(o.total_paid, 2) AS total_paid')
                                 ,'o.payment'
                                 ,'o.date_add')
                         ->join('hg_ewax_orders AS ewo','o.id_order','=','ewo.id_order')

@@ -286,8 +286,9 @@ class ProductosController extends Controller{
         function cargarTopFavoritos(){
 
             $resultado = DB::table('hg_ws_wishlist_product AS wh')
-                        ->select('wh.id_product','pl.name',DB::raw('COUNT(wh.id_product) AS nFavoritos'))
+                        ->select('wh.id_product','pl.name',DB::raw('COUNT(wh.id_product) AS nFavoritos'),DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('wh.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('wh.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->groupBy('wh.id_product')
                         ->orderBy(DB::raw('COUNT(wh.id_product)'),'DESC')
                         ->limit(20)

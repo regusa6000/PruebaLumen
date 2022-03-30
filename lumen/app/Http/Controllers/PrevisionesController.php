@@ -311,8 +311,10 @@
                                                 INNER JOIN hg_orders ON hg_orders.id_order = hg_order_detail.id_order
                                                 WHERE hg_orders.date_add > DATE_SUB(NOW(), INTERVAL 10 DAY) AND hg_order_detail.product_id = od.product_id
                                                     AND hg_orders.reference LIKE 'INCI%'
-                                                GROUP BY hg_order_detail.product_id),2) AS importeIncidencias"))
+                                                GROUP BY hg_order_detail.product_id),2) AS importeIncidencias")
+                                    ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('od.product_id AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('o.date_add','>',DB::raw("DATE_SUB(NOW(), INTERVAL 10 DAY ) AND o.reference LIKE 'INCI%'"))
                         ->groupBy('od.product_id')
                         ->orderBy(DB::raw("(SELECT SUM(hg_order_detail.product_quantity) FROM hg_order_detail
@@ -368,6 +370,30 @@
 
             return response()->json($resultado);
         }
+
+        /**Producto Top Hoy**/
+        function productosTopHoy(){
+
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('p.id_product','pl.name','cl.name AS nombre_cat'
+                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad')
+                                ,DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->join('hg_product AS p','p.id_product','=','od.product_id')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'=',0)
+                        ->groupBy('p.id_product')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
+                        ->limit(10)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
 
         /**Productos Top ultimos 15 dias**/
         function productosTopUltimosDias(){
