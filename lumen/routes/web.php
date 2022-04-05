@@ -315,3 +315,10 @@ $router->delete('eliminarPrecioFijo/{id}','RangosController@eliminarPrecioFijo')
 
 //Ventas Habitantes
 $router->get('ventasHabitantes','EstadisticasController@ventasHabitantes');
+
+
+//Rutas Dashboard
+$router->get('avanceSemanal','EstadisticasController@avanceSemanal');
+$router->get('graficoVentas','EstadisticasController@graficoVentas');
+$router->get('graficoVentasUnaSemana','EstadisticasController@graficoVentasUnaSemana');
+$router->get('graficoVentasUnMes','EstadisticasController@graficoVentasUnMes');

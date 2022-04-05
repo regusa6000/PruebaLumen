@@ -552,7 +552,7 @@ class PedidosController extends Controller{
             $imagen = $_FILES['imagen']['name'];
             $datos = json_decode($_REQUEST['datos'],true);
 
-            $directorioFinal = "http://172.26.1.142/var/www/html/orion/assets/images/".$imagen;
+            $directorioFinal = "http://vpnxer.grupohidalgos.com:8182/imagenes/".$imagen;
             move_uploaded_file($_FILES['imagen']['tmp_name'],$directorioFinal);
 
             $noticia = $datos['noticia'];
