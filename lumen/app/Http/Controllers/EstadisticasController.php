@@ -2853,7 +2853,19 @@
                                 ,DB::raw("IFNULL(ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
-                                                GROUP BY od90.product_id, od90.product_attribute_id)/30)),2),0) AS 'rotura_en'"))
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/30)),2),0) AS 'rotura_en'")
+                                ,DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 60 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_60_dias")
+                                ,DB::raw("IFNULL(ROUND((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 60 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/60,2),0) AS m_60")
+                                ,DB::raw("IFNULL(ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 60 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/60)),2),0) AS 'rotura_en_60'"))
                         ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
                         ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
                         ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
@@ -3237,6 +3249,47 @@
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'<=',30)
                 ->get();
+
+            return response()->json($resultado);
+        }
+
+        function ventasSemanalesDashBoard(){
+
+            $resultado = DB::table('hg_orders')
+                        ->select(DB::raw("CONCAT(CONCAT(CONCAT(CONCAT(DAY(hg_orders.date_add),'/'),MONTH(hg_orders.date_add)),'/'),YEAR(hg_orders.date_add)) AS fecha")
+                                ,DB::raw('COUNT(hg_orders.id_order) AS tot_ped')
+                                ,DB::raw("round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA")
+                                ,DB::raw("ROUND((SUM(hg_orders.total_paid) *100)/(SELECT SUM(o2.total_paid) FROM hg_orders AS o2
+                                            INNER JOIN hg_ewax_orders AS ew_o ON ew_o.id_order = o2.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,date(o2.date_add),date(hg_orders.date_add)) = 7 AND o2.reference NOT LIKE 'INCI-%'
+                                                AND ew_o.send_ok = 1)-100,2) AS porcentaje"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(hg_orders.date_add),date(NOW())))'),'<',DB::raw("7 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
+                        ->groupBy(DB::raw('DAY(hg_orders.date_add)'),DB::raw('MONTH(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
+                        ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('MONTH(hg_orders.date_add)'),'DESC')
+                        ->orderBy(DB::raw('DAY(hg_orders.date_add)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function roturaDeStock(){
+
+            $resultado = DB::table('ng_historico_stock AS st')
+                        ->select('st.id_producto','st.id_atributo','st.ean13','pl.name','st.fecha_actualizacion','st.stock AS stock_hoy'
+                                ,'ayer.stock AS stock_hoy_1','ante_ayer.stock AS stock_hoy_2','ante_ante_ayer.stock AS stock_hoy_3'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->join('ng_historico_stock AS ayer','ayer.ean13','=','st.ean13')
+                        ->join('ng_historico_stock AS ante_ayer','ante_ayer.ean13','=','st.ean13')
+                        ->join('ng_historico_stock AS ante_ante_ayer','ante_ante_ayer.ean13','=','st.ean13')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('st.id_producto AND pl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop AS image_shop','image_shop.id_product','=',DB::raw('st.id_producto AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(st.fecha_actualizacion), date(NOW()))'),'=',DB::raw('0 AND st.stock = 0'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('1 AND ayer.stock > 0'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ante_ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('2 AND ante_ayer.stock > 0'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ante_ante_ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('3 AND ante_ante_ayer.stock > 0'))
+                        ->get();
 
             return response()->json($resultado);
         }

@@ -248,7 +248,6 @@ $router->get('countCategoriasRedireccionadas','ProductosController@countCategori
 //Productos top entre fechas
 $router->get('productosTopEntreFechas/{fechaInicio}/{fechaFin}','PrevisionesController@productosTopEntreFechas');
 $router->get('productosTopUltimosDias','PrevisionesController@productosTopUltimosDias');
-$router->get('productosTopHoy','PrevisionesController@productosTopHoy');
 
 
 //Arbol de Categorias
@@ -318,7 +317,10 @@ $router->get('ventasHabitantes','EstadisticasController@ventasHabitantes');
 
 
 //Rutas Dashboard
+$router->get('productosTopHoy','PrevisionesController@productosTopHoy');
 $router->get('avanceSemanal','EstadisticasController@avanceSemanal');
 $router->get('graficoVentas','EstadisticasController@graficoVentas');
 $router->get('graficoVentasUnaSemana','EstadisticasController@graficoVentasUnaSemana');
 $router->get('graficoVentasUnMes','EstadisticasController@graficoVentasUnMes');
+$router->get('ventasSemanalesDashBoard','EstadisticasController@ventasSemanalesDashBoard');
+$router->get('roturaDeStock','EstadisticasController@roturaDeStock');
