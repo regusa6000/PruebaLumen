@@ -315,6 +315,9 @@ $router->delete('eliminarPrecioFijo/{id}','RangosController@eliminarPrecioFijo')
 //Ventas Habitantes
 $router->get('ventasHabitantes','EstadisticasController@ventasHabitantes');
 
+//Alertas transferencias bancarias sin stock
+$router->get('transferenciaBancariaSinStock','PrevisionesController@transferenciaBancariaSinStock');
+$router->get('countTransferenciaBancariaSinStock','PrevisionesController@countTransferenciaBancariaSinStock');
 
 //Rutas Dashboard
 $router->get('productosTopHoy','PrevisionesController@productosTopHoy');

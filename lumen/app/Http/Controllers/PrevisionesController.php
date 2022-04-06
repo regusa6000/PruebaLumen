@@ -484,6 +484,40 @@
             return response()->json(count($resultado));
         }
 
+
+        //Alertas transferencias bancarias sin stock
+        function transferenciaBancariaSinStock(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order','o.reference','o.date_add','o.total_paid','od.product_id','od.product_name','sa.quantity')
+                        ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
+                        ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
+                        ->join('hg_stock_available AS sa','sa.id_product','=',DB::raw('od.product_id AND sa.id_product_attribute = od.product_attribute_id'))
+                        ->where('o.payment','=','Pago por transferencia bancaria')
+                        ->where('sa.quantity','=',DB::raw("0 AND o.reference NOT LIKE 'INCI%'"))
+                        ->where('o.current_state','=',10)
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countTransferenciaBancariaSinStock(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order','o.reference','o.date_add','o.total_paid','od.product_id','od.product_name','sa.quantity')
+                        ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
+                        ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
+                        ->join('hg_stock_available AS sa','sa.id_product','=',DB::raw('od.product_id AND sa.id_product_attribute = od.product_attribute_id'))
+                        ->where('o.payment','=','Pago por transferencia bancaria')
+                        ->where('sa.quantity','=',DB::raw("0 AND o.reference NOT LIKE 'INCI%'"))
+                        ->where('o.current_state','=',10)
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
     }
 
 ?>
