@@ -820,7 +820,7 @@ class PedidosController extends Controller{
         function categoriasProductosName(){
 
             $resultado = DB::table('hg_category_product AS catpro')
-                        ->select(DB::raw('DISTINCT(catpro.id_category)'),'catlan.name'
+                        ->select(DB::raw('DISTINCT(catpro.id_category)'),'catlan.name',DB::raw("CONCAT('https://orion91.com/',catlan.link_rewrite) AS url")
                                 ,DB::raw('(SELECT count(cp.id_product) FROM hg_category_product AS cp
                                             INNER JOIN hg_product AS p ON p.id_product = cp.id_product
                                             WHERE cp.id_category = catpro.id_category AND p.active = 1) AS cantidadProductos'))

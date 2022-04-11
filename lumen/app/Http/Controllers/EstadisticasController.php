@@ -3117,17 +3117,57 @@
 
             $resultado = DB::table('hg_orders AS o')
                         ->select(DB::raw('round(SUM(o.total_paid),2) AS sum_importe_hoy')
-                                ,DB::raw('(SELECT round(SUM(hg_orders.total_paid),2) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7) AS sum_importe_7')
-                                ,DB::raw('ROUND(-100+(SUM(o.total_paid)*100)/(SELECT round(SUM(hg_orders.total_paid),2) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7),2) AS porcentajeImporte')
-                                ,DB::raw('(SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0) AS count_ped_hoy')
-                                ,DB::raw('(SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7) AS count_ped_7')
-                                ,DB::raw('ROUND(-100+ (SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0)
-                                            *100/(SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7),2) AS porcentajeCount_7')
-                                ,DB::raw('ROUND(SUM(o.total_paid) / (SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS carr_med_hoy')
-                                ,DB::raw('ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7)/ (SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7),2) AS carr_med_7')
-                                ,DB::raw('ROUND(-100+(SUM(o.total_paid)/(SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0) *100) /
-                                            ((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7)/ (SELECT count(hg_orders.id_order) FROM hg_orders WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7)),2) AS carritoPorcentaje'))
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'=',0)
+                                ,DB::raw("(SELECT round(SUM(hg_orders.total_paid),2)
+                                            FROM hg_orders
+                                            INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1) AS sum_importe_7")
+                                ,DB::raw("ROUND(-100+(SUM(o.total_paid)*100)/(SELECT round(SUM(hg_orders.total_paid),2)
+                                                                                FROM hg_orders
+                                                                                INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                                                    WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1),2) AS porcentajeImporte")
+                                ,DB::raw("(SELECT count(hg_orders.id_order)
+                                            FROM hg_orders
+                                                INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1) AS count_ped_hoy")
+                                ,DB::raw("(SELECT count(hg_orders.id_order)
+                                            FROM hg_orders
+                                            INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1) AS count_ped_7")
+                                ,DB::raw("ROUND(-100+ (SELECT count(hg_orders.id_order)
+                                                        FROM hg_orders
+                                                        INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                            WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1)
+                                            *100/(SELECT count(hg_orders.id_order)
+                                                                FROM hg_orders
+                                                                INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                                    WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1),2) AS porcentajeCount_7")
+                                ,DB::raw("ROUND(SUM(o.total_paid) / (SELECT count(hg_orders.id_order)
+                                                                        FROM hg_orders
+                                                                        INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                                            WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1),2) AS carr_med_hoy")
+                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid)
+                                                FROM hg_orders
+                                                INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                    WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1)/
+                                                (SELECT count(hg_orders.id_order)
+                                                    FROM hg_orders
+                                                    INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                        WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1),2) AS carr_med_7")
+                                ,DB::raw("ROUND(-100+(SUM(o.total_paid)/
+                                (SELECT count(hg_orders.id_order)
+                                    FROM hg_orders
+                                    INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                        WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1) *100) /
+                                ((SELECT SUM(hg_orders.total_paid)
+                                        FROM hg_orders
+                                        INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                            WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1)/
+                                                (SELECT count(hg_orders.id_order)
+                                                    FROM hg_orders
+                                                    INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order
+                                                        WHERE TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 7 AND hg_orders.reference NOT LIKE 'INCI-%' AND hg_ewax_orders.send_ok = 1)),2) AS carritoPorcentaje"))
+                        ->join('hg_ewax_orders AS eo','eo.id_order','=','o.id_order')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'=',DB::raw("0 AND o.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
                         ->get();
 
             return response()->json($resultado);
@@ -3166,7 +3206,9 @@
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_PcComponentes")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'=',0)
                 ->get();
 
@@ -3206,7 +3248,9 @@
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_PcComponentes")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'<=',7)
                 ->get();
 
@@ -3246,7 +3290,9 @@
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_PcComponentes")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'<=',30)
                 ->get();
 
@@ -3289,6 +3335,57 @@
                         ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('1 AND ayer.stock > 0'))
                         ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ante_ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('2 AND ante_ayer.stock > 0'))
                         ->where(DB::raw('TIMESTAMPDIFF(DAY, date(ante_ante_ayer.fecha_actualizacion), date(NOW()))'),'=',DB::raw('3 AND ante_ante_ayer.stock > 0'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function graficoVentasPaisesHoy(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('pais.name',DB::raw('ROUND(SUM(o.total_paid),2) AS total'))
+                        ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
+                        ->join('hg_country_lang AS pais','pais.id_country','=',DB::raw('ad.id_country AND pais.id_lang = 1'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, DATE(o.date_add), date(NOW()))'),'<=',DB::raw('0 AND o.valid = 1'))
+                        ->groupBy('ad.id_country')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function graficoVentasPaisesUnaSemana(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('pais.name',DB::raw('ROUND(SUM(o.total_paid),2) AS total'))
+                        ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
+                        ->join('hg_country_lang AS pais','pais.id_country','=',DB::raw('ad.id_country AND pais.id_lang = 1'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, DATE(o.date_add), date(NOW()))'),'<=',DB::raw('7 AND o.valid = 1'))
+                        ->groupBy('ad.id_country')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function graficoVentasPaisesUnMes(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('pais.name',DB::raw('ROUND(SUM(o.total_paid),2) AS total'))
+                        ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
+                        ->join('hg_country_lang AS pais','pais.id_country','=',DB::raw('ad.id_country AND pais.id_lang = 1'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, DATE(o.date_add), date(NOW()))'),'<=',DB::raw('30 AND o.valid = 1'))
+                        ->groupBy('ad.id_country')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function graficoComparacionVentas(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.date_add',DB::raw('YEAR(o.date_add) AS amo'),DB::raw('ROUND(SUM(o.total_paid),2) AS total'))
+                        ->where(DB::raw("o.reference NOT LIKE 'INCI%' AND o.valid"),'=',DB::raw('1 AND YEAR(o.date_add) >= 2021'))
+                        ->groupBy(DB::raw('MONTHNAME(o.date_add)'),DB::raw('YEAR(o.date_add)'))
+                        ->orderBy('o.date_add','ASC')
                         ->get();
 
             return response()->json($resultado);

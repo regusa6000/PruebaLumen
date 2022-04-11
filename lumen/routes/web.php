@@ -327,3 +327,7 @@ $router->get('graficoVentasUnaSemana','EstadisticasController@graficoVentasUnaSe
 $router->get('graficoVentasUnMes','EstadisticasController@graficoVentasUnMes');
 $router->get('ventasSemanalesDashBoard','EstadisticasController@ventasSemanalesDashBoard');
 $router->get('roturaDeStock','EstadisticasController@roturaDeStock');
+$router->get('graficoVentasPaisesHoy','EstadisticasController@graficoVentasPaisesHoy');
+$router->get('graficoVentasPaisesUnaSemana','EstadisticasController@graficoVentasPaisesUnaSemana');
+$router->get('graficoVentasPaisesUnMes','EstadisticasController@graficoVentasPaisesUnMes');
+$router->get('graficoComparacionVentas','EstadisticasController@graficoComparacionVentas');
