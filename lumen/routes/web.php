@@ -331,3 +331,19 @@ $router->get('graficoVentasPaisesHoy','EstadisticasController@graficoVentasPaise
 $router->get('graficoVentasPaisesUnaSemana','EstadisticasController@graficoVentasPaisesUnaSemana');
 $router->get('graficoVentasPaisesUnMes','EstadisticasController@graficoVentasPaisesUnMes');
 $router->get('graficoComparacionVentas','EstadisticasController@graficoComparacionVentas');
+
+
+//Productos Top por Canales Hoy
+$router->get('productosTopCanales/{variable}','EstadisticaCanalesController@productosTopCanales');
+$router->get('productosTopCanalOrion','EstadisticaCanalesController@productosTopCanalOrion');
+$router->get('productosTopCanalWish','EstadisticaCanalesController@productosTopCanalWish');
+
+//Productos Top por Canales 15 dias
+$router->get('productosTopCanales15Dias/{variable}','EstadisticaCanalesController@productosTopCanales15Dias');
+$router->get('productosTopCanalOrion15Dias','EstadisticaCanalesController@productosTopCanalOrion15Dias');
+$router->get('productosTopCanalWish15Dias','EstadisticaCanalesController@productosTopCanalWish15Dias');
+
+//Productos Top por Canales 30 dias
+$router->get('productosTopCanales30Dias/{variable}','EstadisticaCanalesController@productosTopCanales30Dias');
+$router->get('productosTopCanalOrion30Dias','EstadisticaCanalesController@productosTopCanalOrion30Dias');
+$router->get('productosTopCanalWish30Dias','EstadisticaCanalesController@productosTopCanalWish30Dias');
