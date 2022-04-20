@@ -57,6 +57,12 @@
                 case 15:
                     $tienda = 'MediaMarkt';
                     break;
+                case 16:
+                    $tienda = 'PcComponentes';
+                    break;
+                case 17:
+                    $tienda = 'VIPALIA';
+                    break;
             }
 
             $resultado = DB::table('hg_order_detail AS od')
@@ -174,6 +180,12 @@
                 case 15:
                     $tienda = 'MediaMarkt';
                     break;
+                case 16:
+                    $tienda = 'PcComponentes';
+                    break;
+                case 17:
+                    $tienda = 'VIPALIA';
+                    break;
             }
 
             $resultado = DB::table('hg_order_detail AS od')
@@ -290,6 +302,12 @@
                     break;
                 case 15:
                     $tienda = 'MediaMarkt';
+                    break;
+                case 16:
+                    $tienda = 'PcComponentes';
+                    break;
+                case 17:
+                    $tienda = 'VIPALIA';
                     break;
             }
 

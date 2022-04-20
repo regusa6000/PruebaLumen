@@ -307,6 +307,82 @@ class ProductosController extends Controller{
             return response()->json($resultado);
         }
 
+        /**BUSCADOR DE PRODUCTOS**/
+        function buscadorProductos($value){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product'
+                                ,DB::raw('IF(ISNULL(pa.reference), p.reference, pa.reference ) AS reference')
+                                ,DB::raw('IF(ISNULL(pa.ean13), p.ean13, pa.ean13 ) AS ean13')
+                                ,DB::raw("CONCAT(pl.name, ' ', ifnull(agl.name, ' '), ' ', ifnull(al.name, ' ')) AS name")
+                                ,'agl.name AS atributo','al.name AS valor','ewp.ax_id AS axIdSimple','ewpatt.ax_id AS axIdCombinado'
+                                ,DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute AS pa','p.id_product','=','pa.id_product')
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=',DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
+                        ->leftJoin('hg_ewax_product AS ewp','ewp.id_product','=','p.id_product')
+                        ->leftJoin('hg_ewax_product_attribute AS ewpatt','ewpatt.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_image_shop AS image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where('p.id_product','like',DB::raw("'". $value ."%'" ."OR p.reference LIKE '". $value ."%'"."OR pa.reference LIKE '". $value
+                                ."%'"."OR p.ean13 LIKE '". $value ."%'"."OR pa.ean13 LIKE '". $value ."%'"."OR ewp.ax_id LIKE '". $value ."%'"."OR ewpatt.ax_id LIKE '". $value ."%'"
+                                ."OR pl.name LIKE '%". $value . "%'"."OR agl.name LIKE '%". $value . "%'"."OR al.name LIKE '%". $value . "%'"))
+                        ->groupBy('p.id_product','pac.id_attribute')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**Productos sin Ean13**/
+        function productosSinEan13(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select('p.id_product','ax.id_ax','pa.id_product_attribute',DB::raw('IFNULL (pa.reference, p.reference) AS reference'), 'p.date_add'
+                                ,'pl.name AS nombreProducto','agl.name AS nombreAtributo','al.name AS nombreValorAtt',DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock'))
+                        ->leftJoin('hg_product_attribute AS pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination AS patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
+                        ->leftJoin('ng_pmp_aux AS ax','ax.reference','=',DB::raw('IFNULL (pa.reference, p.reference)'))
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = ''"))
+                        ->groupBy('p.id_product','pa.id_product_attribute')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countProductosSinEan13(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select('p.id_product','ax.id_ax','pa.id_product_attribute',DB::raw('IFNULL (pa.reference, p.reference) AS reference'), 'p.date_add'
+                                ,'pl.name AS nombreProducto','agl.name AS nombreAtributo','al.name AS nombreValorAtt',DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock'))
+                        ->leftJoin('hg_product_attribute AS pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination AS patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
+                        ->leftJoin('ng_pmp_aux AS ax','ax.reference','=',DB::raw('IFNULL (pa.reference, p.reference)'))
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = ''"))
+                        ->groupBy('p.id_product','pa.id_product_attribute')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
 
     }
 

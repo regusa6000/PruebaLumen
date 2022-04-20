@@ -998,6 +998,125 @@ class PedidosController extends Controller{
             return response()->json(count($resultado));
         }
 
+        function productosNoPublicadosAmazon(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','pl.name AS NombreProducto','cl.name AS NombreCategoria'
+                                ,'fl.name AS Caracteristica', 'fvl.value AS Valor',DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen"))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_feature_product AS fp','fp.id_product','=','p.id_product')
+                        ->join('hg_feature_lang as fl','fl.id_feature','=',DB::raw('fp.id_feature AND fl.id_lang = 1'))
+                        ->join('hg_feature_value_lang AS fvl','fvl.id_feature_value','=',DB::raw('fp.id_feature_value AND fvl.id_lang = 1'))
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('p.id_category_default AND cl.id_lang = 1'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where('fp.id_feature','=',DB::raw("686 AND fvl.value = 'No'"))
+                        ->orderBy('cl.name','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function productosNoPublicadosAmazonMP(){
+
+            $resultado = DB::table('aux_makro_offers AS makro')
+                        ->select('makro.id_product','makro.id_product_attribute','pl.name AS nombrePs','makro.name_value_att AS atributo','fvl.value AS mpAmazon'
+                                ,'p.active AS activoEnPs','ama.status AS estadoEnAmazon','ama.asin1','ama.ean13 AS ean13Amazon','ama.quantity AS stockAmazon'
+                                ,DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stockPs'))
+                        ->leftJoin('aux_amazon_offers AS ama','ama.ean13','=','makro.gtin')
+                        ->leftJoin('hg_product AS p','p.id_product','=','makro.id_product')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_feature_product AS fp','fp.id_product','=',DB::raw('p.id_product AND fp.id_feature = 686'))
+                        ->leftJoin('hg_feature_value_lang AS fvl','fvl.id_feature_value','=',DB::raw("fp.id_feature_value AND fvl.id_lang = 1 AND fvl.value = 'Si'"))
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','makro.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('makro.id_product_attribute AND stock_a.id_product = makro.id_product'))
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(stock_a.quantity, stock.quantity)> 0 AND (isnull(ama.ean13) = true OR ama.`status` <> 'Active' AND ama.quantity > 0)"))
+                        ->groupBy('makro.id_product','makro.id_product_attribute')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**PRESUPUESTOS 2022**/
+        function cargarSelectEstados(){
+
+            $resultado = DB::table('ng_estados_presupuestos')
+                        ->select('*')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function vistaPresupuestos(){
+
+            $resultado = DB::table('ng_presupuestos AS pre')
+                        ->select('pre.id','pre.cliente','pl.name AS producto','pre.unidades'
+                                ,DB::raw('ROUND(pre.precioActual,2) AS precioActual'),DB::raw('ROUND(pre.precioOfertado,2) AS precioOfertado')
+                                ,'pre.mes','pre.estado')
+                        ->join('hg_product AS p','p.ean13','=','pre.ean13')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function registrarPresupuesto(Request $request){
+
+            $cliente = $request->input('cliente');
+            $ean13 = $request->input('ean13');
+            $unidades = $request->input('unidades');
+            $precioActual = $request->input('precioActual');
+            $precioOfertado = $request->input('precioOfertado');
+            $mes = $request->input('mes');
+            $estado = $request->input('estado');
+            $fecha = Carbon::now();
+
+            $resultado = DB::table('ng_presupuestos')
+                        ->insert([
+                            'cliente' => $cliente,
+                            'ean13' => $ean13,
+                            'unidades' => $unidades,
+                            'precioActual' => $precioActual,
+                            'precioOfertado' => $precioOfertado,
+                            'mes' => $mes,
+                            'estado' => $estado,
+                            'dateAdd' => $fecha
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function eliminarPresupuesto($idPresupuesto){
+
+            $resultado = DB::table('ng_presupuestos')
+                        ->where('id','=',$idPresupuesto)
+                        ->delete();
+
+            return response()->json($resultado);
+        }
+
+        function actualizarPresupuesto(Request $request){
+
+            $id = $request->input('id');
+            $cliente = $request->input('cliente');
+            $estado = $request->input('estado');
+            $mes = $request->input('mes');
+            $precioActual = $request->input('precioActual');
+            $precioOferta = $request->input('precioOfertado');
+            $unidades = $request->input('unidades');
+
+            $resultado = DB::table('ng_presupuestos')
+                        ->where('id','=',$id)
+                        ->update([
+                            'cliente' => $cliente,
+                            'unidades' => $unidades,
+                            'precioActual' => $precioActual,
+                            'precioOfertado' => $precioOferta,
+                            'mes' => $mes,
+                            'estado' => $estado
+                        ]);
+
+            return response()->json($resultado);
+        }
 
     }
 ?>

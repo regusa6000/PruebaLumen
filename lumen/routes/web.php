@@ -293,6 +293,8 @@ $router->delete('eliminarFaq/{idFaq}','ProductosController@eliminarFaq');
 //Alertas Amazon
 $router->get('alertaCaracteresAmazon','PrevisionesController@alertaCaracteresAmazon');
 $router->get('countAlertaCaracteresAmazon','PrevisionesController@countAlertaCaracteresAmazon');
+$router->get('productosNoPublicadosAmazon','PedidosController@productosNoPublicadosAmazon');
+$router->get('productosNoPublicadosAmazonMP','PedidosController@productosNoPublicadosAmazonMP');
 
 
 //Pre-Almacen
@@ -347,3 +349,17 @@ $router->get('productosTopCanalWish15Dias','EstadisticaCanalesController@product
 $router->get('productosTopCanales30Dias/{variable}','EstadisticaCanalesController@productosTopCanales30Dias');
 $router->get('productosTopCanalOrion30Dias','EstadisticaCanalesController@productosTopCanalOrion30Dias');
 $router->get('productosTopCanalWish30Dias','EstadisticaCanalesController@productosTopCanalWish30Dias');
+
+//Presupuestos 2022
+$router->get('cargarSelectEstados','PedidosController@cargarSelectEstados');
+$router->get('vistaPresupuestos','PedidosController@vistaPresupuestos');
+$router->post('registrarPresupuesto','PedidosController@registrarPresupuesto');
+$router->delete('eliminarPresupuesto/{idPresupuesto}','PedidosController@eliminarPresupuesto');
+$router->put('actualizarPresupuesto','PedidosController@actualizarPresupuesto');
+
+//BUSCADOR DE PRODUCTOS
+$router->get('buscadorProductos/{value}','ProductosController@buscadorProductos');
+
+//PRODUCTOS SIN EAN13
+$router->get('productosSinEan13','ProductosController@productosSinEan13');
+$router->get('countProductosSinEan13','ProductosController@countProductosSinEan13');
