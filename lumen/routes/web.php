@@ -363,3 +363,6 @@ $router->get('buscadorProductos/{value}','ProductosController@buscadorProductos'
 //PRODUCTOS SIN EAN13
 $router->get('productosSinEan13','ProductosController@productosSinEan13');
 $router->get('countProductosSinEan13','ProductosController@countProductosSinEan13');
+
+//PRODUCTOS CON POCAS IMAGENES
+$router->get('productosConPocasImagenes','ProductosController@productosConPocasImagenes');

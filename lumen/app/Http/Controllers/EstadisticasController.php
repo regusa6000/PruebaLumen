@@ -2865,7 +2865,20 @@
                                 ,DB::raw("IFNULL(ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
                                             INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
                                                 WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 60 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
-                                                GROUP BY od90.product_id, od90.product_attribute_id)/60)),2),0) AS 'rotura_en_60'"))
+                                                GROUP BY od90.product_id, od90.product_attribute_id)/60)),2),0) AS 'rotura_en_60'")
+                                ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
+                                IFNULL((SELECT hg_image_shop.id_image
+                                            FROM hg_product
+                                            LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                            LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
+                                            WHERE hg_product.id_product = p.id_product AND hg_product_attribute_image.id_product_attribute = pa.id_product_attribute
+                                            GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
+                                            ORDER BY hg_image_shop.id_image)
+
+                                        ,(SELECT hg_image_shop.id_image
+                                            FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                            WHERE hg_product.id_product = p.id_product
+                                            ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
                         ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
                         ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
                         ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
