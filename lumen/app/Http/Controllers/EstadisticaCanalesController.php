@@ -55,7 +55,7 @@
                     $tienda = '242380';
                     break;
                 case 15:
-                    $tienda = 'MediaMarkt';
+                    $tienda = 'MediaMarktSaturno';
                     break;
                 case 16:
                     $tienda = 'PcComponentes';
@@ -178,7 +178,7 @@
                     $tienda = '242380';
                     break;
                 case 15:
-                    $tienda = 'MediaMarkt';
+                    $tienda = 'MediaMarktSaturno';
                     break;
                 case 16:
                     $tienda = 'PcComponentes';
@@ -301,7 +301,7 @@
                     $tienda = '242380';
                     break;
                 case 15:
-                    $tienda = 'MediaMarkt';
+                    $tienda = 'MediaMarktSaturno';
                     break;
                 case 16:
                     $tienda = 'PcComponentes';

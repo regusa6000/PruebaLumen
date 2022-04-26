@@ -3218,14 +3218,16 @@
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Venca' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVenca'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
-                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_MediaMarkt")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_PcComponentes")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_Wish")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeWish'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_Vipalia")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),0),2) AS Sum_Groupon")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ) /SUM(o.total_paid)),2),0) AS 'porcentajeGroupon'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'=',0)
                 ->get();
 
@@ -3264,14 +3266,16 @@
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Venca' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVenca'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
-                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_MediaMarkt")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_PcComponentes")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_Wish")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeWish'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_Vipalia")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),0),2) AS Sum_Groupon")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ) /SUM(o.total_paid)),2),0) AS 'porcentajeGroupon'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'<=',7)
                 ->get();
 
@@ -3310,14 +3314,16 @@
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Venca' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVenca'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_Fnac")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Fnac MarketPlace' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeFnac'")
-                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_MediaMarkt")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarkt' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_MediaMarkt")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'MediaMarktSaturno' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeMediaMarkt'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_PcComponentes")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'PcComponentes' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajePcComponentes'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_Wish")
                                 ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'WISH' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeWish'")
                                 ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_Vipalia")
-                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'"))
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'VIPALIA' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeVipalia'")
+                                ,DB::raw("ROUND(IFNULL((SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),0),2) AS Sum_Groupon")
+                                ,DB::raw("IFNULL(ROUND((100*(SELECT SUM(hg_orders.total_paid) FROM hg_orders WHERE hg_orders.payment = 'Groupon' AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ) /SUM(o.total_paid)),2),0) AS 'porcentajeGroupon'"))
                 ->where(DB::raw('TIMESTAMPDIFF(DAY, date(o.date_add), date(NOW()))'),'<=',30)
                 ->get();
 
@@ -3411,6 +3417,16 @@
                         ->where(DB::raw("o.reference NOT LIKE 'INCI%' AND o.valid"),'=',DB::raw('1 AND YEAR(o.date_add) >= 2021'))
                         ->groupBy(DB::raw('MONTHNAME(o.date_add)'),DB::raw('YEAR(o.date_add)'))
                         ->orderBy('o.date_add','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**CONECTORES**/
+        function conectores(){
+
+            $resultado = DB::table('ng_conectores AS co')
+                        ->select('co.nombre','co.tipo','co.conector',DB::raw("IF(co.indice = 0, 'TARIFA PP', ROUND(co.indice,2)) AS indice"))
                         ->get();
 
             return response()->json($resultado);

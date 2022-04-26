@@ -366,3 +366,6 @@ $router->get('countProductosSinEan13','ProductosController@countProductosSinEan1
 
 //PRODUCTOS CON POCAS IMAGENES
 $router->get('productosConPocasImagenes','ProductosController@productosConPocasImagenes');
+
+//CONECTORES
+$router->get('conectores','EstadisticasController@conectores');

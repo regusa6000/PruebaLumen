@@ -327,7 +327,7 @@ class PedidosController extends Controller{
                         ->join('hg_product AS p','man.id_product','=','p.id_product')
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('man.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
                         ->where('p.active','=',1)
-                        ->where('man.division','=',1.030000)
+                        ->where('man.division','=',DB::raw('1.030000 OR man.division = 1.040000 OR man.division = 1.050000'))
                         ->get();
 
             return response()->json($resultado);
@@ -464,6 +464,7 @@ class PedidosController extends Controller{
                         ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
                                                         man.division <> 1.190000 AND
                                                         man.division <> 1.030000 AND
+                                                        man.division <> 1.040000 AND
                                                         man.division <> 1.210000 AND
                                                         man.division <> 1.170000 AND
                                                         man.division <> 1.180000 AND
@@ -498,6 +499,7 @@ class PedidosController extends Controller{
                         ->where('p.active','=',DB::raw('1 AND  man.division <> 1.200000 AND
                                                         man.division <> 1.190000 AND
                                                         man.division <> 1.030000 AND
+                                                        man.division <> 1.040000 AND
                                                         man.division <> 1.210000 AND
                                                         man.division <> 1.170000 AND
                                                         man.division <> 1.180000 AND
