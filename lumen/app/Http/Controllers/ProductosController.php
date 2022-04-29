@@ -364,7 +364,7 @@ class ProductosController extends Controller{
                         ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
                         ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
                         ->leftJoin('ng_pmp_aux AS ax','ax.reference','=',DB::raw('IFNULL (pa.reference, p.reference)'))
-                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = ''"))
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = '' AND IFNULL(stock_a.quantity, stock.quantity) > 0"))
                         ->groupBy('p.id_product','pa.id_product_attribute')
                         ->orderBy('p.id_product','DESC')
                         ->get();
@@ -388,7 +388,7 @@ class ProductosController extends Controller{
                         ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
                         ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
                         ->leftJoin('ng_pmp_aux AS ax','ax.reference','=',DB::raw('IFNULL (pa.reference, p.reference)'))
-                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = ''"))
+                        ->where('p.active','=',DB::raw("1 AND IFNULL(pa.ean13, p.ean13) = '' AND IFNULL(stock_a.quantity, stock.quantity) > 0"))
                         ->groupBy('p.id_product','pa.id_product_attribute')
                         ->orderBy('p.id_product','DESC')
                         ->get();

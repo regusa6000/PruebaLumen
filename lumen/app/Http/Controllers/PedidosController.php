@@ -596,14 +596,6 @@ class PedidosController extends Controller{
             return response()->json($resultado);
         }
 
-        function eliminarNoticia($id_noticia){
-
-            $resultado = DB::table('ng_noticias')
-                        ->where('id_noticia','=',$id_noticia)
-                        ->delete();
-            return $resultado;
-        }
-
         function actualizarNoticia(Request $request){
 
             $id_noticia = $request->input('id_noticia');

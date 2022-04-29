@@ -57,14 +57,6 @@ $router->get('/cargarComboName','PedidosController@cargarComboName');
 
 //Rutas de Control de Stock
 $router->get('/controlHistoricoStock/{ean13}','PedidosController@controlHistoricoStock');
-
-//Rutas Noticias
-$router->post('/noticia','PedidosController@registrarNoticias');
-$router->get('/noticias','PedidosController@mostrarNoticias');
-$router->get('/noticiasGeneral','PedidosController@monstrarTodasNoticias');
-$router->delete('/eliminarNoticia/{id_noticia}','PedidosController@eliminarNoticia');
-$router->put('/actualizarNoticia','PedidosController@actualizarNoticia');
-
 $router->get('controlAliExpress','PedidosController@controlAliExpress');
 $router->get('badgeAliExpress','PedidosController@badgeAliExpress');
 
@@ -369,3 +361,17 @@ $router->get('productosConPocasImagenes','ProductosController@productosConPocasI
 
 //CONECTORES
 $router->get('conectores','EstadisticasController@conectores');
+
+//Subir Archivos Noticias
+$router->post('registrarNoticias','DocumentosController@registrarNoticias');
+$router->get('listadoNoticias/{idUser}','DocumentosController@listadoNoticias');
+$router->put('actualizarNoticia','DocumentosController@actualizarNoticia');
+$router->delete('eliminarNoticia/{idNoticia}/{nameImagen}','DocumentosController@eliminarNoticia');
+
+
+//Guardar Archivos por producto
+$router->get('cargarSelectProductos','DocumentosController@cargarSelectProductos');
+$router->post('buscarEan13PorNombreProducto','DocumentosController@buscarEan13PorNombreProducto');
+$router->get('cargarSelectTipoDeDocumento','DocumentosController@cargarSelectTipoDeDocumento');
+$router->post('registrarDocumento','DocumentosController@registrarDocumento');
+$router->get('cargarListadoDocumentosPorEan13/{ean13}','DocumentosController@cargarListadoDocumentosPorEan13');
