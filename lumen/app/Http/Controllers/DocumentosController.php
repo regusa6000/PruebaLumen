@@ -86,7 +86,7 @@
         function cargarSelectProductos(){
 
             $resultado = DB::table('ng_nombresProductos AS np')
-                        ->select('np.ean13','np.producto')
+                        ->select('np.ean13')
                         ->where('np.ean13','!=',"")
                         ->orderBy('np.producto','ASC')
                         ->get();
@@ -100,7 +100,7 @@
 
             $resultado = DB::table('ng_nombresProductos AS np')
                         ->select('np.ean13')
-                        ->where('np.producto','=',"$producto")
+                        ->where('np.ean13','=',"$producto")
                         ->get();
 
             return response()->json($resultado);
@@ -123,16 +123,17 @@
             $ean13 = $request->ean13;
             $idPais = $request->idPais;
             $idTipo = $request->idTipo;
+            $tags = $request->observacion;
             $fecha = Carbon::now();
 
             if(!File::exists('productos/'.$ean13)){
-                File::makeDirectory('productos/'.$ean13);
+                File::makeDirectory('productos/'.$ean13, $mode = 0777, true, true);
             }
 
             if ($request->hasFile('archivo')){
 
                 if(File::exists('productos/'.$ean13."/".$name)){
-                    return response()->json(1);
+                    return response()->json(false);
                 }else{
 
                     $file->move('productos/'.$ean13,$name);
@@ -142,6 +143,7 @@
                         'idPais' => $idPais,
                         'idTipo' => $idTipo,
                         'nombreArchivo' => $name,
+                        'tags' => $tags,
                         'date_add' => $fecha
                     ]);
 
@@ -156,15 +158,42 @@
         function cargarListadoDocumentosPorEan13($ean13){
 
             $resultado = DB::table('ng_gestorDocumentos AS ge')
-                        ->select('ge.id','ge.ean13','nam.producto',DB::raw("IF(ge.idPais = 1,'ESPAÑA',NULL) AS idPais"),'tipoDoc.tipo','ge.nombreArchivo','ge.date_add')
+                        ->select('ge.id','ge.ean13','nam.producto',DB::raw("IF(ge.idPais = 1,'ESPAÑA',NULL) AS idPais"),'tipoDoc.tipo','ge.nombreArchivo','ge.tags','ge.date_add')
                         ->join('ng_tipoDocumento AS tipoDoc','tipoDoc.idTipo','=','ge.idTipo')
                         ->join('ng_nombresProductos AS nam','nam.ean13','=','ge.ean13')
                         ->where('ge.ean13','=',$ean13)
+                        ->orderBy('ge.id','DESC')
                         ->get();
 
             return response()->json($resultado);
         }
 
+        function cargarListadoCompleto(){
+
+            $resultado = DB::table('ng_gestorDocumentos AS ge')
+                        ->select('ge.id','ge.ean13','nam.producto',DB::raw("IF(ge.idPais = 1,'ESPAÑA',NULL) AS idPais")
+                                ,DB::raw("CONCAT('/productos/',ge.ean13,'/',ge.nombreArchivo) AS imagen") ,'tipoDoc.tipo','ge.nombreArchivo','ge.tags','ge.date_add')
+                        ->join('ng_tipoDocumento AS tipoDoc','tipoDoc.idTipo','=','ge.idTipo')
+                        ->join('ng_nombresProductos AS nam','nam.ean13','=','ge.ean13')
+                        ->orderBy('ge.id','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function eliminarArchivos(Request $request){
+
+            $idArchivo = $request->idArchivo;
+            $ean13 = $request->ean13;
+            $nameImagen = $request->nameImagen;
+
+            File::delete('productos/'.$ean13.'/'.$nameImagen);
+
+            $resultado = DB::table('ng_gestorDocumentos')
+                        ->where('id','=',$idArchivo)
+                        ->delete();
+            return $resultado;
+        }
     }
 
 

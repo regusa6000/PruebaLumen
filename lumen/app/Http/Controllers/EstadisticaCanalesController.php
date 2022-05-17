@@ -13,55 +13,55 @@
 
             switch($variable){
                 case 1:
-                    $tienda = 'ORION91';
+                    $tienda =  "o.payment = 'ORION91'";
                     break;
                 case 2:
-                    $tienda = 'Waadby Payment';
+                    $tienda = "(o.payment = 'Waadby Payment' OR o.payment = 'amazon_es')";
                     break;
                 case 3:
-                    $tienda = 'Makro';
+                    $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = 'Manomano';
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
                     break;
                 case 5:
-                    $tienda = 'AliExpress Payment';
+                    $tienda = "o.payment = 'AliExpress Payment'";
                     break;
                 case 6:
-                    $tienda = 'Worten';
+                    $tienda = "o.payment = 'Worten'";
                     break;
                 case 7:
-                    $tienda = 'Carrefour';
+                    $tienda = "(o.payment = 'Carrefour' OR o.payment = 'carrefour_es')";
                     break;
                 case 8:
-                    $tienda = 'EMBARGOS';
+                    $tienda = "o.payment = 'EMBARGOS'";
                     break;
                 case 9:
-                    $tienda = 'MEQUEDOUNO';
+                    $tienda = "o.payment = 'MEQUEDOUNO'";
                     break;
                 case 10:
-                    $tienda = 'Sprinter';
+                    $tienda = "o.payment = 'Sprinter'";
                     break;
                 case 11:
-                    $tienda = 'Bulevip';
+                    $tienda = "o.payment = 'Bulevip'";
                     break;
                 case 12:
-                    $tienda = 'Venca';
+                    $tienda = "o.payment = 'Venca'";
                     break;
                 case 13:
-                    $tienda = 'Fnac MarketPlace';
+                    $tienda = "(o.payment = 'Fnac MarketPlace' OR o.payment = 'fnac_es')";
                     break;
                 case 14:
-                    $tienda = '242380';
+                    $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = 'MediaMarktSaturno';
+                    $tienda = "o.payment = 'MediaMarktSaturno'";
                     break;
                 case 16:
-                    $tienda = 'PcComponentes';
+                    $tienda = "o.payment = 'PcComponentes'";
                     break;
                 case 17:
-                    $tienda = 'VIPALIA';
+                    $tienda = "o.payment = 'VIPALIA'";
                     break;
             }
 
@@ -76,7 +76,7 @@
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
-                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'=',DB::raw(" 0 AND o.payment = '". $tienda ."' AND o.current_state <> 6 AND o.current_state <> 7"))
+                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'=',DB::raw(" 0 AND ". $tienda ." AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->groupBy('p.id_product')
                         ->orderBy(DB::raw('SUM(od.total_price_tax_incl)'),'DESC')
                         ->limit(10)
@@ -136,55 +136,55 @@
 
             switch($variable){
                 case 1:
-                    $tienda = 'ORION91';
+                    $tienda = "o.payment = 'ORION91'";
                     break;
                 case 2:
-                    $tienda = 'Waadby Payment';
+                    $tienda = "(o.payment = 'Waadby Payment' OR o.payment = 'amazon_es')";
                     break;
                 case 3:
-                    $tienda = 'Makro';
+                    $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = 'Manomano';
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
                     break;
                 case 5:
-                    $tienda = 'AliExpress Payment';
+                    $tienda = "o.payment = 'AliExpress Payment'";
                     break;
                 case 6:
-                    $tienda = 'Worten';
+                    $tienda = "o.payment = 'Worten'";
                     break;
                 case 7:
-                    $tienda = 'Carrefour';
+                    $tienda = "(o.payment = 'Carrefour' OR o.payment = 'carrefour_es')";
                     break;
                 case 8:
-                    $tienda = 'EMBARGOS';
+                    $tienda = "o.payment = 'EMBARGOS'";
                     break;
                 case 9:
-                    $tienda = 'MEQUEDOUNO';
+                    $tienda = "o.payment = 'MEQUEDOUNO'";
                     break;
                 case 10:
-                    $tienda = 'Sprinter';
+                    $tienda = "o.payment = 'Sprinter'";
                     break;
                 case 11:
-                    $tienda = 'Bulevip';
+                    $tienda = "o.payment = 'Bulevip'";
                     break;
                 case 12:
-                    $tienda = 'Venca';
+                    $tienda = "o.payment = 'Venca'";
                     break;
                 case 13:
-                    $tienda = 'Fnac MarketPlace';
+                    $tienda = "(o.payment = 'Fnac MarketPlace' OR o.payment = 'fnac_es')";
                     break;
                 case 14:
-                    $tienda = '242380';
+                    $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = 'MediaMarktSaturno';
+                    $tienda = "o.payment = 'MediaMarktSaturno'";
                     break;
                 case 16:
-                    $tienda = 'PcComponentes';
+                    $tienda = "o.payment = 'PcComponentes'";
                     break;
                 case 17:
-                    $tienda = 'VIPALIA';
+                    $tienda = "o.payment = 'VIPALIA'";
                     break;
             }
 
@@ -199,7 +199,7 @@
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
-                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'<=',DB::raw(" 15 AND o.payment = '". $tienda ."' AND o.current_state <> 6 AND o.current_state <> 7"))
+                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'<=',DB::raw(" 15 AND ". $tienda ." AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->groupBy('p.id_product')
                         ->orderBy(DB::raw('SUM(od.total_price_tax_incl)'),'DESC')
                         ->limit(10)
@@ -259,55 +259,55 @@
 
             switch($variable){
                 case 1:
-                    $tienda = 'ORION91';
+                    $tienda = "o.payment = 'ORION91'";
                     break;
                 case 2:
-                    $tienda = 'Waadby Payment';
+                    $tienda = "(o.payment = 'Waadby Payment' OR o.payment = 'amazon_es')";
                     break;
                 case 3:
-                    $tienda = 'Makro';
+                    $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = 'Manomano';
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
                     break;
                 case 5:
-                    $tienda = 'AliExpress Payment';
+                    $tienda = "o.payment = 'AliExpress Payment'";
                     break;
                 case 6:
-                    $tienda = 'Worten';
+                    $tienda = "o.payment = 'Worten'";
                     break;
                 case 7:
-                    $tienda = 'Carrefour';
+                    $tienda = "(o.payment = 'Carrefour' OR o.payment = 'carrefour_es')";
                     break;
                 case 8:
-                    $tienda = 'EMBARGOS';
+                    $tienda = "o.payment = 'EMBARGOS'";
                     break;
                 case 9:
-                    $tienda = 'MEQUEDOUNO';
+                    $tienda = "o.payment = 'MEQUEDOUNO'";
                     break;
                 case 10:
-                    $tienda = 'Sprinter';
+                    $tienda = "o.payment = 'Sprinter'";
                     break;
                 case 11:
-                    $tienda = 'Bulevip';
+                    $tienda = "o.payment = 'Bulevip'";
                     break;
                 case 12:
-                    $tienda = 'Venca';
+                    $tienda = "o.payment = 'Venca'";
                     break;
                 case 13:
-                    $tienda = 'Fnac MarketPlace';
+                    $tienda = "(o.payment = 'Fnac MarketPlace' OR o.payment = 'fnac_es')";
                     break;
                 case 14:
-                    $tienda = '242380';
+                    $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = 'MediaMarktSaturno';
+                    $tienda = "o.payment = 'MediaMarktSaturno'";
                     break;
                 case 16:
-                    $tienda = 'PcComponentes';
+                    $tienda = "o.payment = 'PcComponentes'";
                     break;
                 case 17:
-                    $tienda = 'VIPALIA';
+                    $tienda = "o.payment = 'VIPALIA'";
                     break;
             }
 
@@ -322,7 +322,7 @@
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
-                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'<=',DB::raw(" 30 AND o.payment = '". $tienda ."' AND o.current_state <> 6 AND o.current_state <> 7"))
+                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'<=',DB::raw(" 30 AND ". $tienda ." AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->groupBy('p.id_product')
                         ->orderBy(DB::raw('SUM(od.total_price_tax_incl)'),'DESC')
                         ->limit(10)

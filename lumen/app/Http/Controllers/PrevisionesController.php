@@ -94,8 +94,7 @@
                                                     o.valid = 1 AND
                                                     o.current_state <> 6 AND
                                                     o.current_state <> 7 AND
-                                                    o.payment = 'Waadby Payment'
-                                                    ) AS 'TotalActualAyer'"),
+                                                    (o.payment = 'Waadby Payment' OR o.payment = 'amazon_es')') AS 'TotalActualAyer'"),
                                     DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
                                                 FROM hg_orders AS o
                                                 WHERE DATEDIFF(NOW(), o.date_add) = 1 AND
@@ -103,7 +102,7 @@
                                                         o.valid = 1 AND
                                                         o.current_state <> 6 AND
                                                         o.current_state <> 7 AND
-                                                        o.payment = 'Waadby Payment'
+                                                        (o.payment = 'Waadby Payment' OR o.payment = 'amazon_es')
                                                         )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
                         ->where('ng.mes','=',1)
                         ->where('ng.nombre_canal','=','Amazon')
@@ -187,7 +186,7 @@
                                                     o.valid = 1 AND
                                                     o.current_state <> 6 AND
                                                     o.current_state <> 7 AND
-                                                    o.payment = 'Manomano'
+                                                    (o.payment = 'Manomano' OR o.payment = 'manomano_es')
                                                     ) AS 'TotalActualAyer'"),
                                     DB::raw("ROUND(((SELECT sum(o.total_paid_tax_excl)
                                             FROM hg_orders AS o
@@ -196,7 +195,7 @@
                                                     o.valid = 1 AND
                                                     o.current_state <> 6 AND
                                                     o.current_state <> 7 AND
-                                                    o.payment = 'Manomano'
+                                                    (o.payment = 'Manomano' OR o.payment = 'manomano_es')
                                                     )*100)/(ng.importe/ng.dias_mes),2) AS 'porcentaje'"))
                         ->where('ng.mes','=',1)
                         ->where('ng.nombre_canal','=','Manomano')

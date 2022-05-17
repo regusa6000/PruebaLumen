@@ -375,3 +375,13 @@ $router->post('buscarEan13PorNombreProducto','DocumentosController@buscarEan13Po
 $router->get('cargarSelectTipoDeDocumento','DocumentosController@cargarSelectTipoDeDocumento');
 $router->post('registrarDocumento','DocumentosController@registrarDocumento');
 $router->get('cargarListadoDocumentosPorEan13/{ean13}','DocumentosController@cargarListadoDocumentosPorEan13');
+$router->get('cargarListadoCompleto','DocumentosController@cargarListadoCompleto');
+$router->post('eliminarArchivos','DocumentosController@eliminarArchivos');
+
+//Productos Pendientes de Validación Lengow
+$router->get('controlPedidosPendientesValidacion','PedidosController@controlPedidosPendientesValidacion');
+$router->get('BadgeControlPedidosPendientesValidacion','PedidosController@BadgeControlPedidosPendientesValidacion');
+
+//Pedidos > 5 dias no enviados
+$router->get('pedidosNoEnviados','PedidosController@pedidosNoEnviados');
+$router->get('countPedidosNoEnviados','PedidosController@countPedidosNoEnviados');
