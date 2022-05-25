@@ -428,6 +428,73 @@ class ProductosController extends Controller{
             return response()->json($resultado);
         }
 
+        /**Función productos con combinaciones y precios diferentes**/
+        function diferenciaPreciosCombinados(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select(DB::raw('COUNT(DISTINCT pa.price) AS distintos_precios'),'p.id_product',DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13'),DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,DB::raw('ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) AS precio'),'pl.name AS nombre_producto')
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=',DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
+                        ->leftJoin('hg_specific_price AS precio_espe_att','precio_espe_att.id_product_attribute','=',DB::raw('pa.id_product_attribute AND
+                                        precio_espe_att.id_product = pa.id_product AND precio_espe_att.id_group = 0 AND precio_espe_att.id_group = 0 AND precio_espe_att.id_cart = 0'))
+                        ->leftJoin('hg_specific_price AS precio_espe','precio_espe.id_product','=',DB::raw('pa.id_product AND
+                                        precio_espe.id_group = 0 AND precio_espe.id_group = 0 AND precio_espe.id_cart = 0'))
+                        ->where('p.active','=',DB::raw("1 AND pa.id_product_attribute IS NOT NULL AND pl.name NOT LIKE '%Árbol de Navidad %'"))
+                        ->groupBy('p.id_product')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+
+            $arrayDiferentes = [];
+
+            for($a = 0 ; $a < count($resultado); $a++){
+                if($resultado[$a]->distintos_precios > 1){
+                    array_push($arrayDiferentes,$resultado[$a]);
+                }
+            }
+
+            return response()->json($arrayDiferentes);
+        }
+
+        function badgeDiferenciaPreciosCombinados(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select(DB::raw('COUNT(DISTINCT pa.price) AS distintos_precios'),'p.id_product',DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13'),DB::raw('IFNULL(pa.reference, p.reference) AS reference')
+                                ,DB::raw('ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) AS precio'),'pl.name AS nombre_producto')
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=',DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','a.id_attribute_group','=',DB::raw('agl.id_attribute_group AND agl.id_lang = 1'))
+                        ->leftJoin('hg_specific_price AS precio_espe_att','precio_espe_att.id_product_attribute','=',DB::raw('pa.id_product_attribute AND
+                                        precio_espe_att.id_product = pa.id_product AND precio_espe_att.id_group = 0 AND precio_espe_att.id_group = 0 AND precio_espe_att.id_cart = 0'))
+                        ->leftJoin('hg_specific_price AS precio_espe','precio_espe.id_product','=',DB::raw('pa.id_product AND
+                                        precio_espe.id_group = 0 AND precio_espe.id_group = 0 AND precio_espe.id_cart = 0'))
+                        ->where('p.active','=',DB::raw("1 AND pa.id_product_attribute IS NOT NULL AND pl.name NOT LIKE '%Árbol de Navidad %'"))
+                        ->groupBy('p.id_product')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+
+            $arrayDiferentes = [];
+
+            for($a = 0 ; $a < count($resultado); $a++){
+                if($resultado[$a]->distintos_precios > 1){
+                    array_push($arrayDiferentes,$resultado[$a]);
+                }
+            }
+
+            return response()->json(count($arrayDiferentes));
+        }
+
     }
 
 ?>

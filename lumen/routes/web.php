@@ -385,3 +385,11 @@ $router->get('BadgeControlPedidosPendientesValidacion','PedidosController@BadgeC
 //Pedidos > 5 dias no enviados
 $router->get('pedidosNoEnviados','PedidosController@pedidosNoEnviados');
 $router->get('countPedidosNoEnviados','PedidosController@countPedidosNoEnviados');
+
+//Diferencia Precios Combinados
+$router->get('diferenciaPreciosCombinados','ProductosController@diferenciaPreciosCombinados');
+$router->get('badgeDiferenciaPreciosCombinados','ProductosController@badgeDiferenciaPreciosCombinados');
+
+//Abonos
+$router->post('buscarAbonosPorFechas','AbonosController@buscarAbonosPorFechas');
+$router->post('buscarLineasAbonos','AbonosController@buscarLineasAbonos');
