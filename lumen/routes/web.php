@@ -393,3 +393,7 @@ $router->get('badgeDiferenciaPreciosCombinados','ProductosController@badgeDifere
 //Abonos
 $router->post('buscarAbonosPorFechas','AbonosController@buscarAbonosPorFechas');
 $router->post('buscarLineasAbonos','AbonosController@buscarLineasAbonos');
+
+//Incidencias
+$router->post('buscarIncidenciaPorAbono','AbonosController@buscarIncidenciaPorAbono');
+$router->post('countBuscarIncidenciaPorAbono','AbonosController@countBuscarIncidenciaPorAbono');
