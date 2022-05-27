@@ -167,7 +167,7 @@ class ProductosController extends Controller{
         function controlPreciosCambiadosAx(){
 
             $resultado = DB::table('hg_product AS p')
-                        ->select('p.id_product'
+                        ->select('p.id_product', 'pmp.id_ax'
                                 ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
                                 ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
                                 ,DB::raw('ROUND((IFNULL(pa.price, p.price) - IFNULL ((IFNULL(pa.price,p.price) * IFNULL(precio_espe_att.reduction, precio_espe.reduction)),0)) * 1.21,2) AS precioORION91')
@@ -493,6 +493,30 @@ class ProductosController extends Controller{
             }
 
             return response()->json(count($arrayDiferentes));
+        }
+
+        function controlPreciosBaseMenorPrecioOferta(){
+
+            $resultado = DB::table('ng_pmp_aux as precios')
+                        ->select('precios.price','precios.precioOfertaAx','aux.itemid AS itemID_AX'
+                                ,'aux.id_product AS id_PS','aux.name','aux.name_att','aux.name_value_att')
+                        ->join('aux_makro_offers AS aux','aux.itemid','=','precios.id_ax')
+                        ->where('aux.itemid','=',DB::raw('precios.id_ax AND precios.precioOfertaAx > precios.price'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countControlPreciosBaseMenorPrecioOferta(){
+
+            $resultado = DB::table('ng_pmp_aux as precios')
+                        ->select('precios.price','precios.precioOfertaAx','aux.itemid AS itemID_AX'
+                                ,'aux.id_product AS id_PS','aux.name','aux.name_att','aux.name_value_att')
+                        ->join('aux_makro_offers AS aux','aux.itemid','=','precios.id_ax')
+                        ->where('aux.itemid','=',DB::raw('precios.id_ax AND precios.precioOfertaAx > precios.price'))
+                        ->get();
+
+            return response()->json(count($resultado));
         }
 
     }

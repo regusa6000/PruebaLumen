@@ -397,3 +397,7 @@ $router->post('buscarLineasAbonos','AbonosController@buscarLineasAbonos');
 //Incidencias
 $router->post('buscarIncidenciaPorAbono','AbonosController@buscarIncidenciaPorAbono');
 $router->post('countBuscarIncidenciaPorAbono','AbonosController@countBuscarIncidenciaPorAbono');
+
+//Precio Base < Precio Oferta
+$router->get('controlPreciosBaseMenorPrecioOferta','ProductosController@controlPreciosBaseMenorPrecioOferta');
+$router->get('countControlPreciosBaseMenorPrecioOferta','ProductosController@countControlPreciosBaseMenorPrecioOferta');
