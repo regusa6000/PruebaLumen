@@ -398,6 +398,17 @@ $router->post('buscarLineasAbonos','AbonosController@buscarLineasAbonos');
 $router->post('buscarIncidenciaPorAbono','AbonosController@buscarIncidenciaPorAbono');
 $router->post('countBuscarIncidenciaPorAbono','AbonosController@countBuscarIncidenciaPorAbono');
 
+//Incidencias Motivos y SubMotivos
+$router->get('cargarSelectMotivos','AbonosController@cargarSelectMotivos');
+$router->get('cargarSelectSubMotivos/{idMotivo}','AbonosController@cargarSelectSubMotivos');
+$router->post('registrarMotivosYSubMotivos','AbonosController@registrarMotivosYSubMotivos');
+
+
 //Precio Base < Precio Oferta
 $router->get('controlPreciosBaseMenorPrecioOferta','ProductosController@controlPreciosBaseMenorPrecioOferta');
 $router->get('countControlPreciosBaseMenorPrecioOferta','ProductosController@countControlPreciosBaseMenorPrecioOferta');
+
+
+//Pedidos Duplicados
+$router->get('pedidosDuplicados','PedidosController@pedidosDuplicados');
+$router->get('countPedidosDuplicados','PedidosController@countPedidosDuplicados');

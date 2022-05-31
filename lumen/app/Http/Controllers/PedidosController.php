@@ -1190,5 +1190,31 @@ class PedidosController extends Controller{
             return response()->json(count($resultado));
         }
 
+
+        //Pedidos Duplicados
+        function pedidosDuplicados(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.reference','o.date_add','o.payment','osl.name')
+                        ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
+                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 232000'))
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countPedidosDuplicados(){
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.reference','o.date_add','o.payment','osl.name')
+                        ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
+                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 232000'))
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
     }
 ?>
