@@ -34,7 +34,7 @@
             $orPedido = $request->input('orPedido');
 
             $resultado = DB::table('ng_abonos AS abo')
-                        ->select('abo.id','abo.idFactura','abo.pedidoAx','abo.referenciaPs'
+                        ->select('abo.id','abo.idFactura','abo.pedidoAx','abo.referenciaPs','us.name AS nameUsuario','moi.motivo as motivoName','subm.submotivo'
                                 ,DB::raw("IFNULL(amo.id_product,'0000') AS id_product")
                                 ,DB::raw('IFNULL(amo.name,abo.nombreProducto) as nombreProducto'),'abo.cantidadVendida'
                                 ,DB::raw("IFNULL(CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg'),'/orion/assets/images/gastosTransporte.png') AS imagen")
@@ -42,6 +42,10 @@
                                 ,DB::raw("IF((SELECT COUNT(mo.id) FROM ng_motivosLineasAbonadas AS mo WHERE mo.idLineaAbono = abo.id) = 0,'No Motivado','Motivado') AS motivo"))
                         ->leftJoin('aux_makro_offers AS amo','amo.itemid','=','abo.idProductAx')
                         ->leftJoin('hg_image_shop AS image_shop','image_shop.id_product','=',DB::raw('amo.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->leftJoin('ng_motivosLineasAbonadas AS mo2','mo2.idLineaAbono','=','abo.id')
+                        ->leftJoin('ng_users AS us','us.id_user','=','mo2.idUsuario')
+                        ->leftJoin('ng_motivosIncidencias AS moi','moi.id','=','mo2.idMotivo')
+                        ->leftJoin('ng_submotivoIncidencias AS subm','subm.id','=','mo2.idSubMotivo')
                         ->where('abo.referenciaPs','=',$orPedido)
                         ->get();
 
@@ -98,6 +102,7 @@
 
             $referenciaPs = $request->input('referenciaPs');
             $idAbonoLinea = $request->input('idAbonoLinea');
+            $idUsuario = $request->input('idUsuario');
             $pedidoAx = $request->input('pedidoAx');
             $idFactura = $request->input('idFactura');
             $idMotivo = $request->input('idMotivo');
@@ -108,21 +113,42 @@
             $precioFinal = $request->input('precioFinal');
             $fechaRegistro = Carbon::now();
 
-            $resultado = DB::table('ng_motivosLineasAbonadas')->insert([
-                'idLineaAbono' => $idAbonoLinea,
-                'referenciaPs' => $referenciaPs,
-                'pedidoAx' => $pedidoAx,
-                'idFactura' => $idFactura,
-                'idMotivo' => $idMotivo,
-                'idSubMotivo' => $idSubMotivo,
-                'idProducto' => $idProducto,
-                'nombreProducto' => $nombreProducto,
-                'cantidadVendida' => $cantidadVendida,
-                'precioFinal' => $precioFinal,
-                'fechaRegistro' => $fechaRegistro
-            ]);
+            $resultadoBusqueda = DB::table('ng_motivosLineasAbonadas AS mo')
+                                ->select('*')
+                                ->where('mo.idLineaAbono','=',$idAbonoLinea)
+                                ->get();
 
-        return response()->json($resultado);
+            if(count($resultadoBusqueda) > 0){
+
+                $resultadoActualizar = DB::table('ng_motivosLineasAbonadas')
+                                        ->where('idLineaAbono','=',$idAbonoLinea)
+                                        ->update([
+                                            'idUsuario' => $idUsuario,
+                                            'idMotivo' => $idMotivo,
+                                            'idSubMotivo' => $idSubMotivo,
+                                        ]);
+
+                return response()->json($resultadoActualizar);
+            }else{
+
+                $resultado = DB::table('ng_motivosLineasAbonadas')->insert([
+                    'idLineaAbono' => $idAbonoLinea,
+                    'idUsuario' => $idUsuario,
+                    'referenciaPs' => $referenciaPs,
+                    'pedidoAx' => $pedidoAx,
+                    'idFactura' => $idFactura,
+                    'idMotivo' => $idMotivo,
+                    'idSubMotivo' => $idSubMotivo,
+                    'idProducto' => $idProducto,
+                    'nombreProducto' => $nombreProducto,
+                    'cantidadVendida' => $cantidadVendida,
+                    'precioFinal' => $precioFinal,
+                    'fechaRegistro' => $fechaRegistro
+                ]);
+
+                return response()->json($resultado);
+            }
+
         }
     }
 

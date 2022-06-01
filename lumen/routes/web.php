@@ -412,3 +412,10 @@ $router->get('countControlPreciosBaseMenorPrecioOferta','ProductosController@cou
 //Pedidos Duplicados
 $router->get('pedidosDuplicados','PedidosController@pedidosDuplicados');
 $router->get('countPedidosDuplicados','PedidosController@countPedidosDuplicados');
+
+
+//Contraseñas Plataformas
+$router->get('clavesPlataformas','ZonasController@clavesPlataformas');
+$router->post('registrarClavesPlataformas','ZonasController@registrarClavesPlataformas');
+$router->put('actualizarClavesPlataformas','ZonasController@actualizarClavesPlataformas');
+$router->delete('eliminarClavesPlataforma/{idPlataforma}','ZonasController@eliminarClavesPlataforma');

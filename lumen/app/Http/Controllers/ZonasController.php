@@ -135,6 +135,62 @@
             return response()->json($resultado);
         }
 
+
+        //Contraseñas distintas plataformas
+        function clavesPlataformas(){
+
+            $resultado = DB::table('ng_contraseñasCompartidas AS con')
+                        ->select('*')
+                        ->orderBy('con.plataforma','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function registrarClavesPlataformas(Request $request){
+
+            $plataforma = $request->input('plataforma');
+            $email = $request->input('email');
+            $password = $request->input('password');
+            $fecha = Carbon::now();
+
+            $resultado = DB::table('ng_contraseñasCompartidas')
+                        ->insert([
+                            'plataforma' => $plataforma,
+                            'email' => $email,
+                            'password' => $password,
+                            'date_add' => $fecha
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function actualizarClavesPlataformas(Request $request){
+
+            $idPlataforma = $request->input('idPlataforma');
+            $plataforma = $request->input('plataforma');
+            $email = $request->input('email');
+            $password = $request->input('password');
+
+            $resultado = DB::table('ng_contraseñasCompartidas')
+                        ->where('id','=',$idPlataforma)
+                        ->update([
+                            'plataforma' => $plataforma,
+                            'email' => $email,
+                            'password' => $password
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function eliminarClavesPlataforma($idPlataforma){
+
+            $resultado = DB::table('ng_contraseñasCompartidas')
+                        ->where('id','=',$idPlataforma)
+                        ->delete();
+
+            return response()->json($resultado);
+        }
     }
 
 ?>
