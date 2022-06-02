@@ -519,6 +519,65 @@ class ProductosController extends Controller{
             return response()->json(count($resultado));
         }
 
+        //Productos solo categorizados en OUTLET
+        function productosEnCategoriaOulet(){
+
+            $resultado = DB::table('hg_category_product AS cp')
+                        ->select('cp.id_product','pl.name', 'cl.name AS categoria', DB::raw('SUM(sa.quantity) AS stock')
+                                ,DB::raw('(SELECT count(hg_category_product.id_product) FROM hg_category_product WHERE hg_category_product.id_product = cp.id_product) AS n_cat'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('cp.id_product AND pl.id_lang = 1'))
+                        ->join('hg_product AS p','p.id_product','=','cp.id_product')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cp.id_category AND cl.id_lang = 1'))
+                        ->join('hg_stock_available AS sa','sa.id_product','=','cp.id_product')
+                        ->where('cp.id_category','=',DB::raw('278 AND p.active = 1 AND (SELECT count(hg_category_product.id_product) FROM hg_category_product WHERE hg_category_product.id_product = cp.id_product) < 2'))
+                        ->groupBy('p.id_product')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countProductosEnCategoriaOulet(){
+
+            $resultado = DB::table('hg_category_product AS cp')
+                        ->select('cp.id_product','pl.name', 'cl.name AS categoria', DB::raw('SUM(sa.quantity) AS stock')
+                                ,DB::raw('(SELECT count(hg_category_product.id_product) FROM hg_category_product WHERE hg_category_product.id_product = cp.id_product) AS n_cat'))
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('cp.id_product AND pl.id_lang = 1'))
+                        ->join('hg_product AS p','p.id_product','=','cp.id_product')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cp.id_category AND cl.id_lang = 1'))
+                        ->join('hg_stock_available AS sa','sa.id_product','=','cp.id_product')
+                        ->where('cp.id_category','=',DB::raw('278 AND p.active = 1 AND (SELECT count(hg_category_product.id_product) FROM hg_category_product WHERE hg_category_product.id_product = cp.id_product) < 2'))
+                        ->groupBy('p.id_product')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+        //Productos SIN categoria predeterminada
+        function productosSinCategoriaPredeterminada(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','p.id_category_default','p.active','pl.name')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('p.active','=',DB::raw("1 AND (p.id_category_default = 2 OR p.id_category_default = '' OR ISNULL(p.id_category_default))"))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countProductosSinCategoriaPredeterminada(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','p.id_category_default','p.active','pl.name')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where('p.active','=',DB::raw("1 AND (p.id_category_default = 2 OR p.id_category_default = '' OR ISNULL(p.id_category_default))"))
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+
     }
 
 ?>

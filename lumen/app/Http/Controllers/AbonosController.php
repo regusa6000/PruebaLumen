@@ -150,6 +150,25 @@
             }
 
         }
+
+        //Incidencia Abonos Motivos
+        function incidenciaAbonosMotivos(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_motivosLineasAbonadas AS mo')
+                        ->select('moi.motivo','sub.submotivo',DB::raw('SUM(mo.precioFinal) AS precioFinal'),DB::raw('SUM(mo.cantidadVendida) AS cantidadVendida'))
+                        ->join('ng_abonos AS a','a.id','=','mo.idLineaAbono')
+                        ->join('ng_motivosIncidencias AS moi','moi.id','=','mo.idMotivo')
+                        ->join('ng_submotivoIncidencias AS sub','sub.id','=','mo.idSubMotivo')
+                        ->whereBetween('a.fechaFactura',[$fechaInicio,$fechaFin])
+                        ->groupBy('moi.id','sub.id')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

@@ -419,3 +419,14 @@ $router->get('clavesPlataformas','ZonasController@clavesPlataformas');
 $router->post('registrarClavesPlataformas','ZonasController@registrarClavesPlataformas');
 $router->put('actualizarClavesPlataformas','ZonasController@actualizarClavesPlataformas');
 $router->delete('eliminarClavesPlataforma/{idPlataforma}','ZonasController@eliminarClavesPlataforma');
+
+//Abonos Incidencias Motivos
+$router->post('incidenciaAbonosMotivos','AbonosController@incidenciaAbonosMotivos');
+
+//Productos solo categorizados en OUTLET
+$router->get('productosEnCategoriaOulet','ProductosController@productosEnCategoriaOulet');
+$router->get('countProductosEnCategoriaOulet','ProductosController@countProductosEnCategoriaOulet');
+
+//Productos SIN categoria predeterminada
+$router->get('productosSinCategoriaPredeterminada','ProductosController@productosSinCategoriaPredeterminada');
+$router->get('countProductosSinCategoriaPredeterminada','ProductosController@countProductosSinCategoriaPredeterminada');
