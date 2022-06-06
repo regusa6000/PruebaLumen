@@ -13,16 +13,16 @@
             $fechaInicio = $request->input('fechaInicio');
             $fechaFin = $request->input('fechaFin');
 
-            $resultado = DB::table('ng_abonos AS abo')
+            $resultado = DB::table('ng_lineas_abonos AS abo')
                         ->select('abo.idFactura','abo.pedidoAx','abo.referenciaPs','osl.name AS estadoPedido'
-                                ,DB::raw("IFNULL((SELECT abono.precioFinal FROM ng_abonos AS abono WHERE abono.nombreProducto = 'GASTOS TRANSPORTE' AND abono.referenciaPs = abo.referenciaPs),0) AS transporte")
+                                ,DB::raw("IFNULL((SELECT abono.precioFinal FROM ng_lineas_abonos AS abono WHERE abono.nombreProducto = 'GASTOS TRANSPORTE' AND abono.referenciaPs = abo.referenciaPs),0) AS transporte")
                                 ,DB::raw('SUM(abo.precioFinal) AS precioFinal')
-                                ,DB::raw("CONCAT(DAY(abo.fechaFactura),'-',MONTH(abo.fechaFactura),'-',YEAR(abo.fechaFactura)) AS fechaFactura")
-                                ,DB::raw('(SELECT COUNT(abo2.referenciaPs) FROM ng_abonos AS abo2 WHERE abo2.referenciaPs = abo.referenciaPs) AS cantidadProductos')
+                                ,DB::raw("CONCAT(DAY(abo.fechaAbono),'-',MONTH(abo.fechaAbono),'-',YEAR(abo.fechaAbono)) AS fechaFactura")
+                                ,DB::raw('(SELECT COUNT(abo2.referenciaPs) FROM ng_lineas_abonos AS abo2 WHERE abo2.referenciaPs = abo.referenciaPs) AS cantidadProductos')
                                 ,DB::raw('(SELECT count(mo.referenciaPs) FROM ng_motivosLineasAbonadas AS mo WHERE mo.referenciaPs = abo.referenciaPs) AS cantidadMotivados'))
                         ->join('hg_orders AS o','o.reference','=','abo.referenciaPs')
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where('abo.fechaFactura','>=',DB::raw("'".$fechaInicio."'"."AND abo.fechaFactura <= DATE_ADD("."'".$fechaFin."'".", INTERVAL 1 DAY)"))
+                        ->where('abo.fechaAbono','>=',DB::raw("'".$fechaInicio."'"."AND abo.fechaAbono <= DATE_ADD("."'".$fechaFin."'".", INTERVAL 1 DAY)"))
                         ->groupBy('abo.idFactura')
                         ->get();
 
@@ -33,12 +33,12 @@
 
             $orPedido = $request->input('orPedido');
 
-            $resultado = DB::table('ng_abonos AS abo')
+            $resultado = DB::table('ng_lineas_abonos AS abo')
                         ->select('abo.id','abo.idFactura','abo.pedidoAx','abo.referenciaPs','us.name AS nameUsuario','moi.motivo as motivoName','subm.submotivo'
                                 ,DB::raw("IFNULL(amo.id_product,'0000') AS id_product")
                                 ,DB::raw('IFNULL(amo.name,abo.nombreProducto) as nombreProducto'),'abo.cantidadVendida'
                                 ,DB::raw("IFNULL(CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg'),'/orion/assets/images/gastosTransporte.png') AS imagen")
-                                ,'abo.precioFinal',DB::raw("CONCAT(DAY(abo.fechaFactura),'-',MONTH(abo.fechaFactura),'-',YEAR(abo.fechaFactura)) AS fechaFactura")
+                                ,'abo.precioFinal',DB::raw("CONCAT(DAY(abo.fechaAbono),'-',MONTH(abo.fechaAbono),'-',YEAR(abo.fechaAbono)) AS fechaAbono")
                                 ,DB::raw("IF((SELECT COUNT(mo.id) FROM ng_motivosLineasAbonadas AS mo WHERE mo.idLineaAbono = abo.id) = 0,'No Motivado','Motivado') AS motivo"))
                         ->leftJoin('aux_makro_offers AS amo','amo.itemid','=','abo.idProductAx')
                         ->leftJoin('hg_image_shop AS image_shop','image_shop.id_product','=',DB::raw('amo.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
@@ -159,11 +159,34 @@
 
             $resultado = DB::table('ng_motivosLineasAbonadas AS mo')
                         ->select('moi.motivo','sub.submotivo',DB::raw('SUM(mo.precioFinal) AS precioFinal'),DB::raw('SUM(mo.cantidadVendida) AS cantidadVendida'))
-                        ->join('ng_abonos AS a','a.id','=','mo.idLineaAbono')
+                        ->join('ng_lineas_abonos AS a','a.id','=','mo.idLineaAbono')
                         ->join('ng_motivosIncidencias AS moi','moi.id','=','mo.idMotivo')
                         ->join('ng_submotivoIncidencias AS sub','sub.id','=','mo.idSubMotivo')
-                        ->whereBetween('a.fechaFactura',[$fechaInicio,$fechaFin])
+                        ->whereBetween('a.fechaAbono',[$fechaInicio,$fechaFin])
                         ->groupBy('moi.id','sub.id')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Abonos por Motivo Transporte
+        function abonosMotivosTransporte(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_motivosLineasAbonadas AS moabono')
+                        ->select('motivo.motivo','submotivo.submotivo'
+                                ,DB::raw('SUM(lin_abo.precioFinal) AS totalSinIva')
+                                ,DB::raw('COUNT(o.reference) AS n_abonos')
+                                ,DB::raw("IF(carrier.name = 'Envío Urgente', 'GLS', carrier.name) AS agencia"))
+                        ->join('ng_lineas_abonos AS lin_abo','lin_abo.id','=','moabono.idLineaAbono')
+                        ->join('ng_motivosIncidencias AS motivo','motivo.id','=','moabono.idMotivo')
+                        ->join('ng_submotivoIncidencias AS submotivo','submotivo.id','=','moabono.idSubMotivo')
+                        ->join('hg_orders AS o','o.reference','=','lin_abo.referenciaPs')
+                        ->join('hg_carrier AS carrier','carrier.id_carrier','=','o.id_carrier')
+                        ->where('motivo.id','=',DB::raw("2 AND lin_abo.fechaAbono BETWEEN '".$fechaInicio."' AND '".$fechaFin."'"))
+                        ->groupBy('motivo.id','submotivo.id','o.id_carrier')
                         ->get();
 
             return response()->json($resultado);

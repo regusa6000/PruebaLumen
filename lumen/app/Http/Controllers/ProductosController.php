@@ -577,6 +577,36 @@ class ProductosController extends Controller{
             return response()->json(count($resultado));
         }
 
+        //Productos Sin MP_NombreArticulo
+        function productosSinMPNombreArticulo(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','pl.name AS nombreProducto','sa.quantity AS stock')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_stock_available AS sa','sa.id_product','=','p.id_product')
+                        ->where('p.active','=',DB::raw('1 AND (SELECT COUNT(fp.id_product) FROM hg_feature_product AS fp WHERE fp.id_feature = 961
+                                    AND fp.id_product = p.id_product ) = 0'))
+                        ->groupBy('p.id_product')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countProductosSinMPNombreArticulo(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','pl.name AS nombreProducto','sa.quantity AS stock')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_stock_available AS sa','sa.id_product','=','p.id_product')
+                        ->where('p.active','=',DB::raw('1 AND (SELECT COUNT(fp.id_product) FROM hg_feature_product AS fp WHERE fp.id_feature = 961
+                                    AND fp.id_product = p.id_product ) = 0'))
+                        ->groupBy('p.id_product')
+                        ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
 
     }
 

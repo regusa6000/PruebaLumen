@@ -1216,5 +1216,17 @@ class PedidosController extends Controller{
             return response()->json(count($resultado));
         }
 
+
+        //Listado Tabla con Estados PreAlmacén
+        function pedidosEstadosPreAlmacen(){
+
+            $resultado = DB::table('ng_historialPedidosConEstadoPreAlmacen AS h')
+                        ->select('*',DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',h.idOrder) AS url "))
+                        ->whereBetween('h.fechaRegistro',[DB::raw('DATE_SUB(NOW(),INTERVAL 30 DAY)'),DB::raw('NOW()')])
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 ?>

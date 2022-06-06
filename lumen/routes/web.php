@@ -430,3 +430,15 @@ $router->get('countProductosEnCategoriaOulet','ProductosController@countProducto
 //Productos SIN categoria predeterminada
 $router->get('productosSinCategoriaPredeterminada','ProductosController@productosSinCategoriaPredeterminada');
 $router->get('countProductosSinCategoriaPredeterminada','ProductosController@countProductosSinCategoriaPredeterminada');
+
+
+//Abonos Motivo Transporte
+$router->post('abonosMotivosTransporte','AbonosController@abonosMotivosTransporte');
+
+//Productos Sin MP_NombreArticulo
+$router->get('productosSinMPNombreArticulo','ProductosController@productosSinMPNombreArticulo');
+$router->get('countProductosSinMPNombreArticulo','ProductosController@countProductosSinMPNombreArticulo');
+
+
+//Listado Tabla de Registro de Pedidos con Estado PreAlmacen
+$router->get('pedidosEstadosPreAlmacen','PedidosController@pedidosEstadosPreAlmacen');
