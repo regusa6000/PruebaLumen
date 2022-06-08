@@ -192,6 +192,23 @@
             return response()->json($resultado);
         }
 
+
+        //GRAFICO ABONOS CANALES
+        function graficoAbonosCanales(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select(DB::raw('ROUND(SUM(abo.precioFinal) * -1 , 2) AS precioFinal')
+                                ,DB::raw("IFNULL(abo.tienda, 'Otro caso') AS tienda"), 'abo.fechaAbono')
+                        ->whereBetween('abo.fechaAbono',[$fechaInicio,$fechaFin])
+                        ->groupBy('abo.tienda')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

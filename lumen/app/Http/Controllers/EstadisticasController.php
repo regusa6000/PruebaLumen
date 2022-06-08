@@ -2921,7 +2921,11 @@
                                 ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
                                             LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
                                                 WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
-                                                AND carr.name LIKE '%gls%' AND o.valid = 1 AND o.current_state = 4) AS gls")
+                                                AND (carr.name LIKE '%gls%' OR carr.name LIKE '%envi%') AND o.valid = 1 AND o.current_state = 4) AS gls")
+                                ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
+                                            LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
+                                                WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)
+                                                AND carr.name LIKE '%Trans%' AND o.valid = 1 AND o.current_state = 4) AS transaher")
                                 ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
                                             LEFT JOIN hg_carrier AS carr ON carr.id_carrier = o.id_carrier
                                                 WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)   AND DAY(o.date_add) = DAY(hg_orders.date_add)

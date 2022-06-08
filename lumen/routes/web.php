@@ -442,3 +442,7 @@ $router->get('countProductosSinMPNombreArticulo','ProductosController@countProdu
 
 //Listado Tabla de Registro de Pedidos con Estado PreAlmacen
 $router->get('pedidosEstadosPreAlmacen','PedidosController@pedidosEstadosPreAlmacen');
+
+
+//Grafico Abonos Canales
+$router->post('graficoAbonosCanales','AbonosController@graficoAbonosCanales');
