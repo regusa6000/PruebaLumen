@@ -390,9 +390,7 @@
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
                         ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
-                        ->where('o.date_add','>=',$fechaInicio)
-                        ->where('o.date_add','<=',$fechaFin)
-                        ->where('o.valid','=',1)
+                        ->where('o.valid','=',DB::raw("1 AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin'"))
                         ->groupBy('p.id_product')
                         ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
                         ->get();

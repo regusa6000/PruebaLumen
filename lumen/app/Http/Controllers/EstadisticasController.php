@@ -2530,7 +2530,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                             (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' OR o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR  o.payment = 'Bizum - Pago online'
                             or o.payment = 'PayPal' OR o.payment = 'Transferencia bancaria' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
@@ -2541,7 +2541,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Manomano' OR o.payment = 'manomano_es') AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->get();
                     break;
@@ -2551,7 +2551,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Carrefour' OR o.payment = 'carrefour_es') AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->get();
                     break;
@@ -2561,7 +2561,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'AliExpress Payment' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2571,7 +2571,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Waadby Payment' OR o.payment = 'amazon_es') AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->get();
                     break;
@@ -2581,7 +2581,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Groupon' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2591,7 +2591,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'EMBARGOS' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2601,7 +2601,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'MEQUEDOUNO' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2611,7 +2611,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Fnac MarketPlace' OR o.payment = 'fnac_es') AND o.current_state <> 6 AND o.current_state <> 7"))
                         ->get();
                     break;
@@ -2621,7 +2621,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.id_customer = '242380' AND o.current_state <> 6 AND o.current_state <> 7 )"))
                         ->get();
                     break;
@@ -2631,7 +2631,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Makro' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2641,7 +2641,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'PcComponentes' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2651,7 +2651,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'Sprinter' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -2661,7 +2661,7 @@
                                     DB::raw('round(od.total_price_tax_incl,2) AS importeVendido'),'o.date_add','o.payment')
                         ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
-                        ->where('od.product_id' , '=', DB::raw("$idProducto AND  o.date_add >= '$fechaInicio 0:00:00' AND o.date_add <= '$fechaFin 23:23:59' AND o.valid = 1 AND
+                        ->where('od.product_id' , '=', DB::raw("$idProducto AND DATE(o.date_add) BETWEEN '$fechaInicio' AND '$fechaFin' AND o.valid = 1 AND
                                 (o.payment = 'BuleVip' AND o.current_state <> 6 AND o.current_state <> 7)"))
                         ->get();
                     break;
@@ -3379,6 +3379,38 @@
             return response()->json($resultado);
         }
 
+
+        /**DASHBORAD CON FACTURAS DATOS FACTURACIÓN AX**/
+        function datosFacturacionAx(){
+
+            $resultado = DB::table('ng_lineasFacturasAx AS lineas')
+                        ->select(DB::raw("CONCAT(DAY(lineas.fechaFactura),'/' , MONTH(lineas.fechaFactura),'/' ,YEAR(lineas.fechaFactura)) AS dia")
+                                , DB::raw("(SELECT COUNT(DISTINCT(ng_lineasFacturasAx.purcharseOrder)) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder NOT LIKE 'INCI%'
+                                            AND ng_lineasFacturasAx.itemid <> '99989') AS suma_ped")
+                                ,DB::raw("(SELECT COUNT(DISTINCT(ng_lineasFacturasAx.purcharseOrder)) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder LIKE 'INCI%'
+                                            AND ng_lineasFacturasAx.itemid <> '99989'
+                                            AND ng_lineasFacturasAx.lineAmount > 0) AS suma_incis")
+                                ,DB::raw("IFNULL((SELECT COUNT(*) from ng_lineas_abonos AS abonos
+                                            WHERE DATE(abonos.fechaAbono) = DATE(lineas.fechaFactura)
+                                            GROUP BY abonos.fechaAbono), 0) AS suma_abo")
+                                ,DB::raw("IFNULL((SELECT sum(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder LIKE 'INCI%' AND ng_lineasFacturasAx.lineAmount > 0 ),0) AS total_incis_s_i")
+                                ,DB::raw("SUM(lineas.lineAmount) total_ped_s_i")
+                                ,DB::raw("IFNULL((SELECT SUM(abonos2.precioFinal) from ng_lineas_abonos AS abonos2
+                                            WHERE DATE(abonos2.fechaAbono) = DATE(lineas.fechaFactura)
+                                            GROUP BY abonos2.fechaAbono),0) AS total_abo_s_i"))
+                        ->whereBetween(DB::raw('DATE(lineas.fechaFactura)'),[DB::raw('DATE_SUB(NOW(),INTERVAL 7 DAY)'),DB::raw('NOW()')])
+                        ->groupBy('lineas.fechaFactura')
+                        ->orderBy('lineas.id','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
     }
 
 ?>

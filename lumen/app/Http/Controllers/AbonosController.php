@@ -193,22 +193,85 @@
         }
 
 
-        //GRAFICO ABONOS CANALES
-        function graficoAbonosCanales(Request $request){
+        //Indice De Abonos por Canal
+        function indiceAbonosPorCanal(Request $request){
 
             $fechaInicio = $request->input('fechaInicio');
             $fechaFin = $request->input('fechaFin');
 
-            $resultado = DB::table('ng_lineas_abonos AS abo')
-                        ->select(DB::raw('ROUND(SUM(abo.precioFinal) * -1 , 2) AS precioFinal')
-                                ,DB::raw("IFNULL(abo.tienda, 'Otro caso') AS tienda"), 'abo.fechaAbono')
-                        ->whereBetween('abo.fechaAbono',[$fechaInicio,$fechaFin])
-                        ->groupBy('abo.tienda')
+            $resultado = DB::table('ng_lineas_abonos AS abos')
+                        ->select('canales.canal',DB::raw('ROUND(SUM(abos.precioFinal),2) AS abonos')
+                                ,DB::raw("ROUND((SELECT sum(lineas.lineAmount) FROM ng_lineasFacturasAx AS lineas
+                                            INNER JOIN hg_orders ON hg_orders.reference = lineas.purcharseOrder
+                                            INNER JOIN ng_canales_payment ON ng_canales_payment.payment = hg_orders.payment
+                                            WHERE DATE(lineas.fechaFactura) >= DATE('$fechaInicio')
+                                                    AND DATE(lineas.fechaFactura) <= DATE('$fechaFin')
+                                                    AND ng_canales_payment.canal = canales.canal),2) AS facturas")
+                                ,DB::raw("ROUND(IFNULL((sum(abos.precioFinal) * -100) /
+                                            (SELECT sum(lineas.lineAmount) FROM ng_lineasFacturasAx AS lineas
+                                            INNER JOIN hg_orders ON hg_orders.reference = lineas.purcharseOrder
+                                            INNER JOIN ng_canales_payment ON ng_canales_payment.payment = hg_orders.payment
+                                            WHERE DATE(lineas.fechaFactura) >= DATE('$fechaInicio')
+                                                    AND DATE(lineas.fechaFactura) <= DATE('$fechaFin')
+                                                    AND ng_canales_payment.canal = canales.canal),0) , 2) AS porcentajeAbonos"))
+
+                        ->join('hg_orders AS o','o.reference','=','abos.referenciaPs')
+                        ->join('ng_canales_payment AS canales','canales.payment','=','o.payment')
+                        ->where(DB::raw('DATE(abos.fechaAbono)'),'>=',DB::raw("DATE('$fechaInicio') AND DATE(abos.fechaAbono) <= DATE('$fechaFin')"))
+                        ->groupBy('canales.canal')
                         ->get();
 
             return response()->json($resultado);
         }
 
+
+        //Abonos por productos entre fechas
+        function abonosProductosEntreFechas(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_lineasFacturasAx AS lineas')
+                        ->select('lineas.itemid','lineas.name'
+                                ,DB::raw("ROUND((SELECT SUM(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                            AND ng_lineasFacturasAx.itemid = lineas.itemid AND (ng_lineasFacturasAx.purcharseOrder NOT LIKE '%inci-%' or ng_lineasFacturasAx.purcharseOrder NOT LIKE '%repo-%')
+                                            GROUP BY ng_lineasFacturasAx.itemid),2) AS facturas")
+                                ,DB::raw("ROUND((SELECT SUM(ng_lineas_abonos.precioFinal) FROM ng_lineas_abonos
+                                            WHERE DATE(ng_lineas_abonos.fechaAbono) >= DATE('$fechaInicio') AND DATE(ng_lineas_abonos.fechaAbono) <= DATE('$fechaFin')
+                                            AND ng_lineas_abonos.idProductAx <> '99989' AND ng_lineas_abonos.idProductAx = lineas.itemid),2) AS abonos")
+                                ,DB::raw("ROUND(((SELECT SUM(ng_lineas_abonos.precioFinal) FROM ng_lineas_abonos
+                                            WHERE DATE(ng_lineas_abonos.fechaAbono) >= DATE('$fechaInicio') AND DATE(ng_lineas_abonos.fechaAbono) <= DATE('$fechaFin')
+                                            AND ng_lineas_abonos.idProductAx <> '99989' AND ng_lineas_abonos.idProductAx = lineas.itemid) * -100)/
+                                            (SELECT SUM(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                            AND ng_lineasFacturasAx.itemid = lineas.itemid AND (ng_lineasFacturasAx.purcharseOrder NOT LIKE '%inci-%' or ng_lineasFacturasAx.purcharseOrder NOT LIKE '%repo-%')
+                                            GROUP BY ng_lineasFacturasAx.itemid),2) AS porcentajeAbonos")
+                                ,DB::raw("ROUND((SELECT SUM(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                            AND ng_lineasFacturasAx.itemid = lineas.itemid AND ng_lineasFacturasAx.purcharseOrder LIKE 'inci-%' AND ng_lineasFacturasAx.lineAmount > 0),2) AS incidencias")
+                                ,DB::raw("ROUND(((SELECT SUM(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                            AND ng_lineasFacturasAx.itemid = lineas.itemid AND ng_lineasFacturasAx.purcharseOrder LIKE 'inci-%' AND ng_lineasFacturasAx.lineAmount > 0 )* 100 /
+                                            (SELECT SUM(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                            AND ng_lineasFacturasAx.itemid = lineas.itemid AND (ng_lineasFacturasAx.purcharseOrder NOT LIKE '%inci-%' or ng_lineasFacturasAx.purcharseOrder NOT LIKE '%repo-%')
+                                            GROUP BY ng_lineasFacturasAx.itemid )),2) AS porcentajeIncis"))
+                        ->where(DB::raw('DATE(lineas.fechaFactura)'),'>=',DB::raw("DATE('$fechaInicio') AND DATE(lineas.fechaFactura) <= DATE('$fechaFin')
+                                        AND ((SELECT count(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                                    WHERE DATE(ng_lineasFacturasAx.fechaFactura) >= DATE('$fechaInicio') AND DATE(ng_lineasFacturasAx.fechaFactura) <= DATE('$fechaFin')
+                                                    AND ng_lineasFacturasAx.itemid = lineas.itemid AND ng_lineasFacturasAx.purcharseOrder LIKE 'inci-%' AND ng_lineasFacturasAx.lineAmount > 0 )) > 0
+
+                                        AND ((SELECT count(ng_lineas_abonos.precioFinal) FROM ng_lineas_abonos
+                                                    WHERE DATE(ng_lineas_abonos.fechaAbono) >= DATE('$fechaInicio') AND DATE(ng_lineas_abonos.fechaAbono) <= DATE('$fechaFin')
+                                                    AND ng_lineas_abonos.idProductAx <> '99989' AND ng_lineas_abonos.idProductAx = lineas.itemid))> 0
+
+                                        AND lineas.itemid <> '99989' AND lineas.lineAmount > 0"))
+                        ->groupBy('lineas.itemid')
+                        ->get();
+
+            return response()->json($resultado);
+        }
     }
 
 ?>

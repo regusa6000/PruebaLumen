@@ -316,6 +316,7 @@ class ProductosController extends Controller{
                                 ,DB::raw('IF(ISNULL(pa.ean13), p.ean13, pa.ean13 ) AS ean13')
                                 ,DB::raw("CONCAT(pl.name, ' ', ifnull(agl.name, ' '), ' ', ifnull(al.name, ' ')) AS name")
                                 ,'agl.name AS atributo','al.name AS valor','ewp.ax_id AS axIdSimple','ewpatt.ax_id AS axIdCombinado'
+                                ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php/sell/catalog/products/', p.id_product ,'?_token=VgQLVMbLDms771jVriCgNnFAiYkKfWS30FhPOEQ8A2s') AS url")
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                         IFNULL((SELECT hg_image_shop.id_image
                                                     FROM hg_product

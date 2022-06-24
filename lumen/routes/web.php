@@ -444,5 +444,17 @@ $router->get('countProductosSinMPNombreArticulo','ProductosController@countProdu
 $router->get('pedidosEstadosPreAlmacen','PedidosController@pedidosEstadosPreAlmacen');
 
 
-//Grafico Abonos Canales
-$router->post('graficoAbonosCanales','AbonosController@graficoAbonosCanales');
+//Indice Abonos por Canal
+$router->post('indiceAbonosPorCanal','AbonosController@indiceAbonosPorCanal');
+
+
+//Ventas Por Producto
+$router->post('ventasPorProducto','PedidosController@ventasPorProducto');
+
+
+//DATOS FACTURACION AX
+$router->get('datosFacturacionAx','EstadisticasController@datosFacturacionAx');
+
+
+//Abonos por productos entre fechas
+$router->post('abonosProductosEntreFechas','AbonosController@abonosProductosEntreFechas');

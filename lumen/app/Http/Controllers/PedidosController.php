@@ -475,7 +475,9 @@ class PedidosController extends Controller{
                                                         man.division <> 1.100000 AND
                                                         man.division <> 1.150000 AND
                                                         man.division <> 1.140000 AND
-                                                        man.division <> 1.160000'))
+                                                        man.division <> 1.160000 AND
+                                                        man.division <> 1.010000 AND
+                                                        man.division <> 1.020000'))
                         ->get();
 
             return response()->json($resultado);
@@ -510,7 +512,9 @@ class PedidosController extends Controller{
                                                         man.division <> 1.100000 AND
                                                         man.division <> 1.150000 AND
                                                         man.division <> 1.140000 AND
-                                                        man.division <> 1.160000'))
+                                                        man.division <> 1.160000 AND
+                                                        man.division <> 1.010000 AND
+                                                        man.division <> 1.020000'))
                         ->get();
 
             return response()->json(count($resultado));
@@ -1223,6 +1227,28 @@ class PedidosController extends Controller{
             $resultado = DB::table('ng_historialPedidosConEstadoPreAlmacen AS h')
                         ->select('*',DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',h.idOrder) AS url "))
                         ->whereBetween('h.fechaRegistro',[DB::raw('DATE_SUB(NOW(),INTERVAL 30 DAY)'),DB::raw('NOW()')])
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Ventas por Producto
+        function ventasPorProducto(Request $request){
+
+            $idProducto = $request->input('idProducto');
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.reference','o.date_add','od.product_name AS producto','al.name'
+                                ,'od.product_quantity AS udsPedidas','od.total_price_tax_incl AS total','o.payment')
+                        ->join('hg_order_detail AS od','od.id_order','=','o.id_order')
+                        ->leftJoin('hg_product_attribute AS pa','pa.id_product','=',DB::raw('od.product_id AND pa.id_product_attribute = od.product_attribute_id'))
+                        ->leftJoin('hg_product_attribute_combination AS patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('od.product_id AND pl.id_lang = 1'))
+                        ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=',DB::raw('al.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
+                        ->where('od.product_id','=',$idProducto)
+                        ->orderBy('o.id_order','DESC')
                         ->get();
 
             return response()->json($resultado);
