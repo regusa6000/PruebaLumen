@@ -316,20 +316,22 @@ class ProductosController extends Controller{
                                 ,DB::raw('IF(ISNULL(pa.ean13), p.ean13, pa.ean13 ) AS ean13')
                                 ,DB::raw("CONCAT(pl.name, ' ', ifnull(agl.name, ' '), ' ', ifnull(al.name, ' ')) AS name")
                                 ,'agl.name AS atributo','al.name AS valor','ewp.ax_id AS axIdSimple','ewpatt.ax_id AS axIdCombinado'
+                                ,DB::raw("IFNULL(stock_a.quantity, stock.quantity) AS stock")
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php/sell/catalog/products/', p.id_product ,'?_token=VgQLVMbLDms771jVriCgNnFAiYkKfWS30FhPOEQ8A2s') AS url")
-                                ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
-                                        IFNULL((SELECT hg_image_shop.id_image
-                                                    FROM hg_product
-                                                    LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                                    LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
-                                                    WHERE hg_product.id_product = p.id_product AND hg_product_attribute_image.id_product_attribute = pa.id_product_attribute
-                                                    GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
-                                                    ORDER BY hg_image_shop.id_product asc, hg_product_attribute_image.id_product_attribute ASC)
+                                ,DB::raw("IFNULL(CONCAT(CONCAT(CONCAT('https://orion91.com/',
+                                IFNULL((SELECT hg_image_shop.id_image
+                                                                FROM hg_product
+                                                                LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                                LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
+                                                                WHERE hg_product.id_product = p.id_product AND hg_product_attribute_image.id_product_attribute = pa.id_product_attribute
+                                                                GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
+                                                                ORDER BY hg_image_shop.id_image)
 
-                                                ,(SELECT hg_image_shop.id_image
-                                                    FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                                    WHERE hg_product.id_product = p.id_product
-                                                    ORDER BY hg_image_shop.id_product ASC LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
+                                                            ,(SELECT hg_image_shop.id_image
+                                                                FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                                WHERE hg_product.id_product = p.id_product
+                                                                ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg')
+                                ,'https://orion91.com/img/favicon.ico') AS imagen"))
                         ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->leftJoin('hg_product_attribute AS pa','p.id_product','=','pa.id_product')
                         ->leftJoin('hg_product_attribute_combination AS pac','pa.id_product_attribute','=','pac.id_product_attribute')
@@ -339,6 +341,8 @@ class ProductosController extends Controller{
                         ->leftJoin('hg_ewax_product AS ewp','ewp.id_product','=','p.id_product')
                         ->leftJoin('hg_ewax_product_attribute AS ewpatt','ewpatt.id_product_attribute','=','pa.id_product_attribute')
                         ->leftJoin('hg_image_shop AS image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw("pa.id_product_attribute AND stock_a.id_product = p.id_product"))
                         ->where('p.id_product','like',DB::raw("'". $value ."%'" ."OR p.reference LIKE '". $value ."%'"."OR pa.reference LIKE '". $value
                                 ."%'"."OR p.ean13 LIKE '". $value ."%'"."OR pa.ean13 LIKE '". $value ."%'"."OR ewp.ax_id LIKE '". $value ."%'"."OR ewpatt.ax_id LIKE '". $value ."%'"
                                 ."OR pl.name LIKE '%". $value . "%'"."OR agl.name LIKE '%". $value . "%'"."OR al.name LIKE '%". $value . "%'"))

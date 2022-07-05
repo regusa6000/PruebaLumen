@@ -1123,7 +1123,7 @@ class PedidosController extends Controller{
                         ->select('o.reference','o.payment','osl.name','o.total_paid','o.date_add'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where('o.current_state','=',DB::raw("13 AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es')"))
+                        ->where('o.current_state','=',DB::raw("13 AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es' OR o.payment = 'venca')"))
                         ->get();
 
             return response()->json($resultado);
@@ -1136,14 +1136,14 @@ class PedidosController extends Controller{
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
                         ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'=',DB::raw("0
-                                        AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es')
+                                        AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es' OR o.payment = 'venca')
                                         AND o.current_state = 13"))
                         ->get();
 
             return response()->json(count($resultado));
         }
 
-        //Pedidos > 5 dias NO ENVIADOS
+        //Pedidos > 3 dias NO ENVIADOS
         function pedidosNoEnviados(){
 
             $resultado = DB::table('hg_orders AS o')
@@ -1156,7 +1156,7 @@ class PedidosController extends Controller{
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
                         ->where(DB::raw('TIMESTAMPDIFF (DAY, (SELECT date(hg_order_history.date_add) FROM hg_order_history
                         WHERE hg_order_history.id_order = o.id_order AND hg_order_history.id_order_state = 2
-                            ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW()))'),'>',DB::raw("5 AND (o.current_state = 2 OR o.current_state = 3)
+                            ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW()))'),'>',DB::raw("3 AND (o.current_state = 2 OR o.current_state = 3)
                             AND TIMESTAMPDIFF (DAY, (SELECT date(hg_order_history.date_add) FROM hg_order_history
                             WHERE hg_order_history.id_order = o.id_order AND hg_order_history.id_order_state = 2
                                 ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW())) < 30 AND o.payment <> 'MEQUEDOUNO'
@@ -1181,7 +1181,7 @@ class PedidosController extends Controller{
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
                         ->where(DB::raw('TIMESTAMPDIFF (DAY, (SELECT date(hg_order_history.date_add) FROM hg_order_history
                         WHERE hg_order_history.id_order = o.id_order AND hg_order_history.id_order_state = 2
-                            ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW()))'),'>',DB::raw("5 AND (o.current_state = 2 OR o.current_state = 3)
+                            ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW()))'),'>',DB::raw("3 AND (o.current_state = 2 OR o.current_state = 3)
                             AND TIMESTAMPDIFF (DAY, (SELECT date(hg_order_history.date_add) FROM hg_order_history
                             WHERE hg_order_history.id_order = o.id_order AND hg_order_history.id_order_state = 2
                                 ORDER BY hg_order_history.id_order_history DESC LIMIT 1), date(NOW())) < 30 AND o.payment <> 'MEQUEDOUNO'

@@ -3411,6 +3411,29 @@
 
             return response()->json($resultado);
         }
+
+
+        //Descuentos
+        function descuentos(){
+
+            $resultado = DB::table('hg_cart_rule AS cr')
+                        ->select('cr.id_cart_rule','cr.code','cr_l.name'
+                                ,DB::raw("count(o.reference) AS usado")
+                                ,DB::raw('IFNULL(sum(odcr.value), 0) AS descontado')
+                                ,DB::raw('ifnull(sum(o.total_paid), 0) AS total_pagado')
+                                ,'cr.date_from','cr.date_to')
+                        ->leftJoin('hg_order_cart_rule AS odcr','odcr.id_cart_rule','=','cr.id_cart_rule')
+                        ->leftJoin('hg_orders AS o','o.id_order','=','odcr.id_order')
+                        ->leftJoin('hg_cart_rule_lang AS cr_l','cr_l.id_cart_rule','=',DB::raw('cr.id_cart_rule AND cr_l.id_lang = 1'))
+                        ->leftJoin('hg_order_payment AS op','op.order_reference','=','o.reference')
+                        ->where('cr_l.name','LIKE','%➤%')
+                        ->groupBy('cr.code')
+                        ->orderBy('cr.code','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

@@ -458,3 +458,7 @@ $router->get('datosFacturacionAx','EstadisticasController@datosFacturacionAx');
 
 //Abonos por productos entre fechas
 $router->post('abonosProductosEntreFechas','AbonosController@abonosProductosEntreFechas');
+
+
+//DESCUENTOS
+$router->get('descuentos','EstadisticasController@descuentos');
