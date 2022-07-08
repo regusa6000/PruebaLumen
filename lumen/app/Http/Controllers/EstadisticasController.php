@@ -2906,6 +2906,81 @@
             return response()->json($resultado);
         }
 
+        function roturasActuales(){
+
+            $resultado = DB::table('hg_product as p')
+                        ->select('p.id_product'
+                                , DB::raw("IFNULL(pa.id_product_attribute,'Sin IdAtributo') AS id_product_attributem"), DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
+                                , DB::raw('IFNULL(pa.reference, p.reference) AS reference'), DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen")
+                                , 'pl.name AS producto', 'agl.name AS atributo','al.name AS valor_att',DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock')
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_30_dias")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 60 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_60_dias")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 90 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_90_dias")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 180 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_180_dias")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 365 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_1_year")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 730 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_2_year")
+                                , DB::raw("IFNULL((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 1095 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                                GROUP BY od90.product_id, od90.product_attribute_id),0) AS ud_3_year")
+                                , DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
+                                            IFNULL((SELECT hg_image_shop.id_image
+                                                        FROM hg_product
+                                                        LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                        LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
+                                                        WHERE hg_product.id_product = p.id_product AND hg_product_attribute_image.id_product_attribute = pa.id_product_attribute
+                                                        GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
+                                                        ORDER BY hg_image_shop.id_image)
+
+                                                    ,(SELECT hg_image_shop.id_image
+                                                        FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                        WHERE hg_product.id_product = p.id_product
+                                                        ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
+                        ->leftJoin('hg_product_attribute as pa','pa.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as patc','patc.id_product_attribute','=','pa.id_product_attribute')
+                        ->leftJoin('hg_attribute as att','att.id_attribute','=','patc.id_product_attribute')
+                        ->leftJoin('hg_product_lang as pl','pl.id_product','=','p.id_product')
+                        ->leftJoin('hg_product_attribute_combination as pac','pa.id_product_attribute','=','pac.id_product_attribute')
+                        ->leftJoin('hg_attribute_lang as al','pac.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute AS a','al.id_attribute','=','a.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang as agl','a.id_attribute_group','=','agl.id_attribute_group')
+                        ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
+                        ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
+                        ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->where(DB::raw('IFNULL(stock_a.quantity, stock.quantity)'),'<=',DB::raw('0
+                                                                                                    AND IFNULL(stock_a.quantity, stock.quantity) <=
+                                                                                                    (SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                                                                                        INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                                                                                        WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0)
+                                                                                                        GROUP BY od90.product_id, od90.product_attribute_id)'))
+                        ->groupBy(DB::raw('IFNULL(pa.ean13, p.ean13)'))
+                        ->orderBy(DB::raw('ROUND((IFNULL(stock_a.quantity, stock.quantity) / ((SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
+                                            INNER JOIN hg_orders AS o90 ON o90.id_order = od90.id_order
+                                            WHERE TIMESTAMPDIFF(DAY,o90.date_add,NOW()) <= 30 AND od90.product_id = p.id_product AND od90.product_attribute_id = ifnull(pa.id_product_attribute,0) AND o90.valid = 1
+                                            GROUP BY od90.product_id, od90.product_attribute_id)/30)),2)'),'ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
 
         /**Función porcentajes transportistas**/
         function porcentajeTransportistas(){

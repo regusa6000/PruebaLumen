@@ -1123,7 +1123,7 @@ class PedidosController extends Controller{
                         ->select('o.reference','o.payment','osl.name','o.total_paid','o.date_add'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where('o.current_state','=',DB::raw("13 AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es' OR o.payment = 'venca')"))
+                        ->where('o.current_state','=',13)
                         ->get();
 
             return response()->json($resultado);
@@ -1135,9 +1135,7 @@ class PedidosController extends Controller{
                         ->select('o.reference','o.payment','osl.name','o.total_paid','o.date_add'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where(DB::raw('TIMESTAMPDIFF (DAY, date(o.date_add), date(NOW()))'),'=',DB::raw("0
-                                        AND (o.payment = 'carrefour_es' OR o.payment = 'manomano_es' OR o.payment = 'fnac_es' OR o.payment = 'venca')
-                                        AND o.current_state = 13"))
+                        ->where('o.current_state','=',13)
                         ->get();
 
             return response()->json(count($resultado));

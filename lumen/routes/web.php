@@ -213,6 +213,9 @@ $router->get('enviarMensaje','PedidosController@enviarMensaje');
 //Roturas de Stock
 $router->get('roturaStock','EstadisticasController@roturaStock');
 
+//Roturas Actuales
+$router->get('roturasActuales','EstadisticasController@roturasActuales');
+
 
 //Alertas de Pagos
 $router->get('pedidosFraccionados','PedidosController@pedidosFraccionados');
@@ -315,6 +318,10 @@ $router->get('countTransferenciaBancariaSinStock','PrevisionesController@countTr
 
 //Rutas Dashboard
 $router->get('productosTopHoy','PrevisionesController@productosTopHoy');
+$router->get('productosTopUltimos7DiasDashboard','PrevisionesController@productosTopUltimos7DiasDashboard');
+$router->get('productosTopUltimos30DiasDashboard','PrevisionesController@productosTopUltimos30DiasDashboard');
+
+
 $router->get('avanceSemanal','EstadisticasController@avanceSemanal');
 $router->get('graficoVentas','EstadisticasController@graficoVentas');
 $router->get('graficoVentasUnaSemana','EstadisticasController@graficoVentasUnaSemana');
