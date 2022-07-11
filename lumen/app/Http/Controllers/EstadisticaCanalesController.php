@@ -55,7 +55,7 @@
                     $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = "o.payment = 'MediaMarktSaturno'";
+                    $tienda = "(o.payment = 'MediaMarktSaturno' OR o.payment = 'Pagado por Marketplace :MediaMarktSaturno')";
                     break;
                 case 16:
                     $tienda = "o.payment = 'PcComponentes'";
@@ -178,7 +178,7 @@
                     $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = "o.payment = 'MediaMarktSaturno'";
+                    $tienda = "(o.payment = 'MediaMarktSaturno' OR o.payment = 'Pagado por Marketplace :MediaMarktSaturno')";
                     break;
                 case 16:
                     $tienda = "o.payment = 'PcComponentes'";
@@ -301,7 +301,7 @@
                     $tienda = "o.payment = '242380'";
                     break;
                 case 15:
-                    $tienda = "o.payment = 'MediaMarktSaturno'";
+                    $tienda = "(o.payment = 'MediaMarktSaturno' OR o.payment = 'Pagado por Marketplace :MediaMarktSaturno')";
                     break;
                 case 16:
                     $tienda = "o.payment = 'PcComponentes'";

@@ -469,3 +469,8 @@ $router->post('abonosProductosEntreFechas','AbonosController@abonosProductosEntr
 
 //DESCUENTOS
 $router->get('descuentos','EstadisticasController@descuentos');
+
+
+//Productos Sin Bullets
+$router->get('productosSinBullets','ProductosController@productosSinBullets');
+$router->get('countProductosSinBullets','ProductosController@countProductosSinBullets');

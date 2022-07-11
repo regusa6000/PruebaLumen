@@ -403,7 +403,7 @@
 
             $resultado = DB::table('hg_order_detail AS od')
                         ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
-                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
+                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),'amo.stock',DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                             IFNULL((SELECT hg_image_shop.id_image
                                                         FROM hg_product
@@ -421,6 +421,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
@@ -439,7 +440,7 @@
 
             $resultado = DB::table('hg_order_detail AS od')
                         ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
-                                ,DB::raw('SUM(od.product_quantity) AS suma_cantidad'), DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
+                                ,DB::raw('SUM(od.product_quantity) AS suma_cantidad'),'amo.stock', DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                 IFNULL((SELECT hg_image_shop.id_image
                                             FROM hg_product
@@ -458,6 +459,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
@@ -475,7 +477,7 @@
 
             $resultado = DB::table('hg_order_detail AS od')
                         ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
-                                , DB::raw('SUM(od.product_quantity) AS suma_cantidad'), DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
+                                , DB::raw('SUM(od.product_quantity) AS suma_cantidad'),'amo.stock', DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
                                 , DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                 IFNULL((SELECT hg_image_shop.id_image
                                             FROM hg_product
@@ -494,6 +496,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')

@@ -418,7 +418,8 @@ class ProductosController extends Controller{
                                                     ,(SELECT hg_image_shop.id_image
                                                         FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
                                                         WHERE hg_product.id_product = p.id_product
-                                                        ORDER BY hg_image_shop.id_product ASC LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
+                                                        ORDER BY hg_image_shop.id_product ASC LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen")
+                                ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php/sell/catalog/products/',p.id_product) AS url"))
                         ->leftJoin('hg_image_shop AS img','img.id_product','=','p.id_product')
                         ->leftJoin('hg_product_attribute_image AS imgatt','imgatt.id_image','=','img.id_image')
                         ->leftJoin('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
@@ -608,6 +609,54 @@ class ProductosController extends Controller{
                                     AND fp.id_product = p.id_product ) = 0'))
                         ->groupBy('p.id_product')
                         ->orderBy('p.id_product','DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+        function productosSinBullets(){
+
+            $resultado = DB::table('aux_makro_offers AS aux')
+                        ->select('aux.id_product','aux.gtin AS ean','pl.name AS name_es','p.active','aux.stock'
+                                ,'fvl1.value AS bullet_1','fvl2.value AS bullet_2','fvl3.value AS bullet_3')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('aux.id_product AND pl.id_lang = 1'))
+                        ->join('hg_product AS p','p.id_product','=','aux.id_product')
+                        ->leftJoin('hg_feature_product AS fp1','fp1.id_product','=',DB::raw('aux.id_product AND fp1.id_feature = 1064'))
+                        ->leftJoin('hg_feature_lang AS fl1','fl1.id_feature','=',DB::raw('fp1.id_feature AND fl1.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl1','fvl1.id_feature_value','=',DB::raw('fp1.id_feature_value AND fvl1.id_lang = 1'))
+                        ->leftJoin('hg_feature_product AS fp2','fp2.id_product','=',DB::raw('aux.id_product AND fp2.id_feature = 1067'))
+                        ->leftJoin('hg_feature_lang AS fl2','fl2.id_feature','=',DB::raw('fp2.id_feature AND fl2.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl2','fvl2.id_feature_value','=',DB::raw('fp2.id_feature_value AND fvl2.id_lang = 1'))
+                        ->leftJoin('hg_feature_product AS fp3','fp3.id_product','=',DB::raw('aux.id_product AND fp3.id_feature = 1065'))
+                        ->leftJoin('hg_feature_lang AS fl3','fl3.id_feature','=',DB::raw('fp3.id_feature AND fl3.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl3','fvl3.id_feature_value','=',DB::raw('fp3.id_feature_value AND fvl3.id_lang = 1'))
+                        ->where('aux.stock','>',DB::raw("0 AND aux.gtin <> '' AND p.active = 1 AND (fvl1.value IS NULL OR fvl2.value IS NULL OR fvl3.value IS NULL)"))
+                        ->groupBy('p.id_product')
+                        ->orderBy('aux.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countProductosSinBullets(){
+
+            $resultado = DB::table('aux_makro_offers AS aux')
+                        ->select('aux.id_product','aux.gtin AS ean','pl.name AS name_es','p.active','aux.stock'
+                                ,'fvl1.value AS bullet_1','fvl2.value AS bullet_2','fvl3.value AS bullet_3')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('aux.id_product AND pl.id_lang = 1'))
+                        ->join('hg_product AS p','p.id_product','=','aux.id_product')
+                        ->leftJoin('hg_feature_product AS fp1','fp1.id_product','=',DB::raw('aux.id_product AND fp1.id_feature = 1064'))
+                        ->leftJoin('hg_feature_lang AS fl1','fl1.id_feature','=',DB::raw('fp1.id_feature AND fl1.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl1','fvl1.id_feature_value','=',DB::raw('fp1.id_feature_value AND fvl1.id_lang = 1'))
+                        ->leftJoin('hg_feature_product AS fp2','fp2.id_product','=',DB::raw('aux.id_product AND fp2.id_feature = 1067'))
+                        ->leftJoin('hg_feature_lang AS fl2','fl2.id_feature','=',DB::raw('fp2.id_feature AND fl2.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl2','fvl2.id_feature_value','=',DB::raw('fp2.id_feature_value AND fvl2.id_lang = 1'))
+                        ->leftJoin('hg_feature_product AS fp3','fp3.id_product','=',DB::raw('aux.id_product AND fp3.id_feature = 1065'))
+                        ->leftJoin('hg_feature_lang AS fl3','fl3.id_feature','=',DB::raw('fp3.id_feature AND fl3.id_lang = 1'))
+                        ->leftJoin('hg_feature_value_lang AS fvl3','fvl3.id_feature_value','=',DB::raw('fp3.id_feature_value AND fvl3.id_lang = 1'))
+                        ->where('aux.stock','>',DB::raw("0 AND aux.gtin <> '' AND p.active = 1 AND (fvl1.value IS NULL OR fvl2.value IS NULL OR fvl3.value IS NULL)"))
+                        ->groupBy('p.id_product')
+                        ->orderBy('aux.id_product','ASC')
                         ->get();
 
             return response()->json(count($resultado));
