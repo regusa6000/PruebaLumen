@@ -91,6 +91,26 @@ class UserAdminController extends Controller{
             return $resultado;
         }
 
+        function visualizacionMenu($idUser){
+
+            $resultado = DB::table('ng_usuariosMenus AS um')
+                        ->select(DB::raw('um.idMenu - 1 AS idMenu'))
+                        ->where('um.idUsuario','=',$idUser)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function cargarBotonesSeleccionMenu(){
+
+            $resultado = DB::table('ng_menus AS me')
+                        ->select('me.id','me.name')
+                        ->orderBy('me.id','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

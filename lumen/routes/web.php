@@ -462,6 +462,9 @@ $router->post('ventasPorProducto','PedidosController@ventasPorProducto');
 //DATOS FACTURACION AX
 $router->get('datosFacturacionAx','EstadisticasController@datosFacturacionAx');
 
+//Facturas AX Entre Fechas
+$router->post('datosFacturacionAxEntreFechas','EstadisticasController@datosFacturacionAxEntreFechas');
+
 
 //Abonos por productos entre fechas
 $router->post('abonosProductosEntreFechas','AbonosController@abonosProductosEntreFechas');
@@ -474,3 +477,26 @@ $router->get('descuentos','EstadisticasController@descuentos');
 //Productos Sin Bullets
 $router->get('productosSinBullets','ProductosController@productosSinBullets');
 $router->get('countProductosSinBullets','ProductosController@countProductosSinBullets');
+
+//Category Faqs
+$router->get('cargarFaqsCategorias','ProductosController@cargarFaqsCategorias');
+$router->post('crearFaqCategory','ProductosController@crearFaqCategory');
+$router->put('actualizarFaqCategory','ProductosController@actualizarFaqCategory');
+$router->delete('eliminarFaqCategory/{idFaq}','ProductosController@eliminarFaqCategory');
+
+
+//Control de Menú
+$router->get('visualizacionMenu/{idUser}','UserAdminController@visualizacionMenu');
+
+//Cargar Botones Selección Menu
+$router->get('cargarBotonesSeleccionMenu','UserAdminController@cargarBotonesSeleccionMenu');
+
+//Alertas Categorias Sin Facetas
+$router->get('alertasCategoriasSinFacetas','EstadisticaCanalesController@alertasCategoriasSinFacetas');
+$router->get('countAlertasCategoriasSinFacetas','EstadisticaCanalesController@countAlertasCategoriasSinFacetas');
+
+//Encontrar IdPedido dado una Referencia
+$router->post('encontrarIdPedido','PedidosController@encontrarIdPedido');
+
+//Devoluciones Por Nombre
+$router->post('devolucionesPorNombre','PedidosController@devolucionesPorNombre');

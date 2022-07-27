@@ -228,6 +228,7 @@ class ProductosController extends Controller{
             return response()->json(count($resultado));
         }
 
+        //Faqs Productos
         function cargarFaqs(){
 
             $resultado = DB::table('hg_product_faqs')
@@ -281,6 +282,59 @@ class ProductosController extends Controller{
             return response()->json($resultado);
         }
 
+        //Faqs Categorias
+        function cargarFaqsCategorias(){
+
+            $resultado = DB::table('hg_category_faqs AS cat')
+                        ->select('*')
+                        ->orderBy('cat.id','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function crearFaqCategory(Request $request){
+
+            $idCategory = $request->input('idCategoria');
+            $faq = $request->input('faq');
+            $fechaCreacion = Carbon::now();
+
+            $resultado = DB::table('hg_category_faqs')
+                        ->insert([
+                            'id_category' => $idCategory,
+                            'faq' => $faq,
+                            'date_add' => $fechaCreacion
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function actualizarFaqCategory(Request $request){
+
+            $idFaq = $request->input('idFaq');
+            $idCategory = $request->input('idCategoria');
+            $faq = $request->input('faq');
+            $fechaActualizacion = Carbon::now();
+
+            $resultado = DB::table('hg_category_faqs')
+                        ->where('id','=',$idFaq)
+                        ->where('id_category','=',$idCategory)
+                        ->update([
+                            'faq' => $faq,
+                            'date_update' => $fechaActualizacion
+                        ]);
+
+            return response()->json($resultado);
+        }
+
+        function eliminarFaqCategory($idFaq){
+
+            $resultado = DB::table('hg_category_faqs')
+                        ->where('id','=',$idFaq)
+                        ->delete();
+
+            return response()->json($resultado);
+        }
 
         /**FAVORITOS**/
         function cargarTopFavoritos(){

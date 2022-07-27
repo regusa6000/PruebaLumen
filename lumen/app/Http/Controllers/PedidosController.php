@@ -862,6 +862,7 @@ class PedidosController extends Controller{
 
             if($respuesta == 0){
                 $clases->generar();
+                // echo "Mal";
             }else{
                 echo "Todo Bien";
             }
@@ -1246,6 +1247,93 @@ class PedidosController extends Controller{
                         ->leftJoin('hg_attribute_lang AS al','pac.id_attribute','=',DB::raw('al.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS att','att.id_attribute','=','patc.id_product_attribute')
                         ->where('od.product_id','=',$idProducto)
+                        ->orderBy('o.id_order','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function encontrarIdPedido(Request $request){
+
+            $reference = $request->input('reference');
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.id_order')
+                        ->where('o.reference','=',$reference)
+                        ->get('');
+
+            return response()->json($resultado->first());
+        }
+
+        function devolucionesPorNombre(Request $request){
+
+            $variable = $request->input('nombre');
+
+            $resultado = DB::table('hg_orders AS o')
+                        ->select('o.reference', DB::raw('DATE(o.date_add) AS fecha')
+                                ,DB::raw("CASE o.payment
+                                            WHEN 'MEQUEDOUNO' THEN 'Mequedouno'
+                                            WHEN 'EMBARGOS' THEN 'Embargos'
+                                            WHEN 'Pagado por Marketplace :MediaMarktSaturno' THEN 'MediaMarkt'
+                                            WHEN 'venca' THEN 'Venca'
+                                            WHEN 'fnac_es' THEN 'Fnac'
+                                            WHEN 'Manomano_es_pro' THEN 'Manomano'
+                                            WHEN 'Manomano' THEN 'Manomano'
+                                            WHEN 'Groupon' THEN 'Groupon'
+                                            WHEN 'Worten' THEN 'Worten'
+                                            WHEN 'manomano_es' THEN 'Manomano'
+                                            WHEN 'manomano_fr' THEN 'Manomano'
+                                            WHEN 'carrefour_es' THEN 'Carrefour'
+                                            WHEN 'Aliexpress Payment' THEN 'Aliexpress'
+                                            WHEN 'Waadby Payment' THEN 'Amazon'
+                                            WHEN 'Makro' THEN o.payment
+                                            WHEN 'PayPal' THEN 'ORION91'
+                                            WHEN 'Pago con tarjeta Redsys' THEN 'ORION91'
+                                            WHEN 'Pago por transferencia bancaria' THEN 'ORION91'
+                                            WHEN 'Pagos por transferencia bancaria' THEN 'ORION91'
+                                            WHEN 'Bizum - Pago online' THEN 'ORION91'
+                                            ELSE NULL
+                                        END as 'origen'")
+                                ,DB::raw("CASE o.payment
+                                            WHEN 'EMBARGOS' THEN
+                                                (SELECT embargos.id_order_csv FROM hg_imax_sinc_ped_csv_datos AS embargos WHERE embargos.id_order = o.id_order LIMIT 1)
+                                            WHEN 'MEQUEDOUNO' THEN
+                                                (SELECT embargos.id_order_csv FROM hg_imax_sinc_ped_csv_datos AS embargos WHERE embargos.id_order = o.id_order LIMIT 1)
+                                            WHEN 'Manomano' THEN
+                                                (SELECT mano.mm_order_id FROM hg_manomanomarketplace17_orders AS mano WHERE mano.id_order = o.id_order LIMIT 1)
+                                            WHEN 'Pagado por Marketplace :MediaMarktSaturno' THEN
+                                                (SELECT  mira.id_mirakl FROM hg_mirakl_ecom_orders AS mira WHERE mira.id_order = o.id_order LIMIT 1)
+                                            WHEN 'venca' THEN
+                                                (SELECT  len.marketplace_sku FROM hg_lengow_orders AS len WHERE len.id_order = o.id_order limit 1)
+                                            WHEN 'fnac_es' THEN
+                                                (SELECT  len.marketplace_sku FROM hg_lengow_orders AS len WHERE len.id_order = o.id_order)
+                                            WHEN 'Manomano_es_pro' THEN o.gift_message
+                                            WHEN 'Groupon' THEN
+                                                (SELECT grou.id_order_groupon FROM hg_imax_sinc_ped_group_datosGroupon AS grou  WHERE grou.id_order = o.id_order LIMIT 1)
+                                            WHEN 'Worten' THEN
+                                                (SELECT wor.id_worten FROM  hg_offers_worten_ecom_orders AS wor WHERE wor.id_order = o.id_order LIMIT 1)
+                                            WHEN 'manomano_es' THEN
+                                                (SELECT  len.marketplace_sku FROM hg_lengow_orders AS len WHERE len.id_order = o.id_order LIMIT 1)
+                                            WHEN 'manomano_fr' THEN
+                                                (SELECT  len.marketplace_sku FROM hg_lengow_orders AS len WHERE len.id_order = o.id_order LIMIT 1)
+                                            WHEN 'carrefour_es' THEN
+                                                (SELECT  len.marketplace_sku FROM hg_lengow_orders AS len WHERE len.id_order = o.id_order LIMIT 1)
+                                            WHEN 'Aliexpress Payment' THEN
+                                                (SELECT ali.ae_id from hg_aliexpress_order AS ali WHERE ali.id_order = o.id_order LIMIT 1)
+                                            WHEN 'Waadby Payment' THEN o.gift_message
+                                            WHEN 'Makro' THEN o.gift_message
+                                            WHEN 'PayPal' THEN o.reference
+                                            WHEN 'Pago con tarjeta Redsys' THEN o.reference
+                                            WHEN 'Pago por transferencia bancaria' THEN o.reference
+                                            WHEN 'Pagos por transferencia bancaria' THEN o.reference
+                                            WHEN 'Bizum - Pago online' THEN o.reference
+                                            ELSE NULL
+                                        END as 'id_origen'")
+                                ,DB::raw("CONCAT(c.lastname,' ', c.firstname) AS Cliente"), 'paisl.name')
+                        ->join('hg_customer AS c','c.id_customer','=','o.id_customer')
+                        ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
+                        ->join('hg_country_lang AS paisl','paisl.id_country','=',DB::raw('ad.id_country AND paisl.id_lang = 1'))
+                        ->where('o.valid','=',DB::raw("1 AND concat(c.lastname,' ', c.firstname) LIKE '%". $variable ."%'"))
                         ->orderBy('o.id_order','DESC')
                         ->get();
 

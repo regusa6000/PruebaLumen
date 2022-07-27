@@ -22,7 +22,7 @@
                     $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr')";
                     break;
                 case 5:
                     $tienda = "o.payment = 'AliExpress Payment'";
@@ -145,7 +145,7 @@
                     $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr')";
                     break;
                 case 5:
                     $tienda = "o.payment = 'AliExpress Payment'";
@@ -268,7 +268,7 @@
                     $tienda = "o.payment = 'Makro'";
                     break;
                 case 4:
-                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es')";
+                    $tienda = "(o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr')";
                     break;
                 case 5:
                     $tienda = "o.payment = 'AliExpress Payment'";
@@ -373,6 +373,46 @@
                         ->get();
 
             return response()->json($resultado);
+        }
+
+        function alertasCategoriasSinFacetas(){
+
+            $resultado = DB::table('hg_category_lang AS cl')
+                        ->select('cl.id_category','cl.name', DB::raw("CONCAT('https://orion91.com/',cl.link_rewrite) AS url"), DB::raw('COUNT(cp.id_product) AS productosEnCategoria')
+                                , DB::raw('(SELECT COUNT(hg_layered_category.id_layered_category) FROM hg_layered_category WHERE hg_layered_category.id_category = cl.id_category) AS contador_facetas')
+                                , DB::raw("IF(meta.name IS NULL, 'NO', 'SI') AS elementor"))
+                        ->join('hg_category AS c','c.id_category','=','cl.id_category')
+                        ->leftJoin('hg_ce_meta AS meta',DB::raw('SUBSTRING(meta.id,1,3)'),'=',DB::raw('cl.id_category AND meta.id > 99999999'))
+                        ->join('hg_category_product AS cp','cp.id_category','=','c.id_category')
+                        ->where('cl.id_lang','=',DB::raw("1 AND cl.id_category <> 1 AND cl.id_category <> 2
+                                                            AND (SELECT COUNT(hg_layered_category.id_layered_category) FROM hg_layered_category WHERE hg_layered_category.id_category = cl.id_category) = 0
+                                                            AND meta.name IS NULL
+                                                            AND c.active = 1"))
+                        ->groupBy('cl.id_category')
+                        ->orderBy(DB::raw('COUNT(cp.id_product)'), 'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countAlertasCategoriasSinFacetas(){
+
+            $resultado = DB::table('hg_category_lang AS cl')
+                        ->select('cl.id_category','cl.name', DB::raw('COUNT(cp.id_product) AS productosEnCategoria')
+                                , DB::raw('(SELECT COUNT(hg_layered_category.id_layered_category) FROM hg_layered_category WHERE hg_layered_category.id_category = cl.id_category) AS contador_facetas')
+                                , DB::raw("IF(meta.name IS NULL, 'NO', 'SI') AS elementor"))
+                        ->join('hg_category AS c','c.id_category','=','cl.id_category')
+                        ->leftJoin('hg_ce_meta AS meta',DB::raw('SUBSTRING(meta.id,1,3)'),'=',DB::raw('cl.id_category AND meta.id > 99999999'))
+                        ->join('hg_category_product AS cp','cp.id_category','=','c.id_category')
+                        ->where('cl.id_lang','=',DB::raw("1 AND cl.id_category <> 1 AND cl.id_category <> 2
+                                                            AND (SELECT COUNT(hg_layered_category.id_layered_category) FROM hg_layered_category WHERE hg_layered_category.id_category = cl.id_category) = 0
+                                                            AND meta.name IS NULL
+                                                            AND c.active = 1"))
+                        ->groupBy('cl.id_category')
+                        ->orderBy(DB::raw('COUNT(cp.id_product)'), 'DESC')
+                        ->get();
+
+            return response()->json(count($resultado));
         }
 
     }

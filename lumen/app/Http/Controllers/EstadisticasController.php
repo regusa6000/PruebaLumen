@@ -39,7 +39,7 @@
                                 DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
                                 DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
                                         WHERE  YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add)  AND DAY(o.date_add) = DAY(hg_orders.date_add)  AND
-                                        (o.payment = 'Manomano' OR o.payment = 'manomano_es') AND o.current_state <> 6 AND o.current_state <> 7) AS IMPORTE"))
+                                        (o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr') AND o.current_state <> 6 AND o.current_state <> 7) AS IMPORTE"))
                         ->join('hg_ewax_orders  AS eo','eo.id_order','=','hg_orders.id_order')
                         ->where(DB::raw("YEAR (hg_orders.date_add)>2020 and hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1 AND week(hg_orders.date_add,7)"),'>',DB::raw('WEEK(NOW(),7)-2'))
                         ->groupBy(DB::raw('day(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
@@ -365,7 +365,7 @@
                                     DB::raw('round(SUM(hg_orders.total_paid),2) AS tot_sum_IVA'),
                                     DB::raw("(SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND DAY(o.date_add) = DAY(hg_orders.date_add) AND
-                                            (o.payment = 'Manomano' OR o.payment = 'manomano_es') AND o.current_state <> 6 AND o.current_state <> 7) AS MANOMANO_SUM"))
+                                            (o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr') AND o.current_state <> 6 AND o.current_state <> 7) AS MANOMANO_SUM"))
                         ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
                         ->where(DB::raw('YEAR(hg_orders.date_add)'),'>',DB::raw('2020 AND eo.send_ok = 1 AND week(hg_orders.date_add) > WEEK(NOW())-52'))
                         ->groupBy(DB::raw('WEEK(hg_orders.date_add)'),DB::raw('YEAR(hg_orders.date_add)'))
@@ -3120,9 +3120,9 @@
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND o.id_customer <> '107584' AND
                                             (o.payment = 'Pago con tarjeta Redsys' OR o.payment = 'Redsys BBVA' or o.payment = 'Paga Fraccionado' OR o.payment = 'Sequra - Pago flexible' OR o.payment = 'Bizum' or o.payment = 'PayPal' OR o.payment = 'Pago por transferencia bancaria')),0) AS ORION91_SUM")
                                 ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
-                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano' OR o.payment = 'manomano_es')) AS MANOMANO")
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr')) AS MANOMANO")
                                 ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
-                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano' OR o.payment = 'manomano_es')),0) AS MANOMANO_SUM")
+                                            WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Manomano' OR o.payment = 'manomano_es' OR o.payment = 'manomano_es_pro' OR o.payment = 'manomano_fr')),0) AS MANOMANO_SUM")
                                 ,DB::raw("(SELECT COUNT(o.id_order) FROM hg_orders AS o
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'AliExpress Payment')) AS ALIEXPRESS")
                                 ,DB::raw("IFNULL((SELECT ROUND(SUM(o.total_paid),2) FROM hg_orders AS o
@@ -3177,7 +3177,7 @@
                                             WHERE YEAR(o.date_add) = YEAR(hg_orders.date_add) AND MONTH(o.date_add) = MONTH(hg_orders.date_add) AND Day(o.date_add) = Day(hg_orders.date_add) AND (o.payment = 'Venca')),0) AS VENCA_SUM"))
 
                         ->join('hg_ewax_orders AS eo','eo.id_order','=','hg_orders.id_order')
-                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()))'),'<',DB::raw("9 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,hg_orders.date_add,NOW()))'),'<',DB::raw("45 AND hg_orders.reference NOT LIKE 'INCI-%' AND eo.send_ok = 1"))
                         ->groupBy(DB::raw('DAY(hg_orders.date_add)'),DB::raw('month(hg_orders.date_add)'),DB::raw('YEAR (hg_orders.date_add)'))
                         ->orderBy(DB::raw('YEAR(hg_orders.date_add)'),'DESC')
                         ->orderBy(DB::raw('MONTH(hg_orders.date_add)'),'DESC')
@@ -3273,7 +3273,7 @@
                                             AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Orion")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Waadby Payment' OR hg_orders.payment = 'amazon_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0 ),2) AS Sum_Amazon")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Makro' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Makro")
-                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Manomano")
+                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es' OR hg_orders.payment = 'manomano_fr' OR hg_orders.payment = 'manomano_es_pro') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Manomano")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Aliexpress Payment' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Aliexpress")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Worten' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Wortem")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Carrefour' OR hg_orders.payment = 'carrefour_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) = 0),2) AS Sum_Carrefour")
@@ -3302,7 +3302,7 @@
                                             AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Orion")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Waadby Payment' OR hg_orders.payment = 'amazon_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7 ),2) AS Sum_Amazon")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Makro' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Makro")
-                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Manomano")
+                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es' OR hg_orders.payment = 'manomano_fr' OR hg_orders.payment = 'manomano_es_pro') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Manomano")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Aliexpress Payment' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Aliexpress")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Worten' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Wortem")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Carrefour' OR hg_orders.payment = 'carrefour_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 7),2) AS Sum_Carrefour")
@@ -3331,7 +3331,7 @@
                                             AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Orion")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Waadby Payment' OR hg_orders.payment = 'amazon_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30 ),2) AS Sum_Amazon")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Makro' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Makro")
-                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Manomano")
+                                ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Manomano' OR hg_orders.payment = 'manomano_es' OR hg_orders.payment = 'manomano_fr' OR hg_orders.payment = 'manomano_es_pro') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Manomano")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Aliexpress Payment' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Aliexpress")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE hg_orders.payment = 'Worten' AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Wortem")
                                 ,DB::raw("ROUND((SELECT SUM(hg_orders.total_paid) FROM hg_orders INNER JOIN hg_ewax_orders ON hg_ewax_orders.id_order = hg_orders.id_order WHERE (hg_orders.payment = 'Carrefour' OR hg_orders.payment = 'carrefour_es') AND hg_ewax_orders.send_ok = 1 AND TIMESTAMPDIFF(DAY, date(hg_orders.date_add), date(NOW())) <= 30),2) AS Sum_Carrefour")
@@ -3479,7 +3479,42 @@
                                 ,DB::raw("IFNULL((SELECT SUM(abonos2.precioFinal) from ng_lineas_abonos AS abonos2
                                             WHERE DATE(abonos2.fechaAbono) = DATE(lineas.fechaFactura)
                                             GROUP BY abonos2.fechaAbono),0) AS total_abo_s_i"))
-                        ->whereBetween(DB::raw('DATE(lineas.fechaFactura)'),[DB::raw('DATE_SUB(NOW(),INTERVAL 7 DAY)'),DB::raw('NOW()')])
+                        ->whereBetween(DB::raw('DATE(lineas.fechaFactura)'),[DB::raw('DATE_SUB(NOW(),INTERVAL 30 DAY)'),DB::raw('NOW()')])
+                        ->groupBy('lineas.fechaFactura')
+                        ->orderBy('lineas.id','DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Facturas con Intervalo de Fechas
+        function datosFacturacionAxEntreFechas(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_lineasFacturasAx AS lineas')
+                        ->select(DB::raw("CONCAT(DAY(lineas.fechaFactura),'/' , MONTH(lineas.fechaFactura),'/' ,YEAR(lineas.fechaFactura)) AS dia")
+                                , DB::raw("(SELECT COUNT(DISTINCT(ng_lineasFacturasAx.purcharseOrder)) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder NOT LIKE 'INCI%'
+                                            AND ng_lineasFacturasAx.itemid <> '99989') AS suma_ped")
+                                ,DB::raw("(SELECT COUNT(DISTINCT(ng_lineasFacturasAx.purcharseOrder)) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder LIKE 'INCI%'
+                                            AND ng_lineasFacturasAx.itemid <> '99989'
+                                            AND ng_lineasFacturasAx.lineAmount > 0) AS suma_incis")
+                                ,DB::raw("IFNULL((SELECT COUNT(*) from ng_lineas_abonos AS abonos
+                                            WHERE DATE(abonos.fechaAbono) = DATE(lineas.fechaFactura)
+                                            GROUP BY abonos.fechaAbono), 0) AS suma_abo")
+                                ,DB::raw("IFNULL((SELECT sum(ng_lineasFacturasAx.lineAmount) FROM ng_lineasFacturasAx
+                                            WHERE DATE(ng_lineasFacturasAx.fechaFactura) = DATE(lineas.fechaFactura)
+                                            AND ng_lineasFacturasAx.purcharseOrder LIKE 'INCI%' AND ng_lineasFacturasAx.lineAmount > 0 ),0) AS total_incis_s_i")
+                                ,DB::raw("SUM(lineas.lineAmount) total_ped_s_i")
+                                ,DB::raw("IFNULL((SELECT SUM(abonos2.precioFinal) from ng_lineas_abonos AS abonos2
+                                            WHERE DATE(abonos2.fechaAbono) = DATE(lineas.fechaFactura)
+                                            GROUP BY abonos2.fechaAbono),0) AS total_abo_s_i"))
+                        ->whereBetween(DB::raw('DATE(lineas.fechaFactura)'),[DB::raw("'".$fechaInicio."'"),DB::raw("'".$fechaFin."'")])
                         ->groupBy('lineas.fechaFactura')
                         ->orderBy('lineas.id','DESC')
                         ->get();
