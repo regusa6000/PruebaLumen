@@ -500,3 +500,29 @@ $router->post('encontrarIdPedido','PedidosController@encontrarIdPedido');
 
 //Devoluciones Por Nombre
 $router->post('devolucionesPorNombre','PedidosController@devolucionesPorNombre');
+
+//Productos Novedades
+$router->get('productosNovedades','ProductosController@productosNovedades');
+
+
+//No Mapeados AliExpress
+$router->get('noMapeadosAliExpress','ProductosController@noMapeadosAliExpress');
+$router->get('countNoMapeadosAliExpress','ProductosController@countNoMapeadosAliExpress');
+
+
+//Pedidos Vendor
+$router->get('pedidosVendor','PedidosController@pedidosVendor');
+$router->post('pedidosVendorItems','PedidosController@pedidosVendorItems');
+
+//Productos Nombre = MP
+$router->get('productosNombreMp','ProductosController@productosNombreMp');
+
+//Ultimo pedido enviado hace 2 horas
+$router->get('ultimoPedidoEnviado','PedidosController@ultimoPedidoEnviado');
+
+//Ultimo pedido Enviado hace 8 horas y alertar por SMS
+$router->get('ultimoPedidoEnviado8Horas','PedidosController@ultimoPedidoEnviado8Horas');
+
+//Pedidos Eliminados
+$router->get('pedidosEliminados','PedidosController@pedidosEliminados');
+$router->get('countPedidosEliminados','PedidosController@countPedidosEliminados');

@@ -2833,7 +2833,7 @@
         function roturaStock(){
 
             $resultado = DB::table('hg_product as p')
-                        ->select('p.id_product'
+                        ->select('p.id_product', 'amo.itemid'
                                 ,DB::raw("IFNULL(pa.id_product_attribute,'Sin IdAtributo') AS id_product_attribute")
                                 ,DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
                                 ,DB::raw('IFNULL(pa.reference, p.reference) AS reference')
@@ -2890,6 +2890,7 @@
                         ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
                         ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','p.id_product')
                         ->where('p.active','=',DB::raw('1 AND IFNULL(stock_a.quantity, stock.quantity) > 0
                                                             AND IFNULL(stock_a.quantity, stock.quantity) <=
                                                             (SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
@@ -2909,7 +2910,7 @@
         function roturasActuales(){
 
             $resultado = DB::table('hg_product as p')
-                        ->select('p.id_product'
+                        ->select('p.id_product', 'amo.itemid'
                                 , DB::raw("IFNULL(pa.id_product_attribute,'Sin IdAtributo') AS id_product_attributem"), DB::raw('IFNULL(pa.ean13, p.ean13) AS ean13')
                                 , DB::raw('IFNULL(pa.reference, p.reference) AS reference'), DB::raw("CONCAT('https://orion91.com/img/tmp/product_mini_',image_shop.id_image,'.jpg') AS imagen")
                                 , 'pl.name AS producto', 'agl.name AS atributo','al.name AS valor_att',DB::raw('IFNULL(stock_a.quantity, stock.quantity) AS stock')
@@ -2965,6 +2966,7 @@
                         ->leftJoin('hg_stock_available AS stock','stock.id_product','=','p.id_product')
                         ->leftJoin('hg_stock_available AS stock_a','stock_a.id_product_attribute','=',DB::raw('pa.id_product_attribute AND stock_a.id_product = p.id_product'))
                         ->leftJoin('hg_image_shop as image_shop','image_shop.id_product','=',DB::raw('p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','p.id_product')
                         ->where(DB::raw('IFNULL(stock_a.quantity, stock.quantity)'),'<=',DB::raw('0
                                                                                                     AND IFNULL(stock_a.quantity, stock.quantity) <=
                                                                                                     (SELECT SUM(od90.product_quantity) FROM hg_order_detail AS od90
@@ -3448,7 +3450,8 @@
         function conectores(){
 
             $resultado = DB::table('ng_conectores AS co')
-                        ->select('co.nombre','co.tipo','co.conector',DB::raw("IF(co.indice = 0, 'TARIFA PP', ROUND(co.indice,2)) AS indice"))
+                        ->select('co.nombre','co.tipo','co.conector',DB::raw("IF(co.indice = 0, 'TARIFA PP', ROUND(co.indice,2)) AS indice")
+                                ,'subida_producto','actualizacion_stock','actualizacion_ofertas','sync_pedidos')
                         ->get();
 
             return response()->json($resultado);

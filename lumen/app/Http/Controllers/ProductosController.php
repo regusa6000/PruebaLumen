@@ -459,7 +459,7 @@ class ProductosController extends Controller{
         function productosConPocasImagenes(){
 
             $resultado = DB::table('hg_product AS p')
-                        ->select('p.id_product','pl.name AS producto','al.name AS valorAtt','imgatt.id_product_attribute',DB::raw('COUNT(img.id_product) AS contador')
+                        ->select('p.id_product','amo.itemid','pl.name AS producto','al.name AS valorAtt','imgatt.id_product_attribute',DB::raw('COUNT(img.id_product) AS contador')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                             IFNULL((SELECT hg_image_shop.id_image
                                                         FROM hg_product
@@ -480,6 +480,7 @@ class ProductosController extends Controller{
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','imgatt.id_product_attribute')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','p.id_product')
                         ->where('p.active','=',1)
                         ->groupBy('p.id_product','imgatt.id_product_attribute')
                         ->orderBy(DB::raw('COUNT(img.id_product)'),'ASC')
@@ -671,7 +672,7 @@ class ProductosController extends Controller{
         function productosSinBullets(){
 
             $resultado = DB::table('aux_makro_offers AS aux')
-                        ->select('aux.id_product','aux.gtin AS ean','pl.name AS name_es','p.active','aux.stock'
+                        ->select('aux.id_product','aux.itemid','aux.gtin AS ean','pl.name AS name_es','p.active','aux.stock'
                                 ,'fvl1.value AS bullet_1','fvl2.value AS bullet_2','fvl3.value AS bullet_3')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('aux.id_product AND pl.id_lang = 1'))
                         ->join('hg_product AS p','p.id_product','=','aux.id_product')
@@ -714,6 +715,80 @@ class ProductosController extends Controller{
                         ->get();
 
             return response()->json(count($resultado));
+        }
+
+
+        /**NOVEDADES ULTIMOS 100 DIAS**/
+        function productosNovedades(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','aux.itemid','p.ean13','p.reference','pl.name'
+                                ,'p.date_add AS fechaAlta',DB::raw('DATEDIFF(NOW(),p.date_add) AS diasDeAlta'))
+                        ->join('aux_makro_offers AS aux','aux.id_product','=','p.id_product')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->where(DB::raw('DATEDIFF(NOW(),p.date_add)'),'<',100)
+                        ->groupBy('p.id_product')
+                        ->orderBy('p.id_product','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**No Mapeados AliExpress**/
+        function noMapeadosAliExpress(){
+
+            $resultado = DB::table('hg_product_shop AS ps')
+                        ->select('ps.id_category_default','cl.name AS nombreCatOrion91','c.id_parent AS idCatPadreOrion91'
+                                ,DB::raw('(SELECT COUNT(hg_category.id_category)  FROM  hg_category where hg_category.id_parent = c.id_category) AS nHijos')
+                                ,'ali_cat.ae_id','ali_cat_lang.name AS nombreCatAliexpress')
+                        ->leftJoin('hg_category_lang AS cl','cl.id_category','=',DB::raw('ps.id_category_default AND cl.id_lang = 1'))
+                        ->join('hg_category AS c','c.id_category','=','cl.id_category')
+                        ->leftJoin('hg_aliexpress_category_relation AS ali_rela','ali_rela.id_category','=','ps.id_category_default')
+                        ->leftJoin('hg_aliexpress_category AS ali_cat','ali_cat.ae_id','=','ali_rela.ae_id')
+                        ->leftJoin('hg_aliexpress_category_lang AS ali_cat_lang','ali_cat_lang.id_aliexpress_category','=','ali_cat.id_aliexpress_category')
+                        ->where('ps.id_category_default','!=',DB::raw('2 AND cl.name IS not NULL AND ali_cat.ae_id IS NULL AND c.id_parent <> 2
+                                                                        AND (SELECT COUNT(hg_category.id_category) FROM  hg_category where hg_category.id_parent = c.id_category) = 0'))
+                        ->groupBy('ps.id_category_default')
+                        ->orderBy('ali_cat_lang.name','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countNoMapeadosAliExpress(){
+
+            $resultado = DB::table('hg_product_shop AS ps')
+                        ->select('ps.id_category_default','cl.name AS nombreCatOrion91','c.id_parent AS idCatPadreOrion91'
+                                ,DB::raw('(SELECT COUNT(hg_category.id_category)  FROM  hg_category where hg_category.id_parent = c.id_category) AS nHijos')
+                                ,'ali_cat.ae_id','ali_cat_lang.name AS nombreCatAliexpress')
+                        ->leftJoin('hg_category_lang AS cl','cl.id_category','=',DB::raw('ps.id_category_default AND cl.id_lang = 1'))
+                        ->join('hg_category AS c','c.id_category','=','cl.id_category')
+                        ->leftJoin('hg_aliexpress_category_relation AS ali_rela','ali_rela.id_category','=','ps.id_category_default')
+                        ->leftJoin('hg_aliexpress_category AS ali_cat','ali_cat.ae_id','=','ali_rela.ae_id')
+                        ->leftJoin('hg_aliexpress_category_lang AS ali_cat_lang','ali_cat_lang.id_aliexpress_category','=','ali_cat.id_aliexpress_category')
+                        ->where('ps.id_category_default','!=',DB::raw('2 AND cl.name IS not NULL AND ali_cat.ae_id IS NULL AND c.id_parent <> 2
+                                                                        AND (SELECT COUNT(hg_category.id_category) FROM  hg_category where hg_category.id_parent = c.id_category) = 0'))
+                        ->groupBy('ps.id_category_default')
+                        ->orderBy('ali_cat_lang.name','ASC')
+                        ->get();
+
+            return response()->json(count($resultado));
+        }
+
+        //Productos Nombre = MP
+        function productosNombreMp(){
+
+            $resultado = DB::table('hg_product AS p')
+                        ->select('p.id_product','amo.itemid AS itemID','p.ean13','pl.name',DB::raw("'MP NombreArticulo' AS feature"),'fvl.value AS MPNombreArticulo')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_feature_product AS fp','fp.id_product','=',DB::raw('p.id_product AND fp.id_feature = 961'))
+                        ->join('hg_feature_value_lang AS fvl','fvl.id_feature_value','=',DB::raw('fp.id_feature_value AND fvl.id_lang = 1'))
+                        ->join('aux_makro_offers AS amo','amo.id_product','=','p.id_product')
+                        ->where(DB::raw('pl.name'),'=',DB::raw('fvl.value'))
+                        ->groupBy('p.id_product')
+                        ->get();
+
+            return response()->json($resultado);
         }
 
     }

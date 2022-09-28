@@ -367,7 +367,7 @@
         function productosTopEntreFechas($fechaInicio, $fechaFin){
 
             $resultado = DB::table('hg_order_detail AS od')
-                        ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
+                        ->select('p.id_product','od.product_attribute_id','amo.itemid','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
                                 ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                             IFNULL((SELECT hg_image_shop.id_image
@@ -386,6 +386,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftjoin('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
@@ -405,6 +406,81 @@
                         ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
                                 ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),'amo.stock',DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
+                                IFNULL((SELECT hg_image_shop.id_image
+                                            FROM hg_product
+                                            LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                            LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
+                                            WHERE hg_product.id_product = od.product_id AND hg_product_attribute_image.id_product_attribute = od.product_attribute_id
+                                            GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
+                                            ORDER BY hg_image_shop.id_image)
+                                        ,(SELECT hg_image_shop.id_image
+                                            FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                            WHERE hg_product.id_product = od.product_id
+                                            ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
+
+                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->join('hg_product AS p','p.id_product','=','od.product_id')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('aux_makro_offers AS amo','amo.id_product','=',DB::raw('od.product_id AND amo.id_product_attribute = od.product_attribute_id'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
+                        ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
+                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(o.date_add),date(NOW())))'),'=',DB::raw('0 AND o.valid = 1'))
+                        ->groupBy('od.product_id','od.product_attribute_id')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
+                        ->get();
+
+
+            return response()->json($resultado);
+        }
+
+
+        /**Productos Top ultimos 7 días**/
+        function productosTopUltimos7DiasDashboard(){
+
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('p.id_product','od.product_attribute_id','amo.itemid','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
+                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes'),'amo.stock'
+                                ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
+                                        IFNULL((SELECT hg_image_shop.id_image
+                                                    FROM hg_product
+                                                    LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                    LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
+                                                    WHERE hg_product.id_product = od.product_id AND hg_product_attribute_image.id_product_attribute = od.product_attribute_id
+                                                    GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
+                                                    ORDER BY hg_image_shop.id_image)
+                                                ,(SELECT hg_image_shop.id_image
+                                                    FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
+                                                    WHERE hg_product.id_product = od.product_id
+                                                    ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
+                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
+                        ->join('hg_product AS p','p.id_product','=','od.product_id')
+                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
+                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
+                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('aux_makro_offers AS amo','amo.id_product','=',DB::raw('od.product_id AND amo.id_product_attribute = od.product_attribute_id'))
+                        ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
+                        ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
+                        ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
+                        ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
+                        ->where('o.valid','=',DB::raw('1 AND DATE(o.date_add) BETWEEN DATE_SUB(NOW(),INTERVAL 7 DAY) AND NOW()'))
+                        ->groupBy('p.id_product','od.product_attribute_id')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**Productos Top ultimos 30 días**/
+        function productosTopUltimos30DiasDashboard(){
+
+            $resultado = DB::table('hg_order_detail AS od')
+                        ->select('p.id_product','od.product_attribute_id','amo.itemid','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
+                                ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),'amo.stock',DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
+                                ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                             IFNULL((SELECT hg_image_shop.id_image
                                                         FROM hg_product
                                                         LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
@@ -416,94 +492,19 @@
                                                         FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
                                                         WHERE hg_product.id_product = od.product_id
                                                         ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
-                                ->join('hg_orders AS o','o.id_order','=','od.id_order')
-                        ->join('hg_product AS p','p.id_product','=','od.product_id')
-                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
-                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
-                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
-                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
-                        ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
-                        ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
-                        ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
-                        ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
-                        ->where(DB::raw('(TIMESTAMPDIFF(DAY,date(o.date_add),date(NOW())))'),'=',DB::raw('0 AND o.valid = 1'))
-                        ->groupBy('p.id_product','od.product_attribute_id')
-                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
-                        ->get();
-
-            return response()->json($resultado);
-        }
-
-
-        /**Productos Top ultimos 7 días**/
-        function productosTopUltimos7DiasDashboard(){
-
-            $resultado = DB::table('hg_order_detail AS od')
-                        ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
-                                ,DB::raw('SUM(od.product_quantity) AS suma_cantidad'),'amo.stock', DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
-                                ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
-                                IFNULL((SELECT hg_image_shop.id_image
-                                            FROM hg_product
-                                            LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                            LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
-                                            WHERE hg_product.id_product = od.product_id AND hg_product_attribute_image.id_product_attribute = od.product_attribute_id
-                                            GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
-                                            ORDER BY hg_image_shop.id_image)
-                                        ,(SELECT hg_image_shop.id_image
-                                            FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                            WHERE hg_product.id_product = od.product_id
-                                            ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
-
                         ->join('hg_orders AS o','o.id_order','=','od.id_order')
                         ->join('hg_product AS p','p.id_product','=','od.product_id')
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
-                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
-                        ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
-                        ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
-                        ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
-                        ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
-                        ->where('o.valid','=',DB::raw('1 AND DATE(o.date_add) BETWEEN DATE_SUB(NOW(),INTERVAL 7 DAY) AND NOW()'))
-                        ->groupBy('p.id_product','od.product_attribute_id')
-                        ->orderBy(DB::raw('SUM(od.total_price_tax_incl)'),'DESC')
-                        ->get();
-
-            return response()->json($resultado);
-        }
-
-        /**Productos Top ultimos 30 días**/
-        function productosTopUltimos30DiasDashboard(){
-
-            $resultado = DB::table('hg_order_detail AS od')
-                        ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
-                                , DB::raw('SUM(od.product_quantity) AS suma_cantidad'),'amo.stock', DB::raw('ROUND(SUM(od.total_price_tax_incl),2) AS suma_importes')
-                                , DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
-                                IFNULL((SELECT hg_image_shop.id_image
-                                            FROM hg_product
-                                            LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                            LEFT JOIN hg_product_attribute_image ON hg_product_attribute_image.id_image = hg_image_shop.id_image
-                                            WHERE hg_product.id_product = od.product_id AND hg_product_attribute_image.id_product_attribute = od.product_attribute_id
-                                            GROUP BY hg_image_shop.id_product, hg_product_attribute_image.id_product_attribute
-                                            ORDER BY hg_image_shop.id_image)
-                                        ,(SELECT hg_image_shop.id_image
-                                            FROM hg_product LEFT JOIN hg_image_shop ON hg_image_shop.id_product= hg_product.id_product
-                                            WHERE hg_product.id_product = od.product_id
-                                            ORDER BY hg_image_shop.id_image LIMIT 1))),'-cart_default/'),pl.link_rewrite,'.jpg') AS imagen"))
-
-                        ->join('hg_orders AS o','o.id_order','=','od.id_order')
-                        ->join('hg_product AS p','p.id_product','=','od.product_id')
-                        ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
-                        ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
-                        ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
-                        ->join('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
+                        ->leftJoin('aux_makro_offers AS amo','amo.id_product','=',DB::raw('od.product_id AND amo.id_product_attribute = od.product_attribute_id'))
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')
                         ->leftJoin('hg_attribute_group_lang AS agl','agl.id_attribute_group','=',DB::raw('a.id_attribute_group AND agl.id_lang = 1'))
                         ->where('o.valid','=',DB::raw('1 AND DATE(o.date_add) BETWEEN DATE_SUB(NOW(),INTERVAL 30 DAY) AND NOW()'))
                         ->groupBy('p.id_product','od.product_attribute_id')
-                        ->orderBy(DB::raw('SUM(od.total_price_tax_incl)'),'DESC')
+                        ->orderBy(DB::raw('sum(od.total_price_tax_incl)'),'DESC')
                         ->get();
 
             return response()->json($resultado);
@@ -514,7 +515,7 @@
         function productosTopUltimosDias(){
 
             $resultado = DB::table('hg_order_detail AS od')
-                        ->select('p.id_product','od.product_attribute_id','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
+                        ->select('p.id_product','od.product_attribute_id','amo.itemid','pl.name','cl.name AS nombre_cat','agl.name AS atributo','al.name AS valor'
                                 ,DB::raw('sum(od.product_quantity) AS suma_cantidad'),DB::raw('ROUND(sum(od.total_price_tax_incl),2) AS suma_importes')
                                 ,DB::raw("CONCAT(CONCAT(CONCAT('https://orion91.com/',
                                             IFNULL((SELECT hg_image_shop.id_image
@@ -533,6 +534,7 @@
                         ->join('hg_product_lang AS pl','pl.id_product','=',DB::raw('p.id_product AND pl.id_lang = 1'))
                         ->join('hg_category AS cat','cat.id_category','=','p.id_category_default')
                         ->join('hg_category_lang AS cl','cl.id_category','=',DB::raw('cat.id_category AND cl.id_lang = 1'))
+                        ->leftJoin('aux_makro_offers AS amo','amo.id_product','=','od.product_id')
                         ->leftJoin('hg_product_attribute_combination AS pac','pac.id_product_attribute','=','od.product_attribute_id')
                         ->leftJoin('hg_attribute_lang AS al','al.id_attribute','=',DB::raw('pac.id_attribute AND al.id_lang = 1'))
                         ->leftJoin('hg_attribute AS a','a.id_attribute','=','al.id_attribute')

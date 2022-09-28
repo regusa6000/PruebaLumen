@@ -1124,7 +1124,7 @@ class PedidosController extends Controller{
                         ->select('o.reference','o.payment','osl.name','o.total_paid','o.date_add'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where('o.current_state','=',13)
+                        ->where('o.current_state','=',DB::raw('13 OR  o.current_state = 33'))
                         ->get();
 
             return response()->json($resultado);
@@ -1136,7 +1136,7 @@ class PedidosController extends Controller{
                         ->select('o.reference','o.payment','osl.name','o.total_paid','o.date_add'
                                 ,DB::raw("CONCAT('https://orion91.com/admin753tbd1ux/index.php?controller=AdminOrders&vieworder=&id_order=',o.id_order) AS url"))
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where('o.current_state','=',13)
+                        ->where('o.current_state','=',DB::raw('13 OR  o.current_state = 33'))
                         ->get();
 
             return response()->json(count($resultado));
@@ -1333,11 +1333,137 @@ class PedidosController extends Controller{
                         ->join('hg_customer AS c','c.id_customer','=','o.id_customer')
                         ->join('hg_address AS ad','ad.id_address','=','o.id_address_delivery')
                         ->join('hg_country_lang AS paisl','paisl.id_country','=',DB::raw('ad.id_country AND paisl.id_lang = 1'))
-                        ->where('o.valid','=',DB::raw("1 AND concat(c.lastname,' ', c.firstname) LIKE '%". $variable ."%'"))
+                        ->where('o.gift_message','like',DB::raw("'%". $variable ."%' OR concat(c.lastname,' ', c.firstname) LIKE '%". $variable ."%'"))
                         ->orderBy('o.id_order','DESC')
                         ->get();
 
             return response()->json($resultado);
+        }
+
+        /*** PEDIDOS VENDOR ***/
+        function pedidosVendor(){
+
+            $resultado = DB::table('aux_amazonVendor_order AS vo')
+                        ->select('vo.purchaseOrderNumber','vo.purchaseOrderState','vod.*')
+                        ->join('aux_amazonVendor_orderDetail AS vod','vod.idAmazonVendorOrder','=','vo.purchaseOrderNumber')
+                        ->where('vo.purchaseOrderState','=',"New")
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function pedidosVendorItems(Request $request){
+
+            $idAmazonVendor = $request->input('idAmazonVendor');
+
+            $resultado = DB::table('aux_amazonVendor_items AS vi')
+                        ->select('vi.*')
+                        ->where('vi.idAmazonVendorOrder','=',$idAmazonVendor)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+
+        /**ALERTAR ULTIMO PEDIDO ENVIADO 2 HORAS**/
+        function ultimoPedidoEnviado(){
+
+            $resultado = DB::table('hg_ewax_orders AS ew')
+                        ->select('ew.*',DB::raw('TIMESTAMPDIFF(hour, ew.date_add ,NOW()) AS diferencia_horas')
+                                ,DB::raw("IF(TIMESTAMPDIFF(hour, ew.date_add ,NOW()) > 2, 'Alertar', 'No Alertar') AS alertar"))
+                        ->orderBy('ew.id_order','DESC')
+                        ->limit(1)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        /**ALERTAR ULTIMO PEDIDO ENVIADO 8 HORA POR SMS**/
+        function ultimoPedidoEnviado8Horas(){
+
+            $clases = new PedidosController;
+
+            $resultado = DB::table('hg_ewax_orders AS ew')
+                        ->select('ew.*',DB::raw('TIMESTAMPDIFF(hour, ew.date_add ,NOW()) AS diferencia_horas')
+                                ,DB::raw("IF(TIMESTAMPDIFF(hour, ew.date_add ,NOW()) > 8, 'Alertar', 'No Alertar') AS alertar"))
+                        ->orderBy('ew.id_order','DESC')
+                        ->limit(1)
+                        ->get();
+
+            // return response()->json($resultado);
+
+            if($resultado[0]->alertar == 'Alertar'){
+                $clases->generarAlertaSms();
+            }else{
+                echo 'Todo Bien';
+            }
+
+        }
+
+        function generarAlertaSms(){
+
+            $claveApi = '2eX0GNKponBuheog5AAQ';
+
+            $cuerpo = "Pedidos No Pasan AX";
+
+                $json = array(
+                    array(
+                        "recipient"=>"+34611612038",
+                        "body"=>$cuerpo,
+                        "sender"=>"ORION91"
+                    ),
+                    array(
+                        "recipient"=>"+34652187504",
+                        "body"=>$cuerpo,
+                        "sender"=>"ORION91"
+                    )
+                );
+
+                $enviar = json_encode($json);
+
+            $url = "https://acumbamail.com/api/1/sendSMS/";
+            $curl = curl_init($url);
+            curl_setopt($curl,CURLOPT_POSTFIELDS, array(
+                "auth_token" => $claveApi,
+                "messages"=> $enviar
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $json = json_decode($response, true);
+
+            echo $json;
+        }
+
+
+        /**PEDIDOS ELIMINADOS**/
+        function pedidosEliminados(){
+
+            $resultado = DB::table('hg_orders AS t1')
+                        ->select(DB::raw('(t1.id_order + 1) as inicioBrecha')
+                                ,DB::raw('(SELECT MIN(t3.id_order) -1 FROM hg_orders t3 WHERE t3.id_order> t1.id_order) AS finBrecha')
+                                ,DB::raw('(SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) AS ultimoPedido')
+                                ,'t1.date_add')
+                        ->where('t1.id_order','>',DB::raw('264000
+                                AND NOT EXISTS (SELECT t2.id_order FROM hg_orders t2 WHERE t2.id_order= t1.id_order+ 1)
+                                AND (SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) <> (t1.id_order + 1)'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        function countPedidosEliminados(){
+
+            $resultado = DB::table('hg_orders AS t1')
+                        ->select(DB::raw('(t1.id_order + 1) as inicioBrecha')
+                                ,DB::raw('(SELECT MIN(t3.id_order) -1 FROM hg_orders t3 WHERE t3.id_order> t1.id_order) AS finBrecha')
+                                ,DB::raw('(SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) AS ultimoPedido')
+                                ,'t1.date_add')
+                        ->where('t1.id_order','>',DB::raw('264000
+                                AND NOT EXISTS (SELECT t2.id_order FROM hg_orders t2 WHERE t2.id_order= t1.id_order+ 1)
+                                AND (SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) <> (t1.id_order + 1)'))
+                        ->get();
+
+            return response()->json(count($resultado));
         }
 
     }
