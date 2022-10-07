@@ -1443,7 +1443,7 @@ class PedidosController extends Controller{
                                 ,DB::raw('(SELECT MIN(t3.id_order) -1 FROM hg_orders t3 WHERE t3.id_order> t1.id_order) AS finBrecha')
                                 ,DB::raw('(SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) AS ultimoPedido')
                                 ,'t1.date_add')
-                        ->where('t1.id_order','>',DB::raw('264000
+                        ->where('t1.id_order','>',DB::raw('265000
                                 AND NOT EXISTS (SELECT t2.id_order FROM hg_orders t2 WHERE t2.id_order= t1.id_order+ 1)
                                 AND (SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) <> (t1.id_order + 1)'))
                         ->get();
@@ -1458,7 +1458,7 @@ class PedidosController extends Controller{
                                 ,DB::raw('(SELECT MIN(t3.id_order) -1 FROM hg_orders t3 WHERE t3.id_order> t1.id_order) AS finBrecha')
                                 ,DB::raw('(SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) AS ultimoPedido')
                                 ,'t1.date_add')
-                        ->where('t1.id_order','>',DB::raw('264000
+                        ->where('t1.id_order','>',DB::raw('265000
                                 AND NOT EXISTS (SELECT t2.id_order FROM hg_orders t2 WHERE t2.id_order= t1.id_order+ 1)
                                 AND (SELECT t4.id_order + 1 FROM hg_orders t4 ORDER BY t4.id_order DESC LIMIT 1) <> (t1.id_order + 1)'))
                         ->get();

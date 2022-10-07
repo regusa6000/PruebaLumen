@@ -526,3 +526,7 @@ $router->get('ultimoPedidoEnviado8Horas','PedidosController@ultimoPedidoEnviado8
 //Pedidos Eliminados
 $router->get('pedidosEliminados','PedidosController@pedidosEliminados');
 $router->get('countPedidosEliminados','PedidosController@countPedidosEliminados');
+
+//Top 10 Abonos/Motivos
+$router->get('top10AbonoMotivo','AbonosController@top10AbonoMotivo');
+$router->get('top10ProductosAbonados','AbonosController@top10ProductosAbonados');

@@ -15,7 +15,7 @@
 
             $resultado = DB::table('ng_lineas_abonos AS abo')
                         ->select('abo.idFactura','abo.pedidoAx','abo.referenciaPs','osl.name AS estadoPedido'
-                                ,DB::raw("IFNULL((SELECT abono.precioFinal FROM ng_lineas_abonos AS abono WHERE abono.nombreProducto = 'GASTOS TRANSPORTE' AND abono.referenciaPs = abo.referenciaPs),0) AS transporte")
+                                ,DB::raw("IFNULL((SELECT SUM(abono.precioFinal) FROM ng_lineas_abonos AS abono WHERE abono.nombreProducto = 'GASTOS TRANSPORTE' AND abono.referenciaPs = abo.referenciaPs),0) AS transporte")
                                 ,DB::raw('SUM(abo.precioFinal) AS precioFinal')
                                 ,DB::raw("CONCAT(DAY(abo.fechaAbono),'-',MONTH(abo.fechaAbono),'-',YEAR(abo.fechaAbono)) AS fechaFactura")
                                 ,DB::raw('(SELECT COUNT(abo2.referenciaPs) FROM ng_lineas_abonos AS abo2 WHERE abo2.referenciaPs = abo.referenciaPs) AS cantidadProductos')
@@ -272,6 +272,39 @@
 
             return response()->json($resultado);
         }
+
+        //Top 10 Abonos/Motivos
+        function top10AbonoMotivo(){
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select('abo.id','abo.fechaAbono','nombre_moti.motivo','nombre_submoti.submotivo',DB::raw('SUM(abo.precioFinal) AS total') )
+                        ->join('ng_motivosLineasAbonadas AS moti','moti.referenciaPs','=','abo.referenciaPs')
+                        ->join('ng_motivosIncidencias AS nombre_moti','nombre_moti.id','=','moti.idMotivo')
+                        ->join('ng_submotivoIncidencias AS nombre_submoti','nombre_submoti.id','=','moti.idSubMotivo')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, abo.fechaAbono,NOW())'),'<=',DB::raw('30 AND moti.referenciaPs IS NOT NULL'))
+                        ->groupBy('moti.idMotivo','moti.idSubMotivo')
+                        ->orderBy(DB::raw('SUM(abo.precioFinal)'),'ASC')
+                        ->limit(10)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Top 10 Productos Abonados en el ultimo mes
+        function top10ProductosAbonados(){
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select('aux.name','aux.itemid',DB::raw('SUM(abo.precioFinal)AS totalSinIva'))
+                        ->join('aux_makro_offers AS aux','aux.itemid','=','abo.idProductAx')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, abo.fechaAbono,NOW())'),'<=',30)
+                        ->groupBy('abo.idProductAx')
+                        ->orderBy(DB::raw('SUM(abo.precioFinal)'),'ASC')
+                        ->limit(10)
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>
