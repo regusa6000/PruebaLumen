@@ -305,6 +305,69 @@
             return response()->json($resultado);
         }
 
+        //Grafico Abonos Hoy
+        function graficoAbonosHoy(){
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select(DB::raw('COUNT(abo.idFactura) abonosSinMotivar')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 0) - COUNT(abo.idFactura)  AS abonosMotivados')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 0) AS totalAbonos'))
+                        ->leftJoin('ng_motivosLineasAbonadas AS moti','moti.referenciaPs','=','abo.referenciaPs')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, abo.fechaAbono,NOW())'),'<=',DB::raw('0 AND moti.referenciaPs IS NULL'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Grafico Abonos 7 Dias
+        function graficoAbonos7Dias(){
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select(DB::raw('COUNT(abo.idFactura) abonosSinMotivar')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 7) - COUNT(abo.idFactura)  AS abonosMotivados')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 7) AS totalAbonos'))
+                        ->leftJoin('ng_motivosLineasAbonadas AS moti','moti.referenciaPs','=','abo.referenciaPs')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, abo.fechaAbono,NOW())'),'<=',DB::raw('7 AND moti.referenciaPs IS NULL'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Grafico Abonos 30
+        function graficoAbonos30Dias(){
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select(DB::raw('COUNT(abo.idFactura) abonosSinMotivar')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 30) - COUNT(abo.idFactura)  AS abonosMotivados')
+                                ,DB::raw('(SELECT COUNT(abo2.idFactura) AS total	FROM ng_lineas_abonos AS abo2 WHERE TIMESTAMPDIFF(DAY, abo2.fechaAbono,NOW())  <= 30) AS totalAbonos'))
+                        ->leftJoin('ng_motivosLineasAbonadas AS moti','moti.referenciaPs','=','abo.referenciaPs')
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, abo.fechaAbono,NOW())'),'<=',DB::raw('30 AND moti.referenciaPs IS NULL'))
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
+        //Informe Abonos Por Fechas
+        function informeAbonosEntreFechas(Request $request){
+
+            $fechaInicio = $request->input('fechaInicio');
+            $fechaFin = $request->input('fechaFin');
+
+            $resultado = DB::table('ng_lineas_abonos AS abo')
+                        ->select('moa.referenciaPs','moa.pedidoAx','abo.idFactura AS abonoAX','moa.idProducto AS idProPS','aux.itemid AS itemID'
+                                ,'moa.nombreProducto','moa.cantidadVendida','moa.precioFinal','mo.motivo','sub.submotivo','abo.fechaAbono')
+                        ->join('ng_motivosLineasAbonadas AS moa','moa.idLineaAbono','=','abo.id')
+                        ->join('hg_orders AS o','o.reference','=','moa.referenciaPs')
+                        ->join('ng_motivosIncidencias AS mo','mo.id','=','moa.idMotivo')
+                        ->join('ng_submotivoIncidencias AS sub','sub.id','=','moa.idSubMotivo')
+                        ->leftJoin('aux_makro_offers AS aux','aux.id_product','=','moa.idProducto')
+                        ->whereBetween('abo.fechaAbono',[$fechaInicio,$fechaFin])
+                        ->orderBy('abo.fechaAbono','ASC')
+                        ->get();
+
+            return response()->json($resultado);
+        }
+
     }
 
 ?>

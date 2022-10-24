@@ -1200,7 +1200,7 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders AS o')
                         ->select('o.reference','o.date_add','o.payment','osl.name')
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 239800'))
+                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 265800'))
                         ->orderBy('o.id_order','DESC')
                         ->get();
 
@@ -1212,7 +1212,7 @@ class PedidosController extends Controller{
             $resultado = DB::table('hg_orders AS o')
                         ->select('o.reference','o.date_add','o.payment','osl.name')
                         ->join('hg_order_state_lang AS osl','osl.id_order_state','=',DB::raw('o.current_state AND osl.id_lang = 1'))
-                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 239800'))
+                        ->where(DB::raw('(SELECT COUNT(hg_orders.id_order) FROM hg_orders WHERE hg_orders.reference = o.reference)'),'>',DB::raw('1 AND o.id_order > 265800'))
                         ->orderBy('o.id_order','DESC')
                         ->get();
 
@@ -1360,6 +1360,91 @@ class PedidosController extends Controller{
                         ->select('vi.*')
                         ->where('vi.idAmazonVendorOrder','=',$idAmazonVendor)
                         ->get();
+
+            return response()->json($resultado);
+        }
+
+        function registrarLineaVendor(Request $request){
+
+            $idPedidoAmazon = $request->input('idPedidoAmazon');
+            $itemid = $request->input('itemId');
+            $numeroLinea = $request->input('numeroLinea');
+            $cantidad = $request->input('cantidad');
+            $precio = $request->input('precio');
+            $fechaRegistro = Carbon::now();
+
+            $resultadoBusqueda = DB::table('aux_amazon_vendor_line AS ama')
+                                ->select('*')
+                                ->where('ama.id','=',DB::raw("'".$idPedidoAmazon ."' AND ama.lineNum = $numeroLinea"))
+                                ->get();
+
+            if(count($resultadoBusqueda) > 0){
+
+                $resultadoActualizar = DB::table('aux_amazon_vendor_line')
+                                    ->where('id','=',DB::raw("'".$idPedidoAmazon ."' AND lineNum = $numeroLinea"))
+                                    ->update([
+                                        'quantity' => $cantidad
+                                    ]);
+
+                return response()->json($resultadoActualizar);
+            }else {
+
+                $resultado = DB::table('aux_amazon_vendor_line')->insert([
+                    'imported' => 'A',
+                    'orderId' => $idPedidoAmazon,
+                    'itemId' => $itemid,
+                    'quantity' => $cantidad,
+                    'price' => $precio,
+                    'lineDisCount1' => 0,
+                    'lineDisCount2' => 0,
+                    'lineNum' => $numeroLinea,
+                    'empresa' => 'hid',
+                    'market' => 'EMAG',
+                    'date_add' => $fechaRegistro
+                ]);
+
+                return response()->json($resultado);
+            }
+
+        }
+
+        function registrarOrderVendorAx(Request $request){
+
+            $importeId = 'A';
+            $orderId = $request->input('orderId');
+            $custAccountId = $request->input('shipToParty');
+            $paymentMethod = 'eMAG';
+            $printValuePackingList = '0';
+            $deliveryMode = '1';
+            $orderDiscount1 = '0';
+            $portes = ''; //$request->input('portes');** PREGUNTAR A ANDRES **
+            $orderDiscountPp = '0';
+            $comment = '';
+            $deliveryAddess = '';
+            $sellerCode = 'WEB Amazon';
+            $createDate = Carbon::now();
+            $dateAreaId = 'hid';
+            $pedidoCliente = $request->input('orderId');
+            $marketPlace = 'WEB Amazon';
+
+            $resultado = DB::table('aux_amazon_vendor_orderAx')->insert([
+                'imported' => $importeId,
+                'orderId' => $orderId,
+                'custAccountId' => $custAccountId,
+                'paymentMethod' => $paymentMethod,
+                'printValuePackingList' => $printValuePackingList,
+                'deliveryMode' => $deliveryMode,
+                'OrderDiscount1' => $orderDiscount1,
+                'portes' => $portes,
+                'orderDiscountPp' => $orderDiscountPp,
+                'comment' => $comment,
+                'deliveryAddress' => $deliveryAddess,
+                'sellerCode' => $sellerCode,
+                'createDate' => $createDate,
+                'dateAreaId' => $dateAreaId,
+                'pedidoCliente' => $pedidoCliente,
+                'marketPlace' => $marketPlace
+            ]);
 
             return response()->json($resultado);
         }

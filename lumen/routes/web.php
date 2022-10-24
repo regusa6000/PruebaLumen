@@ -513,6 +513,8 @@ $router->get('countNoMapeadosAliExpress','ProductosController@countNoMapeadosAli
 //Pedidos Vendor
 $router->get('pedidosVendor','PedidosController@pedidosVendor');
 $router->post('pedidosVendorItems','PedidosController@pedidosVendorItems');
+$router->post('registrarLineaVendor','PedidosController@registrarLineaVendor');
+$router->post('registrarOrderVendorAx','PedidosController@registrarOrderVendorAx');
 
 //Productos Nombre = MP
 $router->get('productosNombreMp','ProductosController@productosNombreMp');
@@ -530,3 +532,11 @@ $router->get('countPedidosEliminados','PedidosController@countPedidosEliminados'
 //Top 10 Abonos/Motivos
 $router->get('top10AbonoMotivo','AbonosController@top10AbonoMotivo');
 $router->get('top10ProductosAbonados','AbonosController@top10ProductosAbonados');
+
+//Graficos Abonos
+$router->get('graficoAbonosHoy','AbonosController@graficoAbonosHoy');
+$router->get('graficoAbonos7Dias','AbonosController@graficoAbonos7Dias');
+$router->get('graficoAbonos30Dias','AbonosController@graficoAbonos30Dias');
+
+//Informe de Abonos Entre Fechas
+$router->post('informeAbonosEntreFechas','AbonosController@informeAbonosEntreFechas');
